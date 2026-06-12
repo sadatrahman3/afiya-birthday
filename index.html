@@ -34,12 +34,14 @@ button { touch-action: manipulation; }
 
 /* ===== SCREENS ===== */
 .screen {
-  position: fixed; display: none; inset: 0;
+  position: fixed; width: 0; height: 0; overflow: hidden;
   align-items: center; justify-content: center;
-  z-index: 10;
+  z-index: -1; visibility: hidden;
   pointer-events: none; opacity: 0;
 }
 .screen.visible {
+  width: 100%; height: 100%; overflow: visible;
+  z-index: 10; visibility: visible;
   display: flex; pointer-events: auto; opacity: 1;
 }
 .screen[data-trans="none"]     { transition: none; }
@@ -512,9 +514,9 @@ function ga(){const t=new Date();let a=t.getFullYear()-BIRTH_YEAR;const m=t.getM
 function gnb(n){let b=n.getFullYear();if(n.getMonth()>BIRTH_MONTH||(n.getMonth()===BIRTH_MONTH&&n.getDate()>BIRTH_DAY))b++;return new Date(b,BIRTH_MONTH,BIRTH_DAY)}
 
 function ss(id,dir){
-  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('visible');s.style.display='none'});
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('visible'));
   const t=document.getElementById(id),d=dir||'fade';
-  t.style.display='flex';t.setAttribute('data-trans',d);void t.offsetWidth;t.classList.add('visible');
+  t.setAttribute('data-trans',d);void t.offsetWidth;t.classList.add('visible');
   const bb=document.getElementById('backBtn');
   if(id==='countdownScreen'||id==='birthdayScreen')bb.classList.add('hidden');else bb.classList.remove('hidden');
   if(id!=='galleryScreen')sgap();
