@@ -24,41 +24,41 @@
 <div id="confettiContainer"></div>
 <canvas id="fireworksCanvas"></canvas>
 
-<button class="back-btn hidden" id="backBtn" data-i18n="backBtn">← Back</button>
+<button class="back-btn hidden" id="backBtn">← Back</button>
 <button class="fw-btn" id="fwBtn">🎆</button>
 
 <!-- ===== COUNTDOWN ===== -->
 <div class="screen" id="countdownScreen">
-  <div class="cd-icon screen-child">🎁</div>
-  <h1 class="cd-title screen-child" data-i18n="cdTitle">Afiya Mubassira</h1>
-  <p class="cd-birthdate screen-child">🎂 <span data-i18n="cdBorn">Born</span> <strong>June 13, 2005</strong></p>
-  <p class="cd-age screen-child"><span data-i18n="cdCurrently">Currently</span> <strong id="cdCurrentAge"></strong> <span data-i18n="cdYearsOld">years old</span> · <span data-i18n="cdTurning">Turning</span> <strong id="cdNextAge"></strong></p>
-  <p class="cd-label screen-child" data-i18n="cdGiftArrives">✨ Her gift arrives in...</p>
-  <div class="countdown-grid screen-child">
+  <div class="cd-icon">🎁</div>
+  <h1 class="cd-title" data-i18n="cdTitle">Afiya Mubassira</h1>
+  <p class="cd-birthdate">🎂 <span data-i18n="cdBorn">Born</span> <strong>June 13, 2005</strong></p>
+  <p class="cd-age"><span data-i18n="cdCurrently">Currently</span> <strong id="cdCurrentAge"></strong> <span data-i18n="cdYearsOld">years old</span> · <span data-i18n="cdTurning">Turning</span> <strong id="cdNextAge"></strong></p>
+  <p class="cd-label" data-i18n="cdGiftArrives">✨ Her gift arrives in...</p>
+  <div class="countdown-grid">
     <div class="cd-block"><div class="cd-number" id="cdDays">00</div><div class="cd-unit" data-i18n="cdDays">Days</div></div>
     <div class="cd-block"><div class="cd-number" id="cdHours">00</div><div class="cd-unit" data-i18n="cdHours">Hours</div></div>
     <div class="cd-block"><div class="cd-number" id="cdMins">00</div><div class="cd-unit" data-i18n="cdMins">Minutes</div></div>
     <div class="cd-block"><div class="cd-number" id="cdSecs">00</div><div class="cd-unit" data-i18n="cdSecs">Seconds</div></div>
   </div>
-  <p class="cd-message screen-child" data-i18n="cdMessage">💫 Something beautiful is being wrapped just for her.<br>Come back on her special day to unwrap it.</p>
-  <button class="cd-preview-btn screen-child" id="previewBtn" data-i18n="cdPreview">🔮 Preview the surprise</button>
+  <p class="cd-message" data-i18n="cdMessage">💫 Something beautiful is being wrapped just for her.<br>Come back on her special day to unwrap it.</p>
+  <button class="cd-preview-btn" id="previewBtn" data-i18n="cdPreview">🔮 Preview the surprise</button>
 </div>
 
 <!-- ===== BIRTHDAY ===== -->
 <div class="screen" id="birthdayScreen">
-  <div class="bd-header screen-child">
+  <div class="bd-header">
     <h1 data-i18n="bdTitle">🎉 Happy Birthday! 🎉</h1>
     <p><strong>Afiya Mubassira</strong> — <span data-i18n="bdYouAre">You are</span> <strong id="bdAge"></strong> <span data-i18n="bdToday">today!</span></p>
     <div class="bd-badge"><span data-i18n="bdBadge">🎂 June 13</span>, <span id="bdYear"></span></div>
   </div>
-  <div class="gift-box screen-child" id="giftBox">🎁</div>
-  <button class="gift-btn screen-child" id="giftBtn" data-i18n="bdOpenGift">✨ Open Your Gift ✨</button>
+  <div class="gift-box" id="giftBox">🎁</div>
+  <button class="gift-btn" id="giftBtn" data-i18n="bdOpenGift">✨ Open Your Gift ✨</button>
 </div>
 
 <!-- ===== CARD SELECTION ===== -->
 <div class="screen" id="cardScreen">
-  <h2 class="cards-title screen-child" data-i18n="cardsTitle">💝 Pick a card, any card...</h2>
-  <div class="cards-deck screen-child" id="cardsDeck"></div>
+  <h2 class="cards-title" data-i18n="cardsTitle">💝 Pick a card, any card...</h2>
+  <div class="cards-deck" id="cardsDeck"></div>
 </div>
 
 <!-- ===== UNFOLDED CARD ===== -->
@@ -68,9 +68,9 @@
 
 <!-- ===== CAKE / BLOW CANDLES ===== -->
 <div class="screen" id="cakeScreen">
-  <h2 class="cake-title screen-child" data-i18n="cakeTitle">🎂 Blow the Candles!</h2>
-  <p class="cake-subtitle screen-child" data-i18n="cakeSub">Click each candle to make a wish ✨</p>
-  <div class="cake-stage screen-child" id="cakeStage">
+  <h2 class="cake-title" data-i18n="cakeTitle">🎂 Blow the Candles!</h2>
+  <p class="cake-subtitle" data-i18n="cakeSub">Click each candle to make a wish ✨</p>
+  <div class="cake-stage" id="cakeStage">
     <div class="cake-base">
       <div class="cake-tier cake-tier-3"><div class="cake-frosting-wavy"></div><div class="cake-sprinkles"></div></div>
       <div class="cake-tier cake-tier-2"><div class="cake-frosting"></div><div class="cake-sprinkles"></div></div>
@@ -78,23 +78,23 @@
       <div class="candles-row" id="candlesRow"></div>
     </div>
   </div>
-  <p class="candle-counter screen-child" id="candleCounter"></p>
+  <p class="candle-counter" id="candleCounter"></p>
   <div class="cake-msg" id="cakeMsg"></div>
 </div>
 
 <!-- ===== GALLERY ===== -->
 <div class="screen" id="galleryScreen">
-  <div class="gallery-header screen-child">
+  <div class="gallery-header">
     <div class="gallery-title" data-i18n="galleryTitle">📸 Afiya's Memories</div>
     <button class="gallery-close" id="galleryClose">✕</button>
   </div>
-  <div class="gallery-slide-wrap screen-child">
+  <div class="gallery-slide-wrap">
     <img class="gallery-slide active" id="galleryImg" alt="Afiya" src="">
   </div>
-  <button class="gallery-nav prev screen-child" id="galleryPrev">‹</button>
-  <button class="gallery-nav next screen-child" id="galleryNext">›</button>
-  <div class="gallery-dots screen-child" id="galleryDots"></div>
-  <div class="gallery-counter screen-child" id="galleryCounter"></div>
+  <button class="gallery-nav prev" id="galleryPrev">‹</button>
+  <button class="gallery-nav next" id="galleryNext">›</button>
+  <div class="gallery-dots" id="galleryDots"></div>
+  <div class="gallery-counter" id="galleryCounter"></div>
 </div>
 
 <!-- ===== CONTROL PANEL ===== -->

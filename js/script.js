@@ -206,17 +206,37 @@ function initCountdown() {
 // ===== BIRTHDAY =====
 function initBirthdayScreen() {
   const age = getAge();
-  document.getElementById('bdAge').textContent = age;
-  document.getElementById('bdYear').textContent = new Date().getFullYear();
+  const bdAge = document.getElementById('bdAge');
+  const bdYear = document.getElementById('bdYear');
+  if (bdAge) bdAge.textContent = age;
+  if (bdYear) bdYear.textContent = new Date().getFullYear();
   if (settings.fireworks) launchFireworksBurst();
 }
 function goToCardSelection() {
-  document.getElementById('giftBox').classList.add('pulse');
+  const box = document.getElementById('giftBox');
+  if (!box) return;
+  box.classList.add('pulse');
   setTimeout(() => {
     navHistory.push('cardScreen');
     showScreen('cardScreen', 'slide-left');
     buildCards();
   }, 400);
+}
+
+// ===== EVENT LISTENERS =====
+function bindListeners() {
+  const $ = id => document.getElementById(id);
+  const previewBtn = $('previewBtn');
+  const giftBtn = $('giftBtn');
+  const giftBox = $('giftBox');
+
+  if (previewBtn) previewBtn.addEventListener('click', () => {
+    showScreen('birthdayScreen', 'fade');
+    initBirthdayScreen();
+  });
+
+  if (giftBtn) giftBtn.addEventListener('click', goToCardSelection);
+  if (giftBox) giftBox.addEventListener('click', goToCardSelection);
 }
 
 // ===== CARDS =====
@@ -524,6 +544,8 @@ function resizeCanvas() {
 
 function launchFireworksBurst() {
   if (!settings.fireworks) return;
+  if (!fwCanvas) return;
+  lastFwTime = Date.now();
   const count = 2 + Math.floor(Math.random() * 2);
   for (let i = 0; i < count; i++) {
     setTimeout(() => {
@@ -754,6 +776,8 @@ if ('serviceWorker' in navigator) {
   // Remove this line after June 13, 2026:
   // today.month = 5; today.day = 13;
 
+  initFireworks();
+
   if (isBirthday(today)) {
     navHistory.push('birthdayScreen');
     showScreen('birthdayScreen', 'fade');
@@ -764,6 +788,6 @@ if ('serviceWorker' in navigator) {
     initCountdown();
   }
 
-  initFireworks();
   initControlPanel();
+  bindListeners();
 })();
