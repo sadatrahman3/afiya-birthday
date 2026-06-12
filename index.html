@@ -748,11 +748,6 @@ function initControlPanel(){
   const s=localStorage.getItem('afiya_settings');
   if(s){try{st=JSON.parse(s)}catch(e){}}
   cl=st.lang;applyLang(cl);updateSwitches();
-  document.getElementById('cpToggle').addEventListener('click',togglePanel);
-  document.getElementById('cpClose').addEventListener('click',closePanel);
-  document.getElementById('switchLang').addEventListener('click',toggleLang);
-  document.getElementById('switchFw').addEventListener('click',toggleFw);
-  document.getElementById('switchSparkles').addEventListener('click',toggleSparkles);
 }
 function togglePanel(){
   document.getElementById('cpDrawer').classList.toggle('open');
