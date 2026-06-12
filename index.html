@@ -195,6 +195,9 @@ button { touch-action: manipulation; }
 .unfolded-sparkle { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; animation: sparkleAnim 1s ease-out forwards; }
 @keyframes sparkleAnim { 0% { opacity: 1; transform: translate(0,0) scale(1); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); } }
 
+/* FIX #2: Added missing wishReveal keyframes */
+@keyframes wishReveal { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+
 #cakeScreen { flex-direction: column; padding: 1rem; }
 .cake-title { color: #ffd700; font-size: clamp(1.3rem, 3vw, 1.8rem); text-align: center; margin-bottom: 1rem; text-shadow: 0 0 20px rgba(255,215,0,0.3); }
 .cake-subtitle { color: #f8b4d9; font-size: clamp(0.9rem, 1.5vw, 1.1rem); text-align: center; margin-bottom: 1.5rem; }
@@ -240,7 +243,7 @@ button { touch-action: manipulation; }
 .lightbox-nav.next { right: 1rem; }
 .lightbox-close { position: fixed; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); color: #fff; border: none; font-size: 1.6rem; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; z-index: 101; display: flex; align-items: center; justify-content: center; }
 .gallery-slide-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-.gallery-slide { max-width: 85vw; max-height: 75vh; border-radius: 16px; object-fit: contain; box-shadow: 0 20px 80px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.6s ease, transform 0.6s ease; position: absolute; }
+.gallery-slide { max-width: 85vw; max-height: 75vh; border-radius: 16px; object-fit: contain; box-shadow: 0 20px 80px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.6s ease, transform 0.6s ease; position: absolute; cursor: zoom-in; }
 .gallery-slide.active { opacity: 1; transform: scale(1); }
 .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 55; background: rgba(255,255,255,0.08); border: none; color: rgba(255,255,255,0.7); width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
 .gallery-nav:hover { background: rgba(255,255,255,0.2); color: #fff; }
@@ -538,7 +541,7 @@ function ss(id,dir){
   if(id!=='galleryScreen')stopGalleryAuto();
   se=(id!=='galleryScreen')&&st.sparkles;
   if(id==='galleryScreen')stopCC();else if(st.cc)startCC();
-  if(id==='birthdayScreen'||id==='cardScreen')spawnBalloons(8);else if(id==='countdownScreen'){const o=document.querySelectorAll('.balloon');o.forEach(b=>b.remove())}
+  if(id==='birthdayScreen'||id==='cardScreen')spawnBalloons(8);else{const o=document.querySelectorAll('.balloon');o.forEach(b=>b.remove())}
 }
 
 function gb(){if(nh.length<2)return;nh.pop();ss(nh[nh.length-1],'slide-right')}
@@ -555,30 +558,23 @@ function uc(){
 function initCountdown(){const a=ga();document.getElementById('cdCurrentAge').textContent=a;document.getElementById('cdNextAge').textContent=a+1;uc();setInterval(uc,1000)}
 
 // ===== BIRTHDAY =====
-function initBirthday(){const a=ga(),be=document.getElementById('bdAge'),by=document.getElementById('bdYear'),bd=document.getElementById('bdDays');if(be)be.textContent=a;if(by)by.textContent=new Date().getFullYear();if(bd)bd.textContent=gd().toLocaleString();if(st.fireworks)launchFireworks()}
+function initBirthday(){const a=ga(),be=document.getElementById('bdAge'),by=document.getElementById('bdYear'),bd=document.getElementById('bdDays');if(be)be.textContent=a;if(by)by.textContent=new Date().getFullYear();if(bd)bd.textContent=gd().toLocaleString()+' days of being wonderful';if(st.fireworks)launchFireworks()}
 function goToCardSelection(){
   ha();
   const b=document.getElementById('giftBox');
   if(b)b.classList.add('pulse');
   setTimeout(()=>{
-    nh.push('cardScreen');
-    ss('cardScreen','slide-left');
-    buildCards(); // FIX #1: use renamed function
+    nh.push('cardScreen');ss('cardScreen','slide-left');buildCards();
   },400);
 }
 
-// ===== FIX #1: Renamed from bc() to buildCards() =====
 function buildCards(){
   if(cb)return;cb=true;
-  const d=document.getElementById('cardsDeck');
-  // Clear any existing cards first
-  d.innerHTML='';
+  const d=document.getElementById('cardsDeck');d.innerHTML='';
   cardData.forEach((data,i)=>{
-    const c=document.createElement('div');
-    c.className='folded-card';
+    const c=document.createElement('div');c.className='folded-card';
     c.innerHTML='<div class="card-front" style="background:'+data.bg+'"><div class="card-ribbon">🎀</div><div class="card-icon">'+data.icon+'</div><div class="card-label" data-i18n="'+data.labelKey+'"></div><div class="card-shine"></div></div>';
-    c.addEventListener('click',()=>openCard(i));
-    d.appendChild(c);
+    c.addEventListener('click',()=>openCard(i));d.appendChild(c);
   });
   applyLang(cl);
 }
@@ -586,20 +582,15 @@ function buildCards(){
 function openCard(i){
   ha();ci=i;
   const d=cardData[i],c=document.getElementById('unfoldedCard');
-  burstConfetti();
-  if(st.fireworks)launchFireworks();
+  burstConfetti();if(st.fireworks)launchFireworks();
   const a=ga();
   c.innerHTML='<div class="unfolded-card-inner" style="background:'+d.bg+'"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">'+d.wishIcon+'</div><div class="wish-name" data-i18n="wishName">Happy Birthday, Afiya!</div><div class="wish-sub"><span data-i18n="wishSub">You\'re</span> '+a+' <span data-i18n="wishSub2">today — June 13</span></div><div class="wish-msg" data-i18n="'+d.wishKey+'"></div><div class="wish-signoff" data-i18n="'+d.signoffKey+'"></div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn" data-i18n="btnGallery">📸 View Memories</button><button class="cake-btn" id="cakeBtn" data-i18n="btnCake">🎂 Blow Candles</button><button class="share-btn" id="shareBtn" data-i18n="btnShare">📤 Share Card</button><button class="next-btn" id="nextWishBtn" data-i18n="btnNextWish">💫 Another Wish</button></div></div>';
   nh.push('unfoldScreen');ss('unfoldScreen','slide-left');applyLang(cl);
-
-  // FIX #4: Wire up buttons with addEventListener (openCakeScreen was never defined)
   document.getElementById('closeUnfolded').addEventListener('click',gb);
   document.getElementById('galleryBtn').addEventListener('click',openGallery);
-  document.getElementById('cakeBtn').addEventListener('click',openCakeScreen); // Now defined below
+  document.getElementById('cakeBtn').addEventListener('click',openCakeScreen);
   document.getElementById('shareBtn').addEventListener('click',shareCard);
   document.getElementById('nextWishBtn').addEventListener('click',nextWish);
-
-  // Sparkle animation
   setTimeout(()=>{
     const n=c.querySelector('.unfolded-card-inner');if(!n)return;
     for(let i=0;i<16;i++){
@@ -622,7 +613,6 @@ function tw(el){
   let i=0,it=setInterval(()=>{if(i>=txt.length){clearInterval(it);el.style.borderRight='none';return}el.textContent+=txt[i];i++},40);
 }
 
-// ===== FIX #1: Renamed from bc() to burstConfetti() =====
 function burstConfetti(){
   ha();
   const co=['#ffd700','#ff6b9d','#c44dff','#ff8c42','#00d4ff','#7cff7c','#fff'];
@@ -653,8 +643,7 @@ function spawnBalloons(cnt){
 }
 
 // ===== CAKE =====
-// FIX #4: openCakeScreen was missing — only ocs() existed
-function openCakeScreen(){ ocs(); }
+function openCakeScreen(){ocs();}
 
 function nextWish(){
   ha();ci=(ci+1)%cardData.length;
@@ -689,18 +678,12 @@ function ec(el){
   el.classList.add('extinguished');cl5--;
   updateCandleCounter();
   if(cl5<=0){
-    burstConfetti(); // FIX #5: was bc(), now uses renamed function
-    if(st.fireworks)launchFireworks();
+    burstConfetti();if(st.fireworks)launchFireworks();
     setTimeout(()=>{
       document.getElementById('cakeMsg').textContent=i18n[cl].cakeDone;
       document.getElementById('cakeMsg').classList.add('show');
     },400);
-    setTimeout(()=>{
-      if(nh.length>=2){
-        const p=nh[nh.length-2];
-        ss(p,'slide-down');nh.pop();
-      }
-    },2500);
+    setTimeout(()=>{if(nh.length>=2){const p=nh[nh.length-2];ss(p,'slide-down');nh.pop();}},2500);
   }
 }
 function updateCandleCounter(){
@@ -709,40 +692,54 @@ function updateCandleCounter(){
 }
 
 // ===== GALLERY =====
-// FIX #2: Renamed conflicting sgap() to clear names
-function startGalleryAuto(){
-  stopGalleryAuto();
-  gint=setInterval(()=>setGallerySlide(gi+1),3500);
-}
-function stopGalleryAuto(){
-  if(gint){clearInterval(gint);gint=null;}
-}
-// FIX #3: rgap() was never defined — resets auto-play timer
-function resetGalleryAuto(){
-  startGalleryAuto();
-}
+function startGalleryAuto(){stopGalleryAuto();gint=setInterval(()=>setGallerySlide(gi+1),3500);}
+function stopGalleryAuto(){if(gint){clearInterval(gint);gint=null;}}
+function resetGalleryAuto(){startGalleryAuto();}
 
 function openGallery(){
   gi=0;nh.push('galleryScreen');ss('galleryScreen','slide-left');
-  buildGalleryDots();setGallerySlide(0);
-  startGalleryAuto(); // FIX #2: was sgap() which STOPPED auto-play
+  buildGalleryDots();setGallerySlide(0);startGalleryAuto();
 }
 function buildGalleryDots(){
   const c=document.getElementById('galleryDots');c.innerHTML='';
   photos.forEach((_,i)=>{
     const d=document.createElement('div');d.className='gallery-dot';
-    d.addEventListener('click',()=>{setGallerySlide(i);resetGalleryAuto();}); // FIX #3: was rgap()
+    d.addEventListener('click',()=>{setGallerySlide(i);resetGalleryAuto();});
     c.appendChild(d);
   });
 }
 function setGallerySlide(idx){
-  ha();
-  gi=(idx+photos.length)%photos.length;
+  ha();gi=(idx+photos.length)%photos.length;
   const i=document.getElementById('galleryImg');
   i.classList.remove('active');void i.offsetWidth;i.src=photos[gi];
   setTimeout(()=>i.classList.add('active'),50);
   document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===gi));
   document.getElementById('galleryCounter').textContent=(gi+1)+' / '+photos.length;
+}
+
+// ===== LIGHTBOX =====
+// FIX #1: Changed pg → photos (pg was never defined, caused ReferenceError)
+function openLightbox(){
+  const o=document.getElementById('lightboxOverlay');
+  document.getElementById('lightboxImg').src=photos[gi];  // was pg[gi]
+  o.classList.add('active');
+  document.body.style.overflow='hidden';
+  // FIX #4: Stop gallery auto-play while lightbox is open
+  stopGalleryAuto();
+}
+function closeLightbox(e){
+  if(e&&e.target!==e.currentTarget)return;
+  document.getElementById('lightboxOverlay').classList.remove('active');
+  document.body.style.overflow='';
+  // FIX #4: Restart gallery auto-play when lightbox closes
+  resetGalleryAuto();
+}
+function lightboxNav(d){
+  // FIX #1: Changed pg → photos
+  gi=(gi+d+photos.length)%photos.length;   // was pg.length
+  document.getElementById('lightboxImg').src=photos[gi];  // was pg[gi]
+  setGallerySlide(gi);
+  ha();
 }
 
 // ===== SHARE =====
@@ -792,7 +789,6 @@ function spawnSparkle(x,y){
   e.style.boxShadow='0 0 6px '+e.style.background;
   document.body.appendChild(e);setTimeout(()=>{e.remove();sc--},800);
 }
-
 function tapBurst(x,y){
   const cs=['#ffd700','#ff6b9d','#c44dff','#00d4ff','#fff','#7cff7c','#ff8c42'];
   for(let i=0;i<12;i++){
@@ -861,7 +857,7 @@ function closePanel(){
   document.getElementById('cpToggle').classList.remove('active');
 }
 function saveSettings(){localStorage.setItem('afiya_settings',JSON.stringify(st))}
- function updateSwitches(){
+function updateSwitches(){
   document.getElementById('switchLang').classList.toggle('on',st.lang==='bn');
   document.getElementById('switchFw').classList.toggle('on',st.fireworks);
   document.getElementById('switchSparkles').classList.toggle('on',st.sparkles);
@@ -888,7 +884,7 @@ function toggleCC(){st.cc=!st.cc;saveSettings();updateSwitches();if(st.cc)startC
 function startCC(){if(ccint)return;const co=['#ff6b9d','#ffd700','#c44dff','#f8b4d9','#00d4ff','#ff6b35','#7cff7c','#ff4444'];ccint=setInterval(()=>{const e=document.createElement('div');e.className='confetti-piece';e.style.background=co[Math.floor(Math.random()*co.length)];e.style.left=Math.random()*100+'%';const w=4+Math.random()*7;e.style.width=w+'px';e.style.height=(4+Math.random()*7)+'px';e.style.borderRadius=Math.random()>0.5?'50%':'2px';e.style.setProperty('--delay','0s');e.style.setProperty('--fall-duration',(3+Math.random()*5)+'s');document.getElementById('confettiContainer').appendChild(e);setTimeout(()=>e.remove(),8000)},200)}
 function stopCC(){if(!ccint)return;clearInterval(ccint);ccint=null}
 
-// ===== GLOBAL ONCLICK HANDLERS =====
+// ===== GLOBAL HANDLERS =====
 function previewBirthday(){ss('birthdayScreen','fade');initBirthday()}
 function goBack(){gb()}
 function fwBtnClick(){
@@ -897,24 +893,6 @@ function fwBtnClick(){
 }
 function galleryPrev(){setGallerySlide(gi-1);resetGalleryAuto()}
 function galleryNext(){setGallerySlide(gi+1);resetGalleryAuto()}
-
-function openLightbox(){
-  const o=document.getElementById('lightboxOverlay');
-  document.getElementById('lightboxImg').src=pg[gi];
-  o.classList.add('active');
-  document.body.style.overflow='hidden';
-}
-function closeLightbox(e){
-  if(e&&e.target!==e.currentTarget)return;
-  document.getElementById('lightboxOverlay').classList.remove('active');
-  document.body.style.overflow='';
-}
-function lightboxNav(d){
-  gi=(gi+d+pg.length)%pg.length;
-  document.getElementById('lightboxImg').src=pg[gi];
-  setGallerySlide(gi);
-  ha();
-}
 
 // ===== DECORATIONS =====
 (function(){
@@ -950,8 +928,7 @@ if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.se
 
 // ===== INIT =====
 try{(function(){
-  const t=gt();
-  initFireworks();
+  const t=gt();initFireworks();
   if(ib(t)){nh.push('birthdayScreen');ss('birthdayScreen','fade');initBirthday()}
   else{nh.push('countdownScreen');ss('countdownScreen','fade');initCountdown()}
   initControlPanel();if(st.cc)startCC();
@@ -961,29 +938,52 @@ try{(function(){
 let dP=null;
 window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();dP=e;document.getElementById('installToast').classList.add('show')});
 function installPWA(){
-  if(!dP)return;
-  dP.prompt();
+  if(!dP)return;dP.prompt();
   dP.userChoice.then(r=>{dP=null;document.getElementById('installToast').classList.remove('show')});
 }
 
-// Keyboard nav for gallery
+// ===== KEYBOARD NAV =====
+// FIX #3: Escape closes lightbox first, then goes back on second press
 document.addEventListener('keydown',(e)=>{
   const lb=document.getElementById('lightboxOverlay');
-  if(e.key==='Escape'){closePanel();if(lb.classList.contains('active'))lb.classList.remove('active');document.body.style.overflow='';const g=document.getElementById('galleryScreen');if(g.classList.contains('visible'))gb();return}
-  if(e.key==='ArrowLeft'&&lb.classList.contains('active')){lightboxNav(-1);return}
-  if(e.key==='ArrowRight'&&lb.classList.contains('active')){lightboxNav(1);return}
-  const g=document.getElementById('galleryScreen');
-  if(g.classList.contains('visible')){
-    if(e.key==='ArrowLeft'){setGallerySlide(gi-1);resetGalleryAuto()}
-    else if(e.key==='ArrowRight'){setGallerySlide(gi+1);resetGalleryAuto()}
+  if(e.key==='Escape'){
+    closePanel();
+    // If lightbox is open, close it ONLY (don't navigate back)
+    if(lb.classList.contains('active')){
+      lb.classList.remove('active');document.body.style.overflow='';
+      resetGalleryAuto();
+      return;
+    }
+    // Otherwise go back
+    const g=document.getElementById('galleryScreen');
+    if(g.classList.contains('visible'))gb();
+    return;
+  }
+  if(e.key==='ArrowLeft'){
+    if(lb.classList.contains('active')){lightboxNav(-1);return;}
+    const g=document.getElementById('galleryScreen');
+    if(g.classList.contains('visible')){setGallerySlide(gi-1);resetGalleryAuto()}
+  }
+  if(e.key==='ArrowRight'){
+    if(lb.classList.contains('active')){lightboxNav(1);return;}
+    const g=document.getElementById('galleryScreen');
+    if(g.classList.contains('visible')){setGallerySlide(gi+1);resetGalleryAuto()}
   }
 });
 
-// Gallery touch swipe
+// ===== TOUCH SWIPE =====
+// FIX #5: Lightbox gets its own swipe handling
 (function(){
   let sx=0;
-  document.addEventListener('touchstart',(e)=>{sx=e.touches[0].clientX});
+  document.addEventListener('touchstart',(e)=>{sx=e.touches[0].clientX},{passive:true});
   document.addEventListener('touchend',(e)=>{
+    const lb=document.getElementById('lightboxOverlay');
+    // FIX #5: If lightbox is open, swipe navigates lightbox
+    if(lb.classList.contains('active')){
+      const d=sx-e.changedTouches[0].clientX;
+      if(Math.abs(d)>50){lightboxNav(d>0?1:-1)}
+      return;
+    }
     const g=document.getElementById('galleryScreen');
     if(!g.classList.contains('visible'))return;
     const d=sx-e.changedTouches[0].clientX;
@@ -994,7 +994,6 @@ document.addEventListener('keydown',(e)=>{
   });
 })();
 
-// Fireworks button listener
 document.getElementById('fwBtn').addEventListener('click',fwBtnClick);
 </script>
 </body>
