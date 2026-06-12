@@ -768,26 +768,71 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// ===== INIT =====
-(function() {
-  const today = getToday();
-
-  // HACK: force today as birthday for demo (June 13)
-  // Remove this line after June 13, 2026:
-  // today.month = 5; today.day = 13;
-
-  initFireworks();
-
-  if (isBirthday(today)) {
-    navHistory.push('birthdayScreen');
-    showScreen('birthdayScreen', 'fade');
-    initBirthdayScreen();
-  } else {
-    navHistory.push('countdownScreen');
-    showScreen('countdownScreen', 'fade');
-    initCountdown();
+// ===== EXPOSE GLOBALS FOR ONCLICK FALLBACKS =====
+window._goBack = goBack;
+window._previewBirthday = () => { showScreen('birthdayScreen', 'fade'); initBirthdayScreen(); };
+window._goToCardSelection = goToCardSelection;
+window._togglePanel = () => {
+  document.getElementById('cpDrawer').classList.toggle('open');
+  document.getElementById('cpToggle').classList.toggle('active');
+};
+window._closePanel = () => {
+  document.getElementById('cpDrawer').classList.remove('open');
+  document.getElementById('cpToggle').classList.remove('active');
+};
+window._toggleLang = () => {
+  settings.lang = settings.lang === 'en' ? 'bn' : 'en';
+  currentLang = settings.lang;
+  saveSettings();
+  applyLanguage(currentLang);
+  updateSwitches();
+};
+window._toggleFw = () => {
+  settings.fireworks = !settings.fireworks;
+  saveSettings();
+  updateSwitches();
+  if (settings.fireworks) launchFireworksBurst();
+};
+window._toggleSparkles = () => {
+  settings.sparkles = !settings.sparkles;
+  sparklesEnabled = settings.sparkles;
+  saveSettings();
+  updateSwitches();
+};
+window._fwBtnClick = () => {
+  lastFwTime = Date.now();
+  if (!fireworksActive) { fireworksActive = true; animateFireworks(); }
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+      lastFwTime = Date.now();
+      if (!fwCanvas) return;
+      const x = fwCanvas.width * (0.1 + Math.random() * 0.8);
+      const y = fwCanvas.height * (0.1 + Math.random() * 0.3);
+      createExplosion(x, y);
+    }, i * 400);
   }
+};
+window._galleryPrev = () => { showGallerySlide(galleryIdx - 1); resetGalleryAutoPlay(); };
+window._galleryNext = () => { showGallerySlide(galleryIdx + 1); resetGalleryAutoPlay(); };
 
-  initControlPanel();
-  bindListeners();
-})();
+// ===== INIT =====
+try {
+  (function() {
+    const today = getToday();
+
+    initFireworks();
+
+    if (isBirthday(today)) {
+      navHistory.push('birthdayScreen');
+      showScreen('birthdayScreen', 'fade');
+      initBirthdayScreen();
+    } else {
+      navHistory.push('countdownScreen');
+      showScreen('countdownScreen', 'fade');
+      initCountdown();
+    }
+
+    initControlPanel();
+    bindListeners();
+  })();
+} catch(e) { console.error('Init error:', e); }

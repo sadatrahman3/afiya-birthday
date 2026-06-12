@@ -24,10 +24,10 @@
 <div id="confettiContainer"></div>
 <canvas id="fireworksCanvas"></canvas>
 
-<button class="back-btn hidden" id="backBtn">← Back</button>
-<button class="fw-btn" id="fwBtn">🎆</button>
+<button class="back-btn hidden" id="backBtn" onclick="goBack()">← Back</button>
+<button class="fw-btn" id="fwBtn" onclick="fwBtnClick()">🎆</button>
 
-<!-- ===== COUNTDOWN ===== -->
+<!-- COUNTDOWN -->
 <div class="screen" id="countdownScreen">
   <div class="cd-icon">🎁</div>
   <h1 class="cd-title" data-i18n="cdTitle">Afiya Mubassira</h1>
@@ -41,32 +41,32 @@
     <div class="cd-block"><div class="cd-number" id="cdSecs">00</div><div class="cd-unit" data-i18n="cdSecs">Seconds</div></div>
   </div>
   <p class="cd-message" data-i18n="cdMessage">💫 Something beautiful is being wrapped just for her.<br>Come back on her special day to unwrap it.</p>
-  <button class="cd-preview-btn" id="previewBtn" data-i18n="cdPreview">🔮 Preview the surprise</button>
+  <button class="cd-preview-btn" id="previewBtn" data-i18n="cdPreview" onclick="previewBirthday()">🔮 Preview the surprise</button>
 </div>
 
-<!-- ===== BIRTHDAY ===== -->
+<!-- BIRTHDAY -->
 <div class="screen" id="birthdayScreen">
   <div class="bd-header">
     <h1 data-i18n="bdTitle">🎉 Happy Birthday! 🎉</h1>
     <p><strong>Afiya Mubassira</strong> — <span data-i18n="bdYouAre">You are</span> <strong id="bdAge"></strong> <span data-i18n="bdToday">today!</span></p>
     <div class="bd-badge"><span data-i18n="bdBadge">🎂 June 13</span>, <span id="bdYear"></span></div>
   </div>
-  <div class="gift-box" id="giftBox">🎁</div>
-  <button class="gift-btn" id="giftBtn" data-i18n="bdOpenGift">✨ Open Your Gift ✨</button>
+  <div class="gift-box" id="giftBox" onclick="goToCardSelection()">🎁</div>
+  <button class="gift-btn" id="giftBtn" data-i18n="bdOpenGift" onclick="goToCardSelection()">✨ Open Your Gift ✨</button>
 </div>
 
-<!-- ===== CARD SELECTION ===== -->
+<!-- CARD SELECTION -->
 <div class="screen" id="cardScreen">
   <h2 class="cards-title" data-i18n="cardsTitle">💝 Pick a card, any card...</h2>
   <div class="cards-deck" id="cardsDeck"></div>
 </div>
 
-<!-- ===== UNFOLDED CARD ===== -->
+<!-- UNFOLDED CARD -->
 <div class="screen" id="unfoldScreen">
   <div class="unfolded-card" id="unfoldedCard"></div>
 </div>
 
-<!-- ===== CAKE / BLOW CANDLES ===== -->
+<!-- CAKE -->
 <div class="screen" id="cakeScreen">
   <h2 class="cake-title" data-i18n="cakeTitle">🎂 Blow the Candles!</h2>
   <p class="cake-subtitle" data-i18n="cakeSub">Click each candle to make a wish ✨</p>
@@ -82,48 +82,62 @@
   <div class="cake-msg" id="cakeMsg"></div>
 </div>
 
-<!-- ===== GALLERY ===== -->
+<!-- GALLERY -->
 <div class="screen" id="galleryScreen">
   <div class="gallery-header">
     <div class="gallery-title" data-i18n="galleryTitle">📸 Afiya's Memories</div>
-    <button class="gallery-close" id="galleryClose">✕</button>
+    <button class="gallery-close" id="galleryClose" onclick="goBack()">✕</button>
   </div>
   <div class="gallery-slide-wrap">
     <img class="gallery-slide active" id="galleryImg" alt="Afiya" src="">
   </div>
-  <button class="gallery-nav prev" id="galleryPrev">‹</button>
-  <button class="gallery-nav next" id="galleryNext">›</button>
+  <button class="gallery-nav prev" id="galleryPrev" onclick="galleryPrev()">‹</button>
+  <button class="gallery-nav next" id="galleryNext" onclick="galleryNext()">›</button>
   <div class="gallery-dots" id="galleryDots"></div>
   <div class="gallery-counter" id="galleryCounter"></div>
 </div>
 
-<!-- ===== CONTROL PANEL ===== -->
-<button class="cp-toggle" id="cpToggle">⚙️</button>
+<!-- CONTROL PANEL -->
+<button class="cp-toggle" id="cpToggle" onclick="togglePanel()">⚙️</button>
 <div class="cp-drawer" id="cpDrawer">
   <div class="cp-drawer-header">
     <h3 data-i18n="cpTitle">⚙️ Settings</h3>
-    <button class="cp-close" id="cpClose">✕</button>
+    <button class="cp-close" id="cpClose" onclick="closePanel()">✕</button>
   </div>
   <div class="cp-item">
     <span class="cp-item-label"><span class="cp-icon">🌐</span> <span data-i18n="cpLang">Language</span> <span id="cpLangLabel">EN</span></span>
-    <div class="switch" id="switchLang"><div class="switch-knob"></div></div>
+    <div class="switch" id="switchLang" onclick="toggleLang()"><div class="switch-knob"></div></div>
   </div>
   <div class="cp-item">
     <span class="cp-item-label"><span class="cp-icon">🎆</span> <span data-i18n="cpFireworks">Fireworks</span></span>
-    <div class="switch on" id="switchFw"><div class="switch-knob"></div></div>
+    <div class="switch on" id="switchFw" onclick="toggleFw()"><div class="switch-knob"></div></div>
   </div>
   <div class="cp-item">
     <span class="cp-item-label"><span class="cp-icon">✨</span> <span data-i18n="cpSparkles">Sparkles</span></span>
-    <div class="switch on" id="switchSparkles"><div class="switch-knob"></div></div>
+    <div class="switch on" id="switchSparkles" onclick="toggleSparkles()"><div class="switch-knob"></div></div>
   </div>
 </div>
 
-<!-- ===== SHARE LOADING ===== -->
+<!-- SHARE LOADING -->
 <div class="share-loading" id="shareLoading">
   <div class="spinner"></div>
   <p data-i18n="shareLoading">Preparing your card...</p>
 </div>
 
+<script>
+// ===== INLINE FALLBACK HANDLERS (run even if main JS fails) =====
+function previewBirthday() { try { window._previewBirthday && window._previewBirthday(); } catch(e) {} }
+function goToCardSelection() { try { window._goToCardSelection && window._goToCardSelection(); } catch(e) {} }
+function goBack() { try { window._goBack && window._goBack(); } catch(e) {} }
+function togglePanel() { try { window._togglePanel && window._togglePanel(); } catch(e) {} }
+function closePanel() { try { window._closePanel && window._closePanel(); } catch(e) {} }
+function toggleLang() { try { window._toggleLang && window._toggleLang(); } catch(e) {} }
+function toggleFw() { try { window._toggleFw && window._toggleFw(); } catch(e) {} }
+function toggleSparkles() { try { window._toggleSparkles && window._toggleSparkles(); } catch(e) {} }
+function fwBtnClick() { try { window._fwBtnClick && window._fwBtnClick(); } catch(e) {} }
+function galleryPrev() { try { window._galleryPrev && window._galleryPrev(); } catch(e) {} }
+function galleryNext() { try { window._galleryNext && window._galleryNext(); } catch(e) {} }
+</script>
 <script src="js/script.js"></script>
 </body>
 </html>
