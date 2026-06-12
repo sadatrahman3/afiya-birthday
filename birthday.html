@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Afiya 🎂</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a0a2e, #2d1b69, #1a0a2e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.container {
+  text-align: center;
+  z-index: 10;
+  padding: 2rem;
+  animation: appear 0.01s linear 0.1s both;
+}
+
+@keyframes appear { to { opacity: 1; } }
+
+/* title entrance */
+.title {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  color: #ffd700;
+  text-shadow: 0 0 40px rgba(255,215,0,0.3), 0 0 80px rgba(255,215,0,0.1);
+  opacity: 0;
+  transform: scale(0.5) translateY(-60px);
+  animation: titleIn 1s cubic-bezier(0.34,1.56,0.64,1) 0.3s forwards;
+}
+@keyframes titleIn {
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.subtitle {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: #f8b4d9;
+  margin-top: 0.8rem;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s ease-out 0.8s forwards;
+}
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+.badge {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.5rem 2rem;
+  background: linear-gradient(45deg, #ff6b9d, #c44dff);
+  border-radius: 50px;
+  color: #fff;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  opacity: 0;
+  animation: fadeUp 0.8s ease-out 1.2s forwards;
+  box-shadow: 0 4px 25px rgba(196,77,255,0.4);
+}
+
+.message {
+  color: #c9b8e8;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  margin-top: 2rem;
+  max-width: 600px;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fadeUp 0.8s ease-out 1.6s forwards;
+}
+
+.gifts {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  perspective: 800px;
+}
+
+.gift {
+  font-size: 3rem;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  animation: float 3s ease-in-out infinite;
+  position: relative;
+}
+.gift:nth-child(1) { animation-delay: 0s; }
+.gift:nth-child(2) { animation-delay: 0.5s; font-size: 3.5rem; }
+.gift:nth-child(3) { animation-delay: 1s; }
+.gift:nth-child(4) { animation-delay: 1.5s; }
+
+.gift:hover {
+  transform: scale(1.4);
+}
+.gift.opened {
+  animation: openGift 0.5s ease forwards;
+}
+@keyframes openGift {
+  0% { transform: scale(1) rotateY(0); }
+  50% { transform: scale(1.6) rotateY(90deg); }
+  100% { transform: scale(1.2) rotateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* sparkles */
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffd700;
+  pointer-events: none;
+  animation: sparkleFade 0.8s ease-out forwards;
+}
+@keyframes sparkleFade {
+  0% { opacity: 1; transform: translate(0,0) scale(1); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); }
+}
+
+/* confetti */
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  top: -20px;
+  pointer-events: none;
+  z-index: 1;
+  animation: confettiFall var(--fall-duration, 4s) linear forwards;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes confettiFall {
+  0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translateY(105vh) rotate(720deg) scale(0.5); }
+}
+
+/* balloons */
+.balloons {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.balloon {
+  position: absolute;
+  width: 50px;
+  height: 65px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  top: 110%;
+  animation: balloonRise var(--dur, 8s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  left: var(--x, 10%);
+}
+.balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 30px;
+  background: rgba(255,255,255,0.4);
+}
+.balloon::before {
+  content: '';
+  position: absolute;
+  bottom: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  background: inherit;
+  filter: brightness(0.8);
+}
+@keyframes balloonRise {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  5% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% { transform: translateY(-120vh) rotate(15deg); opacity: 0; }
+}
+
+/* glow orbs */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  animation: orbPulse 6s ease-in-out infinite alternate;
+}
+@keyframes orbPulse {
+  0% { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(1.3); opacity: 0.6; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1 class="title">🎉 Happy Birthday! 🎉</h1>
+  <p class="subtitle">Afiya Mubassira — You are <strong>21</strong> today!</p>
+  <div class="badge">🎂 June 12, 2026</div>
+  <p class="message">
+    Wishing you a day as radiant as your smile,<br>
+    a year as bright as your dreams,<br>
+    and a life filled with love, laughter &amp; endless joy.<br>
+    <span style="color:#ffd700;font-weight:600;">You are truly one of a kind. ✨</span>
+  </p>
+  <div class="gifts" id="gifts">
+    <span class="gift" data-gift="🎁">🎁</span>
+    <span class="gift" data-gift="🎀">🎀</span>
+    <span class="gift" data-gift="🎈">🎈</span>
+    <span class="gift" data-gift="🧸">🧸</span>
+  </div>
+</div>
+
+<div class="balloons" id="balloons"></div>
+
+<div class="orbs" style="position:fixed;inset:0;pointer-events:none;z-index:0;">
+  <div class="orb" style="width:400px;height:400px;background:#ff6b9d;top:-100px;right:-100px;"></div>
+  <div class="orb" style="width:300px;height:300px;background:#c44dff;bottom:-50px;left:-80px;"></div>
+  <div class="orb" style="width:250px;height:250px;background:#ffd700;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+</div>
+
+<script>
+// confetti
+(function() {
+  const colors = ['#ff6b9d','#ffd700','#c44dff','#f8b4d9','#00d4ff','#ff6b35','#7cff7c','#ff4444'];
+  const shapes = ['square','circle'];
+  for (let i = 0; i < 120; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const w = 6 + Math.random() * 8;
+    const h = 6 + Math.random() * 8;
+    el.style.width = w + 'px';
+    el.style.height = (shapes[Math.floor(Math.random()*2)] === 'circle' ? w : h) + 'px';
+    el.style.borderRadius = shapes[Math.floor(Math.random()*2)] === 'circle' ? '50%' : '2px';
+    el.style.background = color;
+    el.style.left = Math.random() * 100 + '%';
+    el.style.setProperty('--delay', Math.random() * 8 + 's');
+    el.style.setProperty('--fall-duration', (3 + Math.random() * 5) + 's');
+    document.body.appendChild(el);
+  }
+})();
+
+// balloons
+(function() {
+  const colors = ['#ff6b9d','#ffd700','#c44dff','#f8b4d9','#00d4ff','#ff6b35','#7cff7c','#ff8c42'];
+  const balloonContainer = document.getElementById('balloons');
+  for (let i = 0; i < 18; i++) {
+    const b = document.createElement('div');
+    b.className = 'balloon';
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    b.style.background = `radial-gradient(circle at 35% 35%, ${color}, ${color}dd)`;
+    b.style.setProperty('--x', Math.random() * 100 + '%');
+    b.style.setProperty('--dur', (7 + Math.random() * 6) + 's');
+    b.style.setProperty('--delay', Math.random() * 10 + 's');
+    b.style.width = (35 + Math.random() * 30) + 'px';
+    b.style.height = (45 + Math.random() * 40) + 'px';
+    balloonContainer.appendChild(b);
+  }
+})();
+
+// gift sparkles
+document.querySelectorAll('.gift').forEach(g => {
+  g.addEventListener('mouseenter', function() {
+    this.classList.add('opened');
+    setTimeout(() => this.classList.remove('opened'), 600);
+    for (let i = 0; i < 8; i++) {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      const angle = Math.random() * 360;
+      const dist = 30 + Math.random() * 50;
+      s.style.setProperty('--dx', Math.cos(angle * Math.PI / 180) * dist + 'px');
+      s.style.setProperty('--dy', Math.sin(angle * Math.PI / 180) * dist + 'px');
+      s.style.left = '50%'; s.style.top = '50%';
+      s.style.background = ['#ffd700','#ff6b9d','#c44dff','#fff'][Math.floor(Math.random()*4)];
+      s.style.width = (3 + Math.random() * 5) + 'px';
+      s.style.height = s.style.width;
+      this.appendChild(s);
+      setTimeout(() => s.remove(), 800);
+    }
+  });
+});
+</script>
+</body>
+</html>
