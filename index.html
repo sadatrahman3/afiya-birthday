@@ -12,6 +12,12 @@
 <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
 <link rel="icon" type="image/svg+xml" href="icons/icon-192.svg">
+<meta property="og:title" content="Happy Birthday Afiya! 🎂">
+<meta property="og:description" content="A birthday surprise for Afiya Mubassira — open your gift!">
+<meta property="og:image" content="icons/icon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body {
@@ -24,6 +30,8 @@ html, body {
 body {
   min-height: 100vh; min-height: 100dvh;
   background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  background-size: 400% 400%;
+  animation: bgShift 12s ease infinite;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,6 +65,7 @@ button { touch-action: manipulation; }
 
 #countdownScreen { flex-direction: column; text-align: center; padding: 2rem; }
 .cd-icon { font-size: 5rem; margin-bottom: 0.5rem; animation: cdIconFloat 3s ease-in-out infinite; }
+@keyframes bgShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
 @keyframes cdIconFloat {
   0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 20px rgba(255,215,0,0.3)); }
   50% { transform: translateY(-15px); filter: drop-shadow(0 0 40px rgba(255,215,0,0.6)); }
@@ -222,6 +231,14 @@ button { touch-action: manipulation; }
 .gallery-close { background: rgba(255,255,255,0.1); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s, transform 0.3s; }
 .gallery-close:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
 .gallery-counter { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.6); font-size: 0.9rem; letter-spacing: 2px; z-index: 55; }
+.lightbox-overlay { position: fixed; inset: 0; z-index: -1; opacity: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; transition: opacity 0.3s, z-index 0s 0.3s; cursor: zoom-out; }
+.lightbox-overlay.active { z-index: 100; opacity: 1; transition: opacity 0.3s, z-index 0s 0s; }
+.lightbox-img { max-width: 95vw; max-height: 95vh; object-fit: contain; border-radius: 8px; box-shadow: 0 0 40px rgba(0,0,0,0.8); cursor: default; }
+.lightbox-nav { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.15); color: #fff; border: none; font-size: 2.5rem; width: 54px; height: 54px; border-radius: 50%; cursor: pointer; z-index: 101; backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.lightbox-nav:active { background: rgba(255,255,255,0.35); }
+.lightbox-nav.prev { left: 1rem; }
+.lightbox-nav.next { right: 1rem; }
+.lightbox-close { position: fixed; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); color: #fff; border: none; font-size: 1.6rem; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; z-index: 101; display: flex; align-items: center; justify-content: center; }
 .gallery-slide-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
 .gallery-slide { max-width: 85vw; max-height: 75vh; border-radius: 16px; object-fit: contain; box-shadow: 0 20px 80px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.6s ease, transform 0.6s ease; position: absolute; }
 .gallery-slide.active { opacity: 1; transform: scale(1); }
@@ -236,6 +253,9 @@ button { touch-action: manipulation; }
 .cp-toggle { position: fixed; bottom: 20px; right: 20px; z-index: 60; width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
 .cp-toggle:hover { background: rgba(255,255,255,0.2); color: #fff; transform: scale(1.1); }
 .cp-toggle.active { background: rgba(196,77,255,0.3); border-color: #c44dff; }
+.install-toast { position: fixed; bottom: 6rem; left: 50%; transform: translateX(-50%) translateY(100px); z-index: 70; background: linear-gradient(135deg,#c44dff,#ff6b9d); color: #fff; border: none; border-radius: 999px; padding: 0.8rem 1.5rem; font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 0.6rem; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,0.4); opacity: 0; transition: opacity 0.4s, transform 0.4s; white-space: nowrap; }
+.install-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.install-toast-close { background: rgba(255,255,255,0.25); border: none; color: #fff; width: 26px; height: 26px; border-radius: 50%; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-left: 0.3rem; }
 .cp-drawer { position: fixed; top: 0; right: 0; width: min(300px, 80vw); height: 100%; z-index: 61; background: rgba(20,10,40,0.95); backdrop-filter: blur(20px); border-left: 1px solid rgba(255,255,255,0.08); transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); display: flex; flex-direction: column; padding: 2rem 1.5rem; box-shadow: -10px 0 40px rgba(0,0,0,0.5); }
 .cp-drawer.open { transform: translateX(0); }
 .cp-drawer-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
@@ -263,6 +283,11 @@ button { touch-action: manipulation; }
 .floating-deco .deco { position: absolute; font-size: 2rem; opacity: 0; animation: decoFloat var(--dur,10s) linear infinite; animation-delay: var(--delay,0s); top: 110%; left: var(--x,10%); }
 @keyframes decoFloat { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.3; } 90% { opacity: 0.3; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
 .orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; animation: orbPulse 6s ease-in-out infinite alternate; }
+.balloon { position: fixed; z-index: 2; cursor: pointer; user-select: none; animation: balloonFloat var(--bd,8s) ease-in-out infinite; animation-delay: var(--bdd,0s); pointer-events: auto; font-size: 2.5rem; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); transition: transform 0.15s; }
+.balloon:active { transform: scale(1.3); }
+.balloon.pop { animation: balloonPop 0.3s ease-out forwards; pointer-events: none; }
+@keyframes balloonFloat { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-40px) rotate(3deg); } }
+@keyframes balloonPop { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(0); opacity: 0; } }
 @keyframes orbPulse { 0% { transform: scale(1); opacity: 0.3; } 100% { transform: scale(1.3); opacity: 0.6; } }
 .confetti-piece { position: fixed; width: 10px; height: 10px; opacity: 0; top: -20px; pointer-events: none; z-index: 1; animation: confettiFall var(--fall-duration,4s) linear forwards; animation-delay: var(--delay,0s); }
 @keyframes confettiFall { 0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); } 100% { opacity: 0; transform: translateY(105vh) rotate(720deg) scale(0.5); } }
@@ -354,6 +379,7 @@ button { touch-action: manipulation; }
     <h1 data-i18n="bdTitle">🎉 Happy Birthday! 🎉</h1>
     <p><strong>Afiya Mubassira</strong> — <span data-i18n="bdYouAre">You are</span> <strong id="bdAge"></strong> <span data-i18n="bdToday">today!</span></p>
     <div class="bd-badge"><span data-i18n="bdBadge">🎂 June 13</span>, <span id="bdYear"></span></div>
+    <p class="bd-days" id="bdDays" style="color:#c9b8e8;font-size:clamp(0.8rem,1.5vw,1rem);margin-top:0.5rem;"></p>
   </div>
   <div class="gift-box" id="giftBox" onclick="goToCardSelection()">🎁</div>
   <button class="gift-btn" id="giftBtn" data-i18n="bdOpenGift" onclick="goToCardSelection()">✨ Open Your Gift ✨</button>
@@ -393,15 +419,25 @@ button { touch-action: manipulation; }
     <button class="gallery-close" id="galleryClose" onclick="goBack()">✕</button>
   </div>
   <div class="gallery-slide-wrap">
-    <img class="gallery-slide active" id="galleryImg" alt="Afiya" src="">
+    <img class="gallery-slide active" id="galleryImg" alt="Afiya" src="" onclick="openLightbox()">
   </div>
   <button class="gallery-nav prev" id="galleryPrev" onclick="galleryPrev()">‹</button>
   <button class="gallery-nav next" id="galleryNext" onclick="galleryNext()">›</button>
   <div class="gallery-dots" id="galleryDots"></div>
   <div class="gallery-counter" id="galleryCounter"></div>
+  <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+    <img class="lightbox-img" id="lightboxImg" src="">
+    <button class="lightbox-nav prev" onclick="event.stopPropagation();lightboxNav(-1)">‹</button>
+    <button class="lightbox-nav next" onclick="event.stopPropagation();lightboxNav(1)">›</button>
+    <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+  </div>
 </div>
 
 <!-- CONTROL PANEL -->
+<div class="install-toast" id="installToast" onclick="installPWA()">
+  <span data-i18n="installText">📲 Install App</span>
+  <button class="install-toast-close" onclick="event.stopPropagation();document.getElementById('installToast').classList.remove('show')">✕</button>
+</div>
 <button class="cp-toggle" id="cpToggle" onclick="togglePanel()">⚙️</button>
 <div class="cp-drawer" id="cpDrawer">
   <div class="cp-drawer-header">
@@ -419,6 +455,10 @@ button { touch-action: manipulation; }
   <div class="cp-item">
     <span class="cp-item-label"><span class="cp-icon">✨</span> <span data-i18n="cpSparkles">Sparkles</span></span>
     <div class="switch on" id="switchSparkles" onclick="toggleSparkles()"><div class="switch-knob"></div></div>
+  </div>
+  <div class="cp-item">
+    <span class="cp-item-label"><span class="cp-icon">🎊</span> <span data-i18n="cpConfetti">Confetti</span></span>
+    <div class="switch" id="switchCC" onclick="toggleCC()"><div class="switch-knob"></div></div>
   </div>
 </div>
 
@@ -444,9 +484,9 @@ wishDreamer:'Dream big, beautiful soul. Every door you knock on will open, every
 wishJoy:'Happiness looks beautiful on you. May your 21st year bring belly laughs, late-night talks, surprise adventures, and all the cake!',
 signoff1:'— With love & admiration',signoff2:'— Forever proud of you',signoff3:'— Chase every star',signoff4:'— Cheers to you!',
 wishName:'Happy Birthday, Afiya!',wishSub:"You're",wishSub2:'today — June 13',
-btnGallery:'View Memories',btnCake:'Blow Candles',btnShare:'Share Card',
+btnGallery:'View Memories',btnCake:'Blow Candles',btnShare:'Share Card',btnNextWish:'💫 Another Wish',installText:'📲 Install App',
 galleryTitle:"Afiya's Memories",cakeTitle:'Blow the Candles!',cakeSub:'Click each candle to make a wish ✨',cakeLeft:'Candles left:',cakeDone:'Your wish has been made!',
-cpTitle:'Settings',cpLang:'Language',cpFireworks:'Fireworks',cpSparkles:'Sparkles',
+cpTitle:'Settings',cpLang:'Language',cpFireworks:'Fireworks',cpSparkles:'Sparkles',cpConfetti:'Confetti',
 shareLoading:'Preparing your card...',shareFail:'Share not supported on this device',galleryOf:'of',
 }, bn: {
 cdTitle:'আফিয়া মুবাসসিরা',cdBorn:'জন্ম',cdCurrently:'বর্তমানে বয়স',cdYearsOld:'বছর',cdTurning:'হবে',cdGiftArrives:'তার উপহার আসছে...',
@@ -461,9 +501,9 @@ wishDreamer:'বড় স্বপ্ন দেখো, সুন্দর আ�
 wishJoy:'সুখ তোমাকে খুব মানায়। তোমার ২১তম বছর হাসি, গল্প আর কেকএ ভরে উঠুক!',
 signoff1:'— ভালোবাসা ও শ্রদ্ধায়',signoff2:'— তোমার জন্য গর্বিত',signoff3:'— সব তারার পিছে ছুটো',signoff4:'— তোমার জন্য শুভকামনা!',
 wishName:'শুভ জন্মদিন, আফিয়া!',wishSub:'তুমি আজ',wishSub2:'বছরের — ১৩ জুন',
-btnGallery:'স্মৃতি দেখো',btnCake:'মোমবাতি নিভাও',btnShare:'শেয়ার করো',
+btnGallery:'স্মৃতি দেখো',btnCake:'মোমবাতি নিভাও',btnShare:'শেয়ার করো',btnNextWish:'💫 আরেকটা শুভেচ্ছা',installText:'📲 অ্যাপ ইন্সটল করো',
 galleryTitle:'আফিয়ার স্মৃতি',cakeTitle:'মোমবাতি নিভাও!',cakeSub:'প্রতিটি মোমবাতিতে ক্লিক করে ইচ্ছে করো ✨',cakeLeft:'বাকি মোমবাতি:',cakeDone:'তোমার ইচ্ছে পূরণ হয়েছে! 🎉',
-cpTitle:'সেটিংস',cpLang:'ভাষা',cpFireworks:'আতশবাজি',cpSparkles:'চমক',
+cpTitle:'সেটিংস',cpLang:'ভাষা',cpFireworks:'আতশবাজি',cpSparkles:'চমক',cpConfetti:'কনফেটি',
 shareLoading:'তোমার কার্ড তৈরি হচ্ছে...',shareFail:'এই ডিভাইসে শেয়ার সমর্থিত নয়',galleryOf:'এর',
 }};
 const cardData = [
@@ -478,11 +518,14 @@ const photos = [
 'photos/Messenger_creation_B48CDC05-6DE7-4C48-BA49-CEB2189E6694.jpeg'];
 
 // ===== STATE =====
-let cl='en',st={lang:'en',fireworks:true,sparkles:true},nh=[],gi=0,gint=null,cb=false,fa=false,se=true,cl5=5,fwc,fwx,fl=[],lft=Date.now(),sc=0;
+let cl='en',st={lang:'en',fireworks:true,sparkles:true,cc:false},nh=[],gi=0,ci=0,gint=null,ccint=null,cb=false,fa=false,se=true,cl5=5,fwc,fwx,fl=[],lft=Date.now(),sc=0;
+
+function ha(){try{navigator.vibrate&&navigator.vibrate(20)}catch(e){}}
 
 function gt(){const t=new Date();return{y:t.getFullYear(),m:t.getMonth(),d:t.getDate()}}
 function ib(t){return t.m===BIRTH_MONTH&&t.d===BIRTH_DAY}
 function ga(){const t=new Date();let a=t.getFullYear()-BIRTH_YEAR;const m=t.getMonth()-BIRTH_MONTH;if(m<0||(m===0&&t.getDate()<BIRTH_DAY))a--;return a}
+function gd(){return Math.floor((Date.now()-new Date(BIRTH_YEAR,BIRTH_MONTH,BIRTH_DAY).getTime())/86400000)}
 function gnb(n){let b=n.getFullYear();if(n.getMonth()>BIRTH_MONTH||(n.getMonth()===BIRTH_MONTH&&n.getDate()>BIRTH_DAY))b++;return new Date(b,BIRTH_MONTH,BIRTH_DAY)}
 
 // ===== SCREEN MANAGEMENT =====
@@ -492,9 +535,10 @@ function ss(id,dir){
   t.setAttribute('data-trans',d);void t.offsetWidth;t.classList.add('visible');
   const bb=document.getElementById('backBtn');
   if(id==='countdownScreen'||id==='birthdayScreen')bb.classList.add('hidden');else bb.classList.remove('hidden');
-  // FIX #2: stop gallery auto-play when leaving gallery
   if(id!=='galleryScreen')stopGalleryAuto();
   se=(id!=='galleryScreen')&&st.sparkles;
+  if(id==='galleryScreen')stopCC();else if(st.cc)startCC();
+  if(id==='birthdayScreen'||id==='cardScreen')spawnBalloons(8);else if(id==='countdownScreen'){const o=document.querySelectorAll('.balloon');o.forEach(b=>b.remove())}
 }
 
 function gb(){if(nh.length<2)return;nh.pop();ss(nh[nh.length-1],'slide-right')}
@@ -511,8 +555,9 @@ function uc(){
 function initCountdown(){const a=ga();document.getElementById('cdCurrentAge').textContent=a;document.getElementById('cdNextAge').textContent=a+1;uc();setInterval(uc,1000)}
 
 // ===== BIRTHDAY =====
-function initBirthday(){const a=ga(),be=document.getElementById('bdAge'),by=document.getElementById('bdYear');if(be)be.textContent=a;if(by)by.textContent=new Date().getFullYear();if(st.fireworks)launchFireworks()}
+function initBirthday(){const a=ga(),be=document.getElementById('bdAge'),by=document.getElementById('bdYear'),bd=document.getElementById('bdDays');if(be)be.textContent=a;if(by)by.textContent=new Date().getFullYear();if(bd)bd.textContent=gd().toLocaleString();if(st.fireworks)launchFireworks()}
 function goToCardSelection(){
+  ha();
   const b=document.getElementById('giftBox');
   if(b)b.classList.add('pulse');
   setTimeout(()=>{
@@ -539,11 +584,12 @@ function buildCards(){
 }
 
 function openCard(i){
+  ha();ci=i;
   const d=cardData[i],c=document.getElementById('unfoldedCard');
-  burstConfetti(); // FIX #1: use renamed function
+  burstConfetti();
   if(st.fireworks)launchFireworks();
   const a=ga();
-  c.innerHTML='<div class="unfolded-card-inner" style="background:'+d.bg+'"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">'+d.wishIcon+'</div><div class="wish-name" data-i18n="wishName">Happy Birthday, Afiya!</div><div class="wish-sub"><span data-i18n="wishSub">You\'re</span> '+a+' <span data-i18n="wishSub2">today — June 13</span></div><div class="wish-msg" data-i18n="'+d.wishKey+'">'+i18n.en[d.wishKey]+'</div><div class="wish-signoff" data-i18n="'+d.signoffKey+'">'+i18n.en[d.signoffKey]+'</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn" data-i18n="btnGallery">📸 View Memories</button><button class="cake-btn" id="cakeBtn" data-i18n="btnCake">🎂 Blow Candles</button><button class="share-btn" id="shareBtn" data-i18n="btnShare">📤 Share Card</button></div></div>';
+  c.innerHTML='<div class="unfolded-card-inner" style="background:'+d.bg+'"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">'+d.wishIcon+'</div><div class="wish-name" data-i18n="wishName">Happy Birthday, Afiya!</div><div class="wish-sub"><span data-i18n="wishSub">You\'re</span> '+a+' <span data-i18n="wishSub2">today — June 13</span></div><div class="wish-msg" data-i18n="'+d.wishKey+'"></div><div class="wish-signoff" data-i18n="'+d.signoffKey+'"></div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn" data-i18n="btnGallery">📸 View Memories</button><button class="cake-btn" id="cakeBtn" data-i18n="btnCake">🎂 Blow Candles</button><button class="share-btn" id="shareBtn" data-i18n="btnShare">📤 Share Card</button><button class="next-btn" id="nextWishBtn" data-i18n="btnNextWish">💫 Another Wish</button></div></div>';
   nh.push('unfoldScreen');ss('unfoldScreen','slide-left');applyLang(cl);
 
   // FIX #4: Wire up buttons with addEventListener (openCakeScreen was never defined)
@@ -551,6 +597,7 @@ function openCard(i){
   document.getElementById('galleryBtn').addEventListener('click',openGallery);
   document.getElementById('cakeBtn').addEventListener('click',openCakeScreen); // Now defined below
   document.getElementById('shareBtn').addEventListener('click',shareCard);
+  document.getElementById('nextWishBtn').addEventListener('click',nextWish);
 
   // Sparkle animation
   setTimeout(()=>{
@@ -565,11 +612,19 @@ function openCard(i){
       s.style.width=(4+Math.random()*5)+'px';s.style.height=s.style.width;
       n.appendChild(s);setTimeout(()=>s.remove(),1000);
     }
-  },500);
+  },300);
+  tw(c.querySelector('.wish-msg'));
+}
+
+function tw(el){
+  if(!el)return;
+  const txt=el.textContent;el.textContent='';el.style.borderRight='2px solid '+['#ffd700','#ff6b9d','#c44dff','#fff'][Math.floor(Math.random()*4)];el.style.display='inline-block';el.style.overflow='hidden';el.style.whiteSpace='pre-wrap';el.style.animation='none';void el.offsetWidth;
+  let i=0,it=setInterval(()=>{if(i>=txt.length){clearInterval(it);el.style.borderRight='none';return}el.textContent+=txt[i];i++},40);
 }
 
 // ===== FIX #1: Renamed from bc() to burstConfetti() =====
 function burstConfetti(){
+  ha();
   const co=['#ffd700','#ff6b9d','#c44dff','#ff8c42','#00d4ff','#7cff7c','#fff'];
   for(let i=0;i<40;i++){
     const e=document.createElement('div');e.className='burst-confetti';
@@ -584,9 +639,39 @@ function burstConfetti(){
   }
 }
 
+function spawnBalloons(cnt){
+  const old=document.querySelectorAll('.balloon');old.forEach(b=>b.remove());
+  const emojis=['🎈','🎈','🎈','🎈','🎈','🎈','🎉','🎊','🌟','💖'];
+  for(let i=0;i<cnt;i++){
+    const e=document.createElement('div');e.className='balloon';e.textContent=emojis[i%emojis.length];
+    e.style.left=(5+Math.random()*85)+'%';e.style.top=(60+Math.random()*35)+'%';
+    e.style.setProperty('--bd',(6+Math.random()*4)+'s');e.style.setProperty('--bdd',(Math.random()*3)+'s');
+    e.style.fontSize=(2+Math.random()*1.5)+'rem';
+    e.addEventListener('click',()=>{if(e.classList.contains('pop'))return;e.classList.add('pop');ha();burstConfetti();setTimeout(()=>e.remove(),500)});
+    document.body.appendChild(e);
+  }
+}
+
 // ===== CAKE =====
 // FIX #4: openCakeScreen was missing — only ocs() existed
 function openCakeScreen(){ ocs(); }
+
+function nextWish(){
+  ha();ci=(ci+1)%cardData.length;
+  const d=cardData[ci],c=document.getElementById('unfoldedCard');
+  burstConfetti();
+  const a=ga();
+  c.innerHTML='<div class="unfolded-card-inner" style="background:'+d.bg+'"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">'+d.wishIcon+'</div><div class="wish-name" data-i18n="wishName">Happy Birthday, Afiya!</div><div class="wish-sub"><span data-i18n="wishSub">You\'re</span> '+a+' <span data-i18n="wishSub2">today — June 13</span></div><div class="wish-msg" data-i18n="'+d.wishKey+'"></div><div class="wish-signoff" data-i18n="'+d.signoffKey+'"></div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn" data-i18n="btnGallery">📸 View Memories</button><button class="cake-btn" id="cakeBtn" data-i18n="btnCake">🎂 Blow Candles</button><button class="share-btn" id="shareBtn" data-i18n="btnShare">📤 Share Card</button><button class="next-btn" id="nextWishBtn" data-i18n="btnNextWish">💫 Another Wish</button></div></div>';
+  applyLang(cl);
+  document.getElementById('closeUnfolded').addEventListener('click',gb);
+  document.getElementById('galleryBtn').addEventListener('click',openGallery);
+  document.getElementById('cakeBtn').addEventListener('click',openCakeScreen);
+  document.getElementById('shareBtn').addEventListener('click',shareCard);
+  document.getElementById('nextWishBtn').addEventListener('click',nextWish);
+  const u=c.querySelector('.unfolded-card-inner');
+  if(u){u.style.animation='none';void u.offsetWidth;u.style.animation='wishReveal 0.5s ease-out'}
+  setTimeout(()=>tw(c.querySelector('.wish-msg')),300);
+}
 
 function ocs(){nh.push('cakeScreen');ss('cakeScreen','slide-up');initCandles()}
 function initCandles(){
@@ -599,6 +684,7 @@ function initCandles(){
   updateCandleCounter();
 }
 function ec(el){
+  ha();
   if(el.classList.contains('extinguished'))return;
   el.classList.add('extinguished');cl5--;
   updateCandleCounter();
@@ -650,6 +736,7 @@ function buildGalleryDots(){
   });
 }
 function setGallerySlide(idx){
+  ha();
   gi=(idx+photos.length)%photos.length;
   const i=document.getElementById('galleryImg');
   i.classList.remove('active');void i.offsetWidth;i.src=photos[gi];
@@ -690,6 +777,7 @@ function downloadBlob(b){
   let to;
   document.addEventListener('mousemove',(e)=>{if(!se)return;clearTimeout(to);to=setTimeout(()=>spawnSparkle(e.clientX,e.clientY),30)});
   document.addEventListener('touchmove',(e)=>{if(!se)return;const t=e.touches[0];spawnSparkle(t.clientX,t.clientY)},{passive:true});
+  document.addEventListener('click',(e)=>{tapBurst(e.clientX,e.clientY)});
 })();
 function spawnSparkle(x,y){
   if(sc>20)return;sc++;
@@ -703,6 +791,21 @@ function spawnSparkle(x,y){
   e.style.setProperty('--sy',Math.sin(an)*di-30+'px');
   e.style.boxShadow='0 0 6px '+e.style.background;
   document.body.appendChild(e);setTimeout(()=>{e.remove();sc--},800);
+}
+
+function tapBurst(x,y){
+  const cs=['#ffd700','#ff6b9d','#c44dff','#00d4ff','#fff','#7cff7c','#ff8c42'];
+  for(let i=0;i<12;i++){
+    const e=document.createElement('div');e.className='sparkle-particle';
+    const sz=3+Math.random()*5,a=Math.random()*Math.PI*2,d=30+Math.random()*60;
+    e.style.left=x+'px';e.style.top=y+'px';e.style.width=sz+'px';e.style.height=sz+'px';
+    e.style.background=cs[Math.floor(Math.random()*cs.length)];
+    e.style.borderRadius='50%';
+    e.style.setProperty('--sx',Math.cos(a)*d+'px');
+    e.style.setProperty('--sy',Math.sin(a)*d-20+'px');
+    e.style.boxShadow='0 0 4px '+e.style.background;
+    document.body.appendChild(e);setTimeout(()=>e.remove(),900);
+  }
 }
 
 // ===== FIREWORKS =====
@@ -758,10 +861,11 @@ function closePanel(){
   document.getElementById('cpToggle').classList.remove('active');
 }
 function saveSettings(){localStorage.setItem('afiya_settings',JSON.stringify(st))}
-function updateSwitches(){
+ function updateSwitches(){
   document.getElementById('switchLang').classList.toggle('on',st.lang==='bn');
   document.getElementById('switchFw').classList.toggle('on',st.fireworks);
   document.getElementById('switchSparkles').classList.toggle('on',st.sparkles);
+  const cc=document.getElementById('switchCC');if(cc)cc.classList.toggle('on',st.cc);
   const l=document.getElementById('cpLangLabel');if(l)l.textContent=st.lang==='en'?'EN':'বাংলা';
 }
 
@@ -780,6 +884,9 @@ function applyLang(lg){
 function toggleLang(){st.lang=st.lang==='en'?'bn':'en';cl=st.lang;saveSettings();applyLang(cl);updateSwitches()}
 function toggleFw(){st.fireworks=!st.fireworks;saveSettings();updateSwitches();if(st.fireworks)launchFireworks()}
 function toggleSparkles(){st.sparkles=!st.sparkles;se=st.sparkles;saveSettings();updateSwitches()}
+function toggleCC(){st.cc=!st.cc;saveSettings();updateSwitches();if(st.cc)startCC();else stopCC()}
+function startCC(){if(ccint)return;const co=['#ff6b9d','#ffd700','#c44dff','#f8b4d9','#00d4ff','#ff6b35','#7cff7c','#ff4444'];ccint=setInterval(()=>{const e=document.createElement('div');e.className='confetti-piece';e.style.background=co[Math.floor(Math.random()*co.length)];e.style.left=Math.random()*100+'%';const w=4+Math.random()*7;e.style.width=w+'px';e.style.height=(4+Math.random()*7)+'px';e.style.borderRadius=Math.random()>0.5?'50%':'2px';e.style.setProperty('--delay','0s');e.style.setProperty('--fall-duration',(3+Math.random()*5)+'s');document.getElementById('confettiContainer').appendChild(e);setTimeout(()=>e.remove(),8000)},200)}
+function stopCC(){if(!ccint)return;clearInterval(ccint);ccint=null}
 
 // ===== GLOBAL ONCLICK HANDLERS =====
 function previewBirthday(){ss('birthdayScreen','fade');initBirthday()}
@@ -788,8 +895,26 @@ function fwBtnClick(){
   lft=Date.now();if(!fa){fa=true;animateFireworks()}
   for(let i=0;i<3;i++){setTimeout(()=>{lft=Date.now();if(!fwc)return;const x=fwc.width*(0.1+Math.random()*0.8),y=fwc.height*(0.1+Math.random()*0.3);createExplosion(x,y)},i*400)}
 }
-function galleryPrev(){setGallerySlide(gi-1);resetGalleryAuto()} // FIX #3: was rgap()
-function galleryNext(){setGallerySlide(gi+1);resetGalleryAuto()} // FIX #3: was rgap()
+function galleryPrev(){setGallerySlide(gi-1);resetGalleryAuto()}
+function galleryNext(){setGallerySlide(gi+1);resetGalleryAuto()}
+
+function openLightbox(){
+  const o=document.getElementById('lightboxOverlay');
+  document.getElementById('lightboxImg').src=pg[gi];
+  o.classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(e){
+  if(e&&e.target!==e.currentTarget)return;
+  document.getElementById('lightboxOverlay').classList.remove('active');
+  document.body.style.overflow='';
+}
+function lightboxNav(d){
+  gi=(gi+d+pg.length)%pg.length;
+  document.getElementById('lightboxImg').src=pg[gi];
+  setGallerySlide(gi);
+  ha();
+}
 
 // ===== DECORATIONS =====
 (function(){
@@ -829,16 +954,28 @@ try{(function(){
   initFireworks();
   if(ib(t)){nh.push('birthdayScreen');ss('birthdayScreen','fade');initBirthday()}
   else{nh.push('countdownScreen');ss('countdownScreen','fade');initCountdown()}
-  initControlPanel();
+  initControlPanel();if(st.cc)startCC();
 })()}catch(e){console.error('Init error:',e)}
+
+// ===== PWA INSTALL =====
+let dP=null;
+window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();dP=e;document.getElementById('installToast').classList.add('show')});
+function installPWA(){
+  if(!dP)return;
+  dP.prompt();
+  dP.userChoice.then(r=>{dP=null;document.getElementById('installToast').classList.remove('show')});
+}
 
 // Keyboard nav for gallery
 document.addEventListener('keydown',(e)=>{
+  const lb=document.getElementById('lightboxOverlay');
+  if(e.key==='Escape'){closePanel();if(lb.classList.contains('active'))lb.classList.remove('active');document.body.style.overflow='';const g=document.getElementById('galleryScreen');if(g.classList.contains('visible'))gb();return}
+  if(e.key==='ArrowLeft'&&lb.classList.contains('active')){lightboxNav(-1);return}
+  if(e.key==='ArrowRight'&&lb.classList.contains('active')){lightboxNav(1);return}
   const g=document.getElementById('galleryScreen');
   if(g.classList.contains('visible')){
     if(e.key==='ArrowLeft'){setGallerySlide(gi-1);resetGalleryAuto()}
     else if(e.key==='ArrowRight'){setGallerySlide(gi+1);resetGalleryAuto()}
-    else if(e.key==='Escape'){gb()}
   }
 });
 
