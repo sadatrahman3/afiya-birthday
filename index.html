@@ -8,10 +8,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Afiya Birthday">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
-<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
-<link rel="icon" type="image/svg+xml" href="icons/icon-192.svg">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body {
@@ -819,9 +815,6 @@ function galleryNext(){setGallerySlide(gi+1);resetGalleryAuto()} // FIX #3: was 
     c.appendChild(e);
   }
 })();
-
-// PWA
-if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}
 
 // ===== INIT =====
 try{(function(){
