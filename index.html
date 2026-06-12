@@ -32,7 +32,6 @@ body {
 }
 button { touch-action: manipulation; }
 
-/* ===== SCREENS ===== */
 .screen {
   position: fixed; width: 0; height: 0; overflow: hidden;
   align-items: center; justify-content: center;
@@ -56,7 +55,6 @@ button { touch-action: manipulation; }
 .screen[data-trans="slide-down"]  { transition: opacity 0.45s ease, transform 0.45s ease; transform: translateY(-30px); }
 .screen.visible[data-trans="slide-down"] { transform: translateY(0); }
 
-/* ===== COUNTDOWN ===== */
 #countdownScreen { flex-direction: column; text-align: center; padding: 2rem; }
 .cd-icon { font-size: 5rem; margin-bottom: 0.5rem; animation: cdIconFloat 3s ease-in-out infinite; }
 @keyframes cdIconFloat {
@@ -97,7 +95,6 @@ button { touch-action: manipulation; }
 #countdownScreen.visible .cd-preview-btn { animation: cdMsgIn 1s ease 1.2s forwards; }
 .cd-preview-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
 
-/* ===== BIRTHDAY ===== */
 #birthdayScreen { flex-direction: column; text-align: center; padding: 2rem; }
 .bd-header { margin-bottom: 1rem; }
 .bd-header h1 { font-size: clamp(2rem, 6vw, 4rem); color: #ffd700; text-shadow: 0 0 40px rgba(255,215,0,0.3); }
@@ -136,7 +133,6 @@ button { touch-action: manipulation; }
 }
 .gift-btn:hover::after { transform: rotate(45deg) translateX(100%); }
 
-/* ===== CARD SELECTION ===== */
 #cardScreen { flex-direction: column; }
 .cards-title { color: #f8b4d9; font-size: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; text-align: center; }
 .cards-deck { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 1.5rem; perspective: 1200px; padding: 1rem; }
@@ -165,7 +161,6 @@ button { touch-action: manipulation; }
 .folded-card:nth-child(4) .card-front { background: linear-gradient(135deg, #ff6b9d, #ff3c6f); }
 .folded-card .card-ribbon { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; z-index: 2; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
 
-/* ===== UNFOLDED CARD ===== */
 #unfoldScreen { flex-direction: column; padding: 1rem; }
 .unfolded-card { width: min(500px, 90vw); min-height: 380px; border-radius: 20px; position: relative; transform-style: preserve-3d; opacity: 0; transform: rotateX(90deg) scale(0.3); transition: opacity 0.7s cubic-bezier(0.34,1.56,0.64,1), transform 0.7s cubic-bezier(0.34,1.56,0.64,1); }
 #unfoldScreen.visible .unfolded-card { opacity: 1; transform: rotateX(0deg) scale(1); }
@@ -191,7 +186,6 @@ button { touch-action: manipulation; }
 .unfolded-sparkle { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; animation: sparkleAnim 1s ease-out forwards; }
 @keyframes sparkleAnim { 0% { opacity: 1; transform: translate(0,0) scale(1); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); } }
 
-/* ===== CAKE ===== */
 #cakeScreen { flex-direction: column; padding: 1rem; }
 .cake-title { color: #ffd700; font-size: clamp(1.3rem, 3vw, 1.8rem); text-align: center; margin-bottom: 1rem; text-shadow: 0 0 20px rgba(255,215,0,0.3); }
 .cake-subtitle { color: #f8b4d9; font-size: clamp(0.9rem, 1.5vw, 1.1rem); text-align: center; margin-bottom: 1.5rem; }
@@ -222,7 +216,6 @@ button { touch-action: manipulation; }
 .cake-msg { margin-top: 1.5rem; color: #ffd700; font-size: clamp(1.2rem, 2.5vw, 1.8rem); font-weight: 700; text-align: center; opacity: 0; transition: opacity 0.8s ease; pointer-events: none; }
 .cake-msg.show { opacity: 1; }
 
-/* ===== GALLERY ===== */
 #galleryScreen { flex-direction: column; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); z-index: 50; }
 .gallery-header { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; z-index: 55; }
 .gallery-title { color: rgba(255,255,255,0.8); font-size: 1.1rem; font-weight: 600; }
@@ -240,7 +233,6 @@ button { touch-action: manipulation; }
 .gallery-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.25); transition: all 0.3s; cursor: pointer; }
 .gallery-dot.active { background: #ffd700; width: 24px; border-radius: 4px; }
 
-/* ===== CONTROL PANEL ===== */
 .cp-toggle { position: fixed; bottom: 20px; right: 20px; z-index: 60; width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
 .cp-toggle:hover { background: rgba(255,255,255,0.2); color: #fff; transform: scale(1.1); }
 .cp-toggle.active { background: rgba(196,77,255,0.3); border-color: #c44dff; }
@@ -258,19 +250,15 @@ button { touch-action: manipulation; }
 .switch-knob { width: 20px; height: 20px; background: #fff; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
 .switch.on .switch-knob { transform: translateX(20px); }
 
-/* ===== SPARKLE TRAIL ===== */
 .sparkle-particle { position: fixed; pointer-events: none; z-index: 9999; animation: sparkleRise 0.8s ease-out forwards; }
 @keyframes sparkleRise { 0% { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); } 100% { opacity: 0; transform: translate(var(--sx), var(--sy)) scale(0) rotate(180deg); } }
 
-/* ===== FIREWORKS ===== */
 #fireworksCanvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
 
-/* ===== BACK BTN ===== */
 .back-btn { position: fixed; top: 20px; left: 20px; z-index: 20; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); padding: 0.5rem 1.2rem; border-radius: 30px; cursor: pointer; font-size: 0.9rem; backdrop-filter: blur(10px); transition: all 0.3s; }
 .back-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
 .back-btn.hidden { display: none; }
 
-/* ===== DECORATIONS ===== */
 .floating-deco { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 .floating-deco .deco { position: absolute; font-size: 2rem; opacity: 0; animation: decoFloat var(--dur,10s) linear infinite; animation-delay: var(--delay,0s); top: 110%; left: var(--x,10%); }
 @keyframes decoFloat { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.3; } 90% { opacity: 0.3; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
@@ -281,18 +269,15 @@ button { touch-action: manipulation; }
 .burst-confetti { position: fixed; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; z-index: 100; animation: burstOut 1.2s ease-out forwards; }
 @keyframes burstOut { 0% { opacity: 1; transform: translate(0,0) scale(1); } 100% { opacity: 0; transform: translate(var(--bx), var(--by)) scale(0.3); } }
 
-/* ===== SHARE LOADING ===== */
 .share-loading { position: fixed; inset: 0; z-index: 70; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
 .share-loading.show { opacity: 1; pointer-events: auto; }
 .share-loading .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #ffd700; border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .share-loading p { color: #c9b8e8; margin-top: 1rem; font-size: 0.95rem; }
 
-/* ===== FIREWORKS BTN ===== */
 .fw-btn { position: fixed; bottom: 20px; left: 20px; z-index: 15; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; backdrop-filter: blur(8px); }
 .fw-btn:hover { background: rgba(255,255,255,0.15); color: #fff; transform: scale(1.1); }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 480px) {
   .folded-card { width: 140px; height: 200px; }
   .card-front .card-icon { font-size: 2.5rem; }
@@ -444,19 +429,6 @@ button { touch-action: manipulation; }
 </div>
 
 <script>
-// ===== INLINE FALLBACK HANDLERS (pure JS, no DOM dependency) =====
-function previewBirthday(){try{_p&&_p()}catch(e){}}
-function goToCardSelection(){try{_g&&_g()}catch(e){}}
-function goBack(){try{_b&&_b()}catch(e){}}
-function togglePanel(){try{_tp&&_tp()}catch(e){}}
-function closePanel(){try{_cp&&_cp()}catch(e){}}
-function toggleLang(){try{_tl&&_tl()}catch(e){}}
-function toggleFw(){try{_tf&&_tf()}catch(e){}}
-function toggleSparkles(){try{_ts&&_ts()}catch(e){}}
-function fwBtnClick(){try{_fb&&_fb()}catch(e){}}
-function galleryPrev(){try{_gp&&_gp()}catch(e){}}
-function galleryNext(){try{_gn&&_gn()}catch(e){}}
-
 // ===== DATA =====
 const BIRTH_MONTH = 5, BIRTH_DAY = 13, BIRTH_YEAR = 2005;
 const i18n = { en: {
@@ -513,19 +485,21 @@ function ib(t){return t.m===BIRTH_MONTH&&t.d===BIRTH_DAY}
 function ga(){const t=new Date();let a=t.getFullYear()-BIRTH_YEAR;const m=t.getMonth()-BIRTH_MONTH;if(m<0||(m===0&&t.getDate()<BIRTH_DAY))a--;return a}
 function gnb(n){let b=n.getFullYear();if(n.getMonth()>BIRTH_MONTH||(n.getMonth()===BIRTH_MONTH&&n.getDate()>BIRTH_DAY))b++;return new Date(b,BIRTH_MONTH,BIRTH_DAY)}
 
+// ===== SCREEN MANAGEMENT =====
 function ss(id,dir){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('visible'));
   const t=document.getElementById(id),d=dir||'fade';
   t.setAttribute('data-trans',d);void t.offsetWidth;t.classList.add('visible');
   const bb=document.getElementById('backBtn');
   if(id==='countdownScreen'||id==='birthdayScreen')bb.classList.add('hidden');else bb.classList.remove('hidden');
-  if(id!=='galleryScreen')sgap();
+  // FIX #2: stop gallery auto-play when leaving gallery
+  if(id!=='galleryScreen')stopGalleryAuto();
   se=(id!=='galleryScreen')&&st.sparkles;
 }
 
 function gb(){if(nh.length<2)return;nh.pop();ss(nh[nh.length-1],'slide-right')}
 
-// countdown
+// ===== COUNTDOWN =====
 function uc(){
   const n=new Date(),nx=gnb(n),d=nx.getTime()-n.getTime();if(d<=0)return;
   const ts=Math.floor(d/1000);
@@ -534,110 +508,362 @@ function uc(){
   document.getElementById('cdMins').textContent=String(Math.floor((ts%3600)/60)).padStart(2,'0');
   document.getElementById('cdSecs').textContent=String(ts%60).padStart(2,'0');
 }
-function ic(){const a=ga();document.getElementById('cdCurrentAge').textContent=a;document.getElementById('cdNextAge').textContent=a+1;uc();setInterval(uc,1000)}
+function initCountdown(){const a=ga();document.getElementById('cdCurrentAge').textContent=a;document.getElementById('cdNextAge').textContent=a+1;uc();setInterval(uc,1000)}
 
-// birthday
-function ibs(){const a=ga(),be=document.getElementById('bdAge'),by=document.getElementById('bdYear');if(be)be.textContent=a;if(by)by.textContent=new Date().getFullYear();if(st.fireworks)lfb()}
-function gtcs(){const b=document.getElementById('giftBox');if(!b)return;b.classList.add('pulse');setTimeout(()=>{nh.push('cardScreen');ss('cardScreen','slide-left');bc()},400)}
-
-// event listeners (addEventListener version, runs alongside onclick)
-function bl(){
-  const $=id=>document.getElementById(id);
-  const p=$('previewBtn'),g=$('giftBtn'),b=$('giftBox');
-  if(p)p.addEventListener('click',()=>{ss('birthdayScreen','fade');ibs()});
-  if(g)g.addEventListener('click',gtcs);if(b)b.addEventListener('click',gtcs);
+// ===== BIRTHDAY =====
+function initBirthday(){const a=ga(),be=document.getElementById('bdAge'),by=document.getElementById('bdYear');if(be)be.textContent=a;if(by)by.textContent=new Date().getFullYear();if(st.fireworks)launchFireworks()}
+function goToCardSelection(){
+  const b=document.getElementById('giftBox');
+  if(b)b.classList.add('pulse');
+  setTimeout(()=>{
+    nh.push('cardScreen');
+    ss('cardScreen','slide-left');
+    buildCards(); // FIX #1: use renamed function
+  },400);
 }
 
-// cards
-function bc(){if(cb)return;cb=true;const d=document.getElementById('cardsDeck');cardData.forEach((data,i)=>{const c=document.createElement('div');c.className='folded-card';c.innerHTML='<div class="card-front" style="background:'+data.bg+'"><div class="card-ribbon">🎀</div><div class="card-icon">'+data.icon+'</div><div class="card-label" data-i18n="'+data.labelKey+'"></div><div class="card-shine"></div></div>';c.addEventListener('click',()=>oc(i));d.appendChild(c)});al(cl)}
+// ===== FIX #1: Renamed from bc() to buildCards() =====
+function buildCards(){
+  if(cb)return;cb=true;
+  const d=document.getElementById('cardsDeck');
+  // Clear any existing cards first
+  d.innerHTML='';
+  cardData.forEach((data,i)=>{
+    const c=document.createElement('div');
+    c.className='folded-card';
+    c.innerHTML='<div class="card-front" style="background:'+data.bg+'"><div class="card-ribbon">🎀</div><div class="card-icon">'+data.icon+'</div><div class="card-label" data-i18n="'+data.labelKey+'"></div><div class="card-shine"></div></div>';
+    c.addEventListener('click',()=>openCard(i));
+    d.appendChild(c);
+  });
+  applyLang(cl);
+}
 
-function oc(i){
-  const d=cardData[i],c=document.getElementById('unfoldedCard');bc();if(st.fireworks)lfb();const a=ga();
-  c.innerHTML='<div class="unfolded-card-inner" style="background:'+d.bg+'"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">'+d.wishIcon+'</div><div class="wish-name" data-i18n="wishName">Happy Birthday, Afiya!</div><div class="wish-sub"><span data-i18n="wishSub">You\'re</span> '+a+' <span data-i18n="wishSub2">today — June 13</span></div><div class="wish-msg" data-i18n="'+d.wishKey+'">'+i18n.en[d.wishKey]+'</div><div class="wish-signoff" data-i18n="'+d.signoffKey+'">'+i18n.en[d.signoffKey]+'</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn" onclick="openGallery()" data-i18n="btnGallery">📸 View Memories</button><button class="cake-btn" id="cakeBtn" onclick="openCakeScreen()" data-i18n="btnCake">🎂 Blow Candles</button><button class="share-btn" id="shareBtn" onclick="shareCard()" data-i18n="btnShare">📤 Share Card</button></div></div>';
-  nh.push('unfoldScreen');ss('unfoldScreen','slide-left');al(cl);
+function openCard(i){
+  const d=cardData[i],c=document.getElementById('unfoldedCard');
+  burstConfetti(); // FIX #1: use renamed function
+  if(st.fireworks)launchFireworks();
+  const a=ga();
+  c.innerHTML='<div class="unfolded-card-inner" style="background:'+d.bg+'"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">'+d.wishIcon+'</div><div class="wish-name" data-i18n="wishName">Happy Birthday, Afiya!</div><div class="wish-sub"><span data-i18n="wishSub">You\'re</span> '+a+' <span data-i18n="wishSub2">today — June 13</span></div><div class="wish-msg" data-i18n="'+d.wishKey+'">'+i18n.en[d.wishKey]+'</div><div class="wish-signoff" data-i18n="'+d.signoffKey+'">'+i18n.en[d.signoffKey]+'</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn" data-i18n="btnGallery">📸 View Memories</button><button class="cake-btn" id="cakeBtn" data-i18n="btnCake">🎂 Blow Candles</button><button class="share-btn" id="shareBtn" data-i18n="btnShare">📤 Share Card</button></div></div>';
+  nh.push('unfoldScreen');ss('unfoldScreen','slide-left');applyLang(cl);
+
+  // FIX #4: Wire up buttons with addEventListener (openCakeScreen was never defined)
   document.getElementById('closeUnfolded').addEventListener('click',gb);
-  setTimeout(()=>{const n=c.querySelector('.unfolded-card-inner');if(!n)return;for(let i=0;i<16;i++){const s=document.createElement('div');s.className='unfolded-sparkle';const a=Math.random()*360,d=70+Math.random()*100;s.style.setProperty('--dx',Math.cos(a*Math.PI/180)*d+'px');s.style.setProperty('--dy',Math.sin(a*Math.PI/180)*d+'px');s.style.left='50%';s.style.top='50%';s.style.background=['#ffd700','#ff6b9d','#fff','#c44dff'][Math.floor(Math.random()*4)];s.style.width=(4+Math.random()*5)+'px';s.style.height=s.style.width;n.appendChild(s);setTimeout(()=>s.remove(),1000)}},500);
+  document.getElementById('galleryBtn').addEventListener('click',openGallery);
+  document.getElementById('cakeBtn').addEventListener('click',openCakeScreen); // Now defined below
+  document.getElementById('shareBtn').addEventListener('click',shareCard);
+
+  // Sparkle animation
+  setTimeout(()=>{
+    const n=c.querySelector('.unfolded-card-inner');if(!n)return;
+    for(let i=0;i<16;i++){
+      const s=document.createElement('div');s.className='unfolded-sparkle';
+      const a=Math.random()*360,dist=70+Math.random()*100;
+      s.style.setProperty('--dx',Math.cos(a*Math.PI/180)*dist+'px');
+      s.style.setProperty('--dy',Math.sin(a*Math.PI/180)*dist+'px');
+      s.style.left='50%';s.style.top='50%';
+      s.style.background=['#ffd700','#ff6b9d','#fff','#c44dff'][Math.floor(Math.random()*4)];
+      s.style.width=(4+Math.random()*5)+'px';s.style.height=s.style.width;
+      n.appendChild(s);setTimeout(()=>s.remove(),1000);
+    }
+  },500);
 }
 
-// cake
-function ocs(){nh.push('cakeScreen');ss('cakeScreen','slide-up');inC()}
-function inC(){
-  cl5=5;const s=document.getElementById('cakeStage'),m=document.getElementById('cakeMsg');m.classList.remove('show');m.textContent='';
+// ===== FIX #1: Renamed from bc() to burstConfetti() =====
+function burstConfetti(){
+  const co=['#ffd700','#ff6b9d','#c44dff','#ff8c42','#00d4ff','#7cff7c','#fff'];
+  for(let i=0;i<40;i++){
+    const e=document.createElement('div');e.className='burst-confetti';
+    const a=Math.random()*360,d=80+Math.random()*200;
+    e.style.setProperty('--bx',Math.cos(a*Math.PI/180)*d+'px');
+    e.style.setProperty('--by',Math.sin(a*Math.PI/180)*d+'px');
+    e.style.left='50%';e.style.top='50%';
+    e.style.background=co[Math.floor(Math.random()*co.length)];
+    const s=4+Math.random()*8;e.style.width=s+'px';e.style.height=s+'px';
+    e.style.borderRadius=Math.random()>0.5?'50%':'2px';
+    document.body.appendChild(e);setTimeout(()=>e.remove(),1300);
+  }
+}
+
+// ===== CAKE =====
+// FIX #4: openCakeScreen was missing — only ocs() existed
+function openCakeScreen(){ ocs(); }
+
+function ocs(){nh.push('cakeScreen');ss('cakeScreen','slide-up');initCandles()}
+function initCandles(){
+  cl5=5;
+  const s=document.getElementById('cakeStage'),m=document.getElementById('cakeMsg');
+  m.classList.remove('show');m.textContent='';
   const sc=['#ff6b9d','#ffd700','#00d4ff','#7cff7c','#c44dff','#fff'],sh=[];
   for(let i=0;i<30;i++)sh.push('<div class="cake-sprinkle" style="top:'+(Math.random()*90)+'%;left:'+(Math.random()*90)+'%;background:'+sc[i%sc.length]+';width:'+(4+Math.random()*4)+'px;height:'+(4+Math.random()*4)+'px;border-radius:'+(Math.random()>0.5?'50%':'2px')+';"></div>');
   s.innerHTML='<div class="cake-base"><div class="cake-tier cake-tier-3"><div class="cake-frosting-wavy"></div><div class="cake-sprinkles">'+sh.slice(0,12).join('')+'</div></div><div class="cake-tier cake-tier-2"><div class="cake-frosting"></div><div class="cake-sprinkles">'+sh.slice(12,22).join('')+'</div></div><div class="cake-tier cake-tier-1"><div class="cake-frosting"></div><div class="cake-sprinkles">'+sh.slice(22).join('')+'</div></div><div class="candles-row" id="candlesRow"><div class="candle" data-candle="0" onclick="ec(this)"><div class="candle-flame">🔥</div><div class="candle-smoke">💨</div><div class="candle-body"></div></div><div class="candle" data-candle="1" onclick="ec(this)"><div class="candle-flame">🔥</div><div class="candle-smoke">💨</div><div class="candle-body"></div></div><div class="candle" data-candle="2" onclick="ec(this)"><div class="candle-flame">🔥</div><div class="candle-smoke">💨</div><div class="candle-body"></div></div><div class="candle" data-candle="3" onclick="ec(this)"><div class="candle-flame">🔥</div><div class="candle-smoke">💨</div><div class="candle-body"></div></div><div class="candle" data-candle="4" onclick="ec(this)"><div class="candle-flame">🔥</div><div class="candle-smoke">💨</div><div class="candle-body"></div></div></div></div>';
-  ucc();
+  updateCandleCounter();
 }
-function ec(el){if(el.classList.contains('extinguished'))return;el.classList.add('extinguished');cl5--;ucc();if(cl5<=0){bc();if(st.fireworks)lfb();setTimeout(()=>{document.getElementById('cakeMsg').textContent=i18n[cl].cakeDone;document.getElementById('cakeMsg').classList.add('show')},400);setTimeout(()=>{if(nh.length>=2){const p=nh[nh.length-2];ss(p,'slide-down');nh.pop()}},2500)}}
-function ucc(){const e=document.getElementById('candleCounter');if(e)e.innerHTML=i18n[cl].cakeLeft+' <span>'+cl5+'/5</span>'}
+function ec(el){
+  if(el.classList.contains('extinguished'))return;
+  el.classList.add('extinguished');cl5--;
+  updateCandleCounter();
+  if(cl5<=0){
+    burstConfetti(); // FIX #5: was bc(), now uses renamed function
+    if(st.fireworks)launchFireworks();
+    setTimeout(()=>{
+      document.getElementById('cakeMsg').textContent=i18n[cl].cakeDone;
+      document.getElementById('cakeMsg').classList.add('show');
+    },400);
+    setTimeout(()=>{
+      if(nh.length>=2){
+        const p=nh[nh.length-2];
+        ss(p,'slide-down');nh.pop();
+      }
+    },2500);
+  }
+}
+function updateCandleCounter(){
+  const e=document.getElementById('candleCounter');
+  if(e)e.innerHTML=i18n[cl].cakeLeft+' <span>'+cl5+'/5</span>';
+}
 
-// gallery
-function openGallery(){gi=0;nh.push('galleryScreen');ss('galleryScreen','slide-left');bgd();sgs(0);sgap()}
-function bgd(){const c=document.getElementById('galleryDots');c.innerHTML='';photos.forEach((_,i)=>{const d=document.createElement('div');d.className='gallery-dot';d.addEventListener('click',()=>{sgs(i);rgap()});c.appendChild(d)})}
-function sgs(idx){gi=(idx+photos.length)%photos.length;const i=document.getElementById('galleryImg');i.classList.remove('active');void i.offsetWidth;i.src=photos[gi];setTimeout(()=>i.classList.add('active'),50);document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===gi));document.getElementById('galleryCounter').textContent=(gi+1)+' / '+photos.length}
-function sgap(){sgap();gint=setInterval(()=>sgs(gi+1),3500)}
-function sgap(){if(gint){clearInterval(gint);gint=null}}
-function rgap(){sgap()}
+// ===== GALLERY =====
+// FIX #2: Renamed conflicting sgap() to clear names
+function startGalleryAuto(){
+  stopGalleryAuto();
+  gint=setInterval(()=>setGallerySlide(gi+1),3500);
+}
+function stopGalleryAuto(){
+  if(gint){clearInterval(gint);gint=null;}
+}
+// FIX #3: rgap() was never defined — resets auto-play timer
+function resetGalleryAuto(){
+  startGalleryAuto();
+}
 
-// share
-async function shareCard(){const l=document.getElementById('shareLoading');l.classList.add('show');try{const c=document.querySelector('.unfolded-card-inner');if(!c)return;if(typeof html2canvas==='undefined'){const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';await new Promise((r,j)=>{s.onload=r;s.onerror=j;document.head.appendChild(s)})}const cv=await html2canvas(c,{backgroundColor:null,scale:2,useCORS:true,allowTaint:false});l.classList.remove('show');cv.toBlob(async(b)=>{if(navigator.share&&navigator.canShare&&navigator.canShare({files:[new File([b],'birthday-wish.png',{type:'image/png'})]})){try{await navigator.share({title:'Happy Birthday Afiya!',files:[new File([b],'birthday-wish.png',{type:'image/png'})]})}catch(e){if(e.name!=='AbortError')dblob(b)}}else{dblob(b)}},'image/png')}catch(e){l.classList.remove('show');alert(i18n[cl].shareFail)}}
-function dblob(b){const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='birthday-wish-afiya.png';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(u),5000)}
+function openGallery(){
+  gi=0;nh.push('galleryScreen');ss('galleryScreen','slide-left');
+  buildGalleryDots();setGallerySlide(0);
+  startGalleryAuto(); // FIX #2: was sgap() which STOPPED auto-play
+}
+function buildGalleryDots(){
+  const c=document.getElementById('galleryDots');c.innerHTML='';
+  photos.forEach((_,i)=>{
+    const d=document.createElement('div');d.className='gallery-dot';
+    d.addEventListener('click',()=>{setGallerySlide(i);resetGalleryAuto();}); // FIX #3: was rgap()
+    c.appendChild(d);
+  });
+}
+function setGallerySlide(idx){
+  gi=(idx+photos.length)%photos.length;
+  const i=document.getElementById('galleryImg');
+  i.classList.remove('active');void i.offsetWidth;i.src=photos[gi];
+  setTimeout(()=>i.classList.add('active'),50);
+  document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===gi));
+  document.getElementById('galleryCounter').textContent=(gi+1)+' / '+photos.length;
+}
 
-// sparkles
-(function(){let to;document.addEventListener('mousemove',(e)=>{if(!se)return;clearTimeout(to);to=setTimeout(()=>sp(e.clientX,e.clientY),30)});document.addEventListener('touchmove',(e)=>{if(!se)return;const t=e.touches[0];sp(t.clientX,t.clientY)},{passive:true})})();
-function sp(x,y){if(sc>20)return;sc++;const e=document.createElement('div');e.className='sparkle-particle';const cs=['#ffd700','#ff6b9d','#c44dff','#00d4ff','#fff','#7cff7c'];const sz=3+Math.random()*6,an=Math.random()*Math.PI*2,di=20+Math.random()*40;e.style.left=x+'px';e.style.top=y+'px';e.style.width=sz+'px';e.style.height=sz+'px';e.style.background=cs[Math.floor(Math.random()*cs.length)];e.style.borderRadius=Math.random()>0.5?'50%':'2px';e.style.setProperty('--sx',Math.cos(an)*di+'px');e.style.setProperty('--sy',Math.sin(an)*di-30+'px');e.style.boxShadow='0 0 6px '+e.style.background;document.body.appendChild(e);setTimeout(()=>{e.remove();sc--},800)}
+// ===== SHARE =====
+async function shareCard(){
+  const l=document.getElementById('shareLoading');l.classList.add('show');
+  try{
+    const c=document.querySelector('.unfolded-card-inner');if(!c)return;
+    if(typeof html2canvas==='undefined'){
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      await new Promise((r,j)=>{s.onload=r;s.onerror=j;document.head.appendChild(s)});
+    }
+    const cv=await html2canvas(c,{backgroundColor:null,scale:2,useCORS:true,allowTaint:false});
+    l.classList.remove('show');
+    cv.toBlob(async(b)=>{
+      if(navigator.share&&navigator.canShare&&navigator.canShare({files:[new File([b],'birthday-wish.png',{type:'image/png'})]})){
+        try{await navigator.share({title:'Happy Birthday Afiya!',files:[new File([b],'birthday-wish.png',{type:'image/png'})]})}
+        catch(e){if(e.name!=='AbortError')downloadBlob(b)}
+      }else{downloadBlob(b)}
+    },'image/png');
+  }catch(e){l.classList.remove('show');alert(i18n[cl].shareFail)}
+}
+function downloadBlob(b){
+  const u=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=u;a.download='birthday-wish-afiya.png';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(u),5000);
+}
 
-// fireworks
-function infw(){fwc=document.getElementById('fireworksCanvas');fwx=fwc.getContext('2d');rc();window.addEventListener('resize',rc)}
-function rc(){if(!fwc)return;fwc.width=window.innerWidth;fwc.height=window.innerHeight}
-function lfb(){if(!st.fireworks)return;if(!fwc)return;lft=Date.now();const c=2+Math.floor(Math.random()*2);for(let i=0;i<c;i++){setTimeout(()=>{const x=fwc.width*(0.15+Math.random()*0.7),y=fwc.height*(0.1+Math.random()*0.3);ce(x,y)},i*300)}if(!fa){fa=true;afw()}}
-function ce(x,y){const co=['#ff6b9d','#ffd700','#c44dff','#00d4ff','#ff8c42','#7cff7c','#fff','#ff4444'];const c=50+Math.floor(Math.random()*30);for(let i=0;i<c;i++){const a=Math.random()*Math.PI*2,s=80+Math.random()*200;fl.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.008+Math.random()*0.012,size:2+Math.random()*3,color:co[Math.floor(Math.random()*co.length)]})}for(let i=0;i<10;i++){const a=Math.random()*Math.PI*2,s=20+Math.random()*50;fl.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.02+Math.random()*0.03,size:1+Math.random()*2,color:'#ffd700'})}}
-function afw(){fwx.clearRect(0,0,fwc.width,fwc.height);fl=fl.filter(p=>p.life>0);fl.forEach(p=>{p.x+=p.vx*0.016;p.y+=p.vy*0.016;p.vy+=120*0.016;p.life-=p.decay;fwx.globalAlpha=p.life;fwx.beginPath();fwx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2);fwx.fillStyle=p.color;fwx.fill()});fwx.globalAlpha=1;if(fl.length>0||Date.now()-lft<3000){requestAnimationFrame(afw)}else{fa=false;fwx.clearRect(0,0,fwc.width,fwc.height)}}
+// ===== SPARKLES =====
+(function(){
+  let to;
+  document.addEventListener('mousemove',(e)=>{if(!se)return;clearTimeout(to);to=setTimeout(()=>spawnSparkle(e.clientX,e.clientY),30)});
+  document.addEventListener('touchmove',(e)=>{if(!se)return;const t=e.touches[0];spawnSparkle(t.clientX,t.clientY)},{passive:true});
+})();
+function spawnSparkle(x,y){
+  if(sc>20)return;sc++;
+  const e=document.createElement('div');e.className='sparkle-particle';
+  const cs=['#ffd700','#ff6b9d','#c44dff','#00d4ff','#fff','#7cff7c'];
+  const sz=3+Math.random()*6,an=Math.random()*Math.PI*2,di=20+Math.random()*40;
+  e.style.left=x+'px';e.style.top=y+'px';e.style.width=sz+'px';e.style.height=sz+'px';
+  e.style.background=cs[Math.floor(Math.random()*cs.length)];
+  e.style.borderRadius=Math.random()>0.5?'50%':'2px';
+  e.style.setProperty('--sx',Math.cos(an)*di+'px');
+  e.style.setProperty('--sy',Math.sin(an)*di-30+'px');
+  e.style.boxShadow='0 0 6px '+e.style.background;
+  document.body.appendChild(e);setTimeout(()=>{e.remove();sc--},800);
+}
 
-// control panel
-function icp(){const s=localStorage.getItem('afiya_settings');if(s){try{st=JSON.parse(s)}catch(e){}cl=st.lang}al(cl);us();document.getElementById('cpToggle').addEventListener('click',_tp);document.getElementById('cpClose').addEventListener('click',_cp);document.getElementById('switchLang').addEventListener('click',_tl);document.getElementById('switchFw').addEventListener('click',_tf);document.getElementById('switchSparkles').addEventListener('click',_ts)}
-function cpl(){document.getElementById('cpDrawer').classList.remove('open');document.getElementById('cpToggle').classList.remove('active')}
-function ss2(){localStorage.setItem('afiya_settings',JSON.stringify(st))}
-function us(){document.getElementById('switchLang').classList.toggle('on',st.lang==='bn');document.getElementById('switchFw').classList.toggle('on',st.fireworks);document.getElementById('switchSparkles').classList.toggle('on',st.sparkles);const l=document.getElementById('cpLangLabel');if(l)l.textContent=st.lang==='en'?'EN':'বাংলা'}
+// ===== FIREWORKS =====
+function initFireworks(){
+  fwc=document.getElementById('fireworksCanvas');fwx=fwc.getContext('2d');
+  resizeCanvas();window.addEventListener('resize',resizeCanvas);
+}
+function resizeCanvas(){if(!fwc)return;fwc.width=window.innerWidth;fwc.height=window.innerHeight}
+function launchFireworks(){
+  if(!st.fireworks||!fwc)return;lft=Date.now();
+  const c=2+Math.floor(Math.random()*2);
+  for(let i=0;i<c;i++){setTimeout(()=>{const x=fwc.width*(0.15+Math.random()*0.7),y=fwc.height*(0.1+Math.random()*0.3);createExplosion(x,y)},i*300)}
+  if(!fa){fa=true;animateFireworks()}
+}
+function createExplosion(x,y){
+  const co=['#ff6b9d','#ffd700','#c44dff','#00d4ff','#ff8c42','#7cff7c','#fff','#ff4444'];
+  const c=50+Math.floor(Math.random()*30);
+  for(let i=0;i<c;i++){
+    const a=Math.random()*Math.PI*2,s=80+Math.random()*200;
+    fl.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.008+Math.random()*0.012,size:2+Math.random()*3,color:co[Math.floor(Math.random()*co.length)]});
+  }
+  for(let i=0;i<10;i++){
+    const a=Math.random()*Math.PI*2,s=20+Math.random()*50;
+    fl.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.02+Math.random()*0.03,size:1+Math.random()*2,color:'#ffd700'});
+  }
+}
+function animateFireworks(){
+  fwx.clearRect(0,0,fwc.width,fwc.height);
+  fl=fl.filter(p=>p.life>0);
+  fl.forEach(p=>{
+    p.x+=p.vx*0.016;p.y+=p.vy*0.016;p.vy+=120*0.016;p.life-=p.decay;
+    fwx.globalAlpha=p.life;fwx.beginPath();
+    fwx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2);
+    fwx.fillStyle=p.color;fwx.fill();
+  });
+  fwx.globalAlpha=1;
+  if(fl.length>0||Date.now()-lft<3000){requestAnimationFrame(animateFireworks)}
+  else{fa=false;fwx.clearRect(0,0,fwc.width,fwc.height)}
+}
 
-// language
-function al(lg){const t=i18n[lg]||i18n.en;cl=lg;document.querySelectorAll('[data-i18n]').forEach(e=>{const k=e.dataset.i18n;if(t[k]){if(e.tagName==='INPUT'||e.tagName==='TEXTAREA')e.placeholder=t[k];else e.textContent=t[k]}});document.documentElement.lang=lg==='bn'?'bn':'en';ucc()}
+// ===== CONTROL PANEL =====
+function initControlPanel(){
+  const s=localStorage.getItem('afiya_settings');
+  if(s){try{st=JSON.parse(s)}catch(e){}}
+  cl=st.lang;applyLang(cl);updateSwitches();
+  document.getElementById('cpToggle').addEventListener('click',togglePanel);
+  document.getElementById('cpClose').addEventListener('click',closePanel);
+  document.getElementById('switchLang').addEventListener('click',toggleLang);
+  document.getElementById('switchFw').addEventListener('click',toggleFw);
+  document.getElementById('switchSparkles').addEventListener('click',toggleSparkles);
+}
+function togglePanel(){
+  document.getElementById('cpDrawer').classList.toggle('open');
+  document.getElementById('cpToggle').classList.toggle('active');
+}
+function closePanel(){
+  document.getElementById('cpDrawer').classList.remove('open');
+  document.getElementById('cpToggle').classList.remove('active');
+}
+function saveSettings(){localStorage.setItem('afiya_settings',JSON.stringify(st))}
+function updateSwitches(){
+  document.getElementById('switchLang').classList.toggle('on',st.lang==='bn');
+  document.getElementById('switchFw').classList.toggle('on',st.fireworks);
+  document.getElementById('switchSparkles').classList.toggle('on',st.sparkles);
+  const l=document.getElementById('cpLangLabel');if(l)l.textContent=st.lang==='en'?'EN':'বাংলা';
+}
 
-// expose globals for onclick fallbacks
-const _p=()=>{ss('birthdayScreen','fade');ibs()},_g=gtcs,_b=gb,
-_tp=()=>{document.getElementById('cpDrawer').classList.toggle('open');document.getElementById('cpToggle').classList.toggle('active')},
-_cp=cpl,
-_tl=()=>{st.lang=st.lang==='en'?'bn':'en';cl=st.lang;ss2();al(cl);us()},
-_tf=()=>{st.fireworks=!st.fireworks;ss2();us();if(st.fireworks)lfb()},
-_ts=()=>{st.sparkles=!st.sparkles;se=st.sparkles;ss2();us()},
-_fb=()=>{lft=Date.now();if(!fa){fa=true;afw()}for(let i=0;i<3;i++){setTimeout(()=>{lft=Date.now();if(!fwc)return;const x=fwc.width*(0.1+Math.random()*0.8),y=fwc.height*(0.1+Math.random()*0.3);ce(x,y)},i*400)}},
-_gp=()=>{sgs(gi-1);rgap()},_gn=()=>{sgs(gi+1);rgap()};
+// ===== LANGUAGE =====
+function applyLang(lg){
+  const t=i18n[lg]||i18n.en;cl=lg;
+  document.querySelectorAll('[data-i18n]').forEach(e=>{
+    const k=e.dataset.i18n;if(t[k]){
+      if(e.tagName==='INPUT'||e.tagName==='TEXTAREA')e.placeholder=t[k];
+      else e.textContent=t[k];
+    }
+  });
+  document.documentElement.lang=lg==='bn'?'bn':'en';
+  updateCandleCounter();
+}
+function toggleLang(){st.lang=st.lang==='en'?'bn':'en';cl=st.lang;saveSettings();applyLang(cl);updateSwitches()}
+function toggleFw(){st.fireworks=!st.fireworks;saveSettings();updateSwitches();if(st.fireworks)launchFireworks()}
+function toggleSparkles(){st.sparkles=!st.sparkles;se=st.sparkles;saveSettings();updateSwitches()}
+
+// ===== GLOBAL ONCLICK HANDLERS =====
+function previewBirthday(){ss('birthdayScreen','fade');initBirthday()}
+function goBack(){gb()}
+function fwBtnClick(){
+  lft=Date.now();if(!fa){fa=true;animateFireworks()}
+  for(let i=0;i<3;i++){setTimeout(()=>{lft=Date.now();if(!fwc)return;const x=fwc.width*(0.1+Math.random()*0.8),y=fwc.height*(0.1+Math.random()*0.3);createExplosion(x,y)},i*400)}
+}
+function galleryPrev(){setGallerySlide(gi-1);resetGalleryAuto()} // FIX #3: was rgap()
+function galleryNext(){setGallerySlide(gi+1);resetGalleryAuto()} // FIX #3: was rgap()
 
 // ===== DECORATIONS =====
-(function(){const d=['🎈','🎉','🎊','✨','🌟','💖','🎀','🌸','⭐','💫'],c=document.getElementById('floatingDeco');for(let i=0;i<20;i++){const e=document.createElement('div');e.className='deco';e.textContent=d[Math.floor(Math.random()*d.length)];e.style.setProperty('--x',Math.random()*100+'%');e.style.setProperty('--dur',(8+Math.random()*8)+'s');e.style.setProperty('--delay',Math.random()*12+'s');e.style.fontSize=(1.2+Math.random()*1.8)+'rem';c.appendChild(e)}})();
-(function(){const co=['#ff6b9d','#ffd700','#c44dff','#f8b4d9','#00d4ff','#ff6b35','#7cff7c','#ff4444'],c=document.getElementById('confettiContainer');for(let i=0;i<80;i++){const e=document.createElement('div');e.className='confetti-piece';e.style.background=co[Math.floor(Math.random()*co.length)];e.style.left=Math.random()*100+'%';const w=4+Math.random()*7;e.style.width=w+'px';e.style.height=(4+Math.random()*7)+'px';e.style.borderRadius=Math.random()>0.5?'50%':'2px';e.style.setProperty('--delay',Math.random()*8+'s');e.style.setProperty('--fall-duration',(3+Math.random()*5)+'s');c.appendChild(e)}})();
-
-function bc(){const co=['#ffd700','#ff6b9d','#c44dff','#ff8c42','#00d4ff','#7cff7c','#fff'];for(let i=0;i<40;i++){const e=document.createElement('div');e.className='burst-confetti';const a=Math.random()*360,d=80+Math.random()*200;e.style.setProperty('--bx',Math.cos(a*Math.PI/180)*d+'px');e.style.setProperty('--by',Math.sin(a*Math.PI/180)*d+'px');e.style.left='50%';e.style.top='50%';e.style.background=co[Math.floor(Math.random()*co.length)];const s=4+Math.random()*8;e.style.width=s+'px';e.style.height=s+'px';e.style.borderRadius=Math.random()>0.5?'50%':'2px';document.body.appendChild(e);setTimeout(()=>e.remove(),1300)}}
+(function(){
+  const d=['🎈','🎉','🎊','✨','🌟','💖','🎀','🌸','⭐','💫'],
+  c=document.getElementById('floatingDeco');
+  for(let i=0;i<20;i++){
+    const e=document.createElement('div');e.className='deco';
+    e.textContent=d[Math.floor(Math.random()*d.length)];
+    e.style.setProperty('--x',Math.random()*100+'%');
+    e.style.setProperty('--dur',(8+Math.random()*8)+'s');
+    e.style.setProperty('--delay',Math.random()*12+'s');
+    e.style.fontSize=(1.2+Math.random()*1.8)+'rem';c.appendChild(e);
+  }
+})();
+(function(){
+  const co=['#ff6b9d','#ffd700','#c44dff','#f8b4d9','#00d4ff','#ff6b35','#7cff7c','#ff4444'],
+  c=document.getElementById('confettiContainer');
+  for(let i=0;i<80;i++){
+    const e=document.createElement('div');e.className='confetti-piece';
+    e.style.background=co[Math.floor(Math.random()*co.length)];
+    e.style.left=Math.random()*100+'%';
+    const w=4+Math.random()*7;e.style.width=w+'px';
+    e.style.height=(4+Math.random()*7)+'px';
+    e.style.borderRadius=Math.random()>0.5?'50%':'2px';
+    e.style.setProperty('--delay',Math.random()*8+'s');
+    e.style.setProperty('--fall-duration',(3+Math.random()*5)+'s');
+    c.appendChild(e);
+  }
+})();
 
 // PWA
 if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}
 
 // ===== INIT =====
-try{(function(){const t=gt();infw();if(ib(t)){nh.push('birthdayScreen');ss('birthdayScreen','fade');ibs()}else{nh.push('countdownScreen');ss('countdownScreen','fade');ic()}icp();bl()})()}catch(e){console.error('Init error:',e)}
+try{(function(){
+  const t=gt();
+  initFireworks();
+  if(ib(t)){nh.push('birthdayScreen');ss('birthdayScreen','fade');initBirthday()}
+  else{nh.push('countdownScreen');ss('countdownScreen','fade');initCountdown()}
+  initControlPanel();
+})()}catch(e){console.error('Init error:',e)}
 
-// keyboard nav for gallery
-document.addEventListener('keydown',(e)=>{const g=document.getElementById('galleryScreen');if(g.classList.contains('visible')){if(e.key==='ArrowLeft'){sgs(gi-1);rgap()}else if(e.key==='ArrowRight'){sgs(gi+1);rgap()}else if(e.key==='Escape'){gb()}}});
-// gallery touch swipe
-(function(){let sx=0;document.addEventListener('touchstart',(e)=>{sx=e.touches[0].clientX});document.addEventListener('touchend',(e)=>{const g=document.getElementById('galleryScreen');if(!g.classList.contains('visible'))return;const d=sx-e.changedTouches[0].clientX;if(Math.abs(d)>50){if(d>0){sgs(gi+1);rgap()}else{sgs(gi-1);rgap()}}})})();
+// Keyboard nav for gallery
+document.addEventListener('keydown',(e)=>{
+  const g=document.getElementById('galleryScreen');
+  if(g.classList.contains('visible')){
+    if(e.key==='ArrowLeft'){setGallerySlide(gi-1);resetGalleryAuto()}
+    else if(e.key==='ArrowRight'){setGallerySlide(gi+1);resetGalleryAuto()}
+    else if(e.key==='Escape'){gb()}
+  }
+});
 
-// fireworks btn listener (backup)
-document.getElementById('fwBtn').addEventListener('click',_fb);
+// Gallery touch swipe
+(function(){
+  let sx=0;
+  document.addEventListener('touchstart',(e)=>{sx=e.touches[0].clientX});
+  document.addEventListener('touchend',(e)=>{
+    const g=document.getElementById('galleryScreen');
+    if(!g.classList.contains('visible'))return;
+    const d=sx-e.changedTouches[0].clientX;
+    if(Math.abs(d)>50){
+      if(d>0){setGallerySlide(gi+1);resetGalleryAuto()}
+      else{setGallerySlide(gi-1);resetGalleryAuto()}
+    }
+  });
+})();
 
-// Fix: sgap was conflicting with startGalleryAutoPlay rename
-function startGalleryAutoPlay(){sgap();gint=setInterval(()=>sgs(gi+1),3500)}
-function stopGalleryAutoPlay(){sgap()}
-function resetGalleryAutoPlay(){startGalleryAutoPlay()}
-function sg(){} // placeholder to avoid reference error
+// Fireworks button listener
+document.getElementById('fwBtn').addEventListener('click',fwBtnClick);
 </script>
 </body>
 </html>
