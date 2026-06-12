@@ -8,7 +8,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a0a2e, #2d1b69, #1a0a2e);
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,123 +17,370 @@ body {
   position: relative;
 }
 
-.container {
-  text-align: center;
+/* ============ SCREENS ============ */
+.screen {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.8s ease, transform 0.8s ease;
   z-index: 10;
-  padding: 2rem;
-  animation: appear 0.01s linear 0.1s both;
 }
-
-@keyframes appear { to { opacity: 1; } }
-
-/* title entrance */
-.title {
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  color: #ffd700;
-  text-shadow: 0 0 40px rgba(255,215,0,0.3), 0 0 80px rgba(255,215,0,0.1);
-  opacity: 0;
-  transform: scale(0.5) translateY(-60px);
-  animation: titleIn 1s cubic-bezier(0.34,1.56,0.64,1) 0.3s forwards;
-}
-@keyframes titleIn {
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.subtitle {
-  font-size: clamp(1.2rem, 3vw, 2rem);
-  color: #f8b4d9;
-  margin-top: 0.8rem;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeUp 0.8s ease-out 0.8s forwards;
-}
-@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-
-.badge {
-  display: inline-block;
-  margin-top: 1.5rem;
-  padding: 0.5rem 2rem;
-  background: linear-gradient(45deg, #ff6b9d, #c44dff);
-  border-radius: 50px;
-  color: #fff;
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  font-weight: 600;
-  opacity: 0;
-  animation: fadeUp 0.8s ease-out 1.2s forwards;
-  box-shadow: 0 4px 25px rgba(196,77,255,0.4);
-}
-
-.message {
-  color: #c9b8e8;
-  font-size: clamp(1rem, 2vw, 1.3rem);
-  margin-top: 2rem;
-  max-width: 600px;
-  line-height: 1.7;
-  opacity: 0;
-  animation: fadeUp 0.8s ease-out 1.6s forwards;
-}
-
-.gifts {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2.5rem;
-  perspective: 800px;
-}
-
-.gift {
-  font-size: 3rem;
-  display: inline-block;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  animation: float 3s ease-in-out infinite;
-  position: relative;
-}
-.gift:nth-child(1) { animation-delay: 0s; }
-.gift:nth-child(2) { animation-delay: 0.5s; font-size: 3.5rem; }
-.gift:nth-child(3) { animation-delay: 1s; }
-.gift:nth-child(4) { animation-delay: 1.5s; }
-
-.gift:hover {
-  transform: scale(1.4);
-}
-.gift.opened {
-  animation: openGift 0.5s ease forwards;
-}
-@keyframes openGift {
-  0% { transform: scale(1) rotateY(0); }
-  50% { transform: scale(1.6) rotateY(90deg); }
-  100% { transform: scale(1.2) rotateY(0); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
-}
-
-/* sparkles */
-.sparkle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ffd700;
+.screen.hidden {
+  opacity: 0; transform: scale(0.9);
   pointer-events: none;
-  animation: sparkleFade 0.8s ease-out forwards;
 }
-@keyframes sparkleFade {
+
+/* ============ SCREEN 1 — GIFT BUTTON ============ */
+#screen1 {
+  flex-direction: column;
+  text-align: center;
+  padding: 2rem;
+}
+
+.gift-box {
+  font-size: 8rem;
+  cursor: pointer;
+  animation: giftFloat 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 60px rgba(255,215,0,0.3));
+  transition: transform 0.3s;
+  position: relative;
+  user-select: none;
+}
+.gift-box:hover { transform: scale(1.1); }
+.gift-box:active { transform: scale(0.95); }
+.gift-box.pulse { animation: giftPulse 0.6s ease; }
+
+@keyframes giftFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-25px); }
+}
+@keyframes giftPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.gift-btn {
+  margin-top: 2rem;
+  padding: 1rem 3rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(45deg, #ff6b9d, #c44dff);
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+  box-shadow: 0 8px 35px rgba(196,77,255,0.5);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.gift-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 45px rgba(196,77,255,0.7); }
+.gift-btn:active { transform: scale(0.95); }
+.gift-btn::after {
+  content: '';
+  position: absolute; top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: rotate(45deg) translateX(-100%);
+  transition: 0.6s;
+}
+.gift-btn:hover::after { transform: rotate(45deg) translateX(100%); }
+
+.title-pre {
+  color: #ffd700;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: 1rem;
+  text-shadow: 0 0 30px rgba(255,215,0,0.3);
+  opacity: 0;
+  animation: fadeSlideIn 1s ease 0.5s forwards;
+}
+@keyframes fadeSlideIn {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ SCREEN 2 — CARD SELECTION ============ */
+#screen2 {
+  flex-direction: column;
+}
+
+.cards-title {
+  color: #f8b4d9;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  margin-bottom: 2rem;
+  text-align: center;
+  opacity: 0;
+}
+#screen2:not(.hidden) .cards-title {
+  animation: fadeSlideIn 0.8s ease 0.2s forwards;
+}
+
+.cards-deck {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1.5rem;
+  perspective: 1200px;
+  padding: 1rem;
+}
+
+.folded-card {
+  width: 180px;
+  height: 250px;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+  opacity: 0;
+  transform: rotateY(90deg) scale(0.5);
+}
+#screen2:not(.hidden) .folded-card {
+  animation: cardDeal 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+.folded-card:nth-child(1) { animation-delay: 0.3s; }
+.folded-card:nth-child(2) { animation-delay: 0.5s; }
+.folded-card:nth-child(3) { animation-delay: 0.7s; }
+.folded-card:nth-child(4) { animation-delay: 0.9s; }
+
+@keyframes cardDeal {
+  0% { opacity: 0; transform: rotateY(90deg) scale(0.5) translateY(100px); }
+  100% { opacity: 1; transform: rotateY(0deg) scale(1) translateY(0); }
+}
+
+.folded-card:hover {
+  transform: translateY(-15px) scale(1.05) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.folded-card:active {
+  transform: scale(0.95) !important;
+}
+
+.folded-card .card-front {
+  width: 100%; height: 100%;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  transition: box-shadow 0.3s;
+}
+.folded-card:hover .card-front { box-shadow: 0 15px 50px rgba(0,0,0,0.6); }
+
+.card-front .card-icon {
+  font-size: 3.5rem;
+  animation: iconFloat 3s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
+}
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+.card-front .card-label {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.8rem;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 2;
+}
+
+.card-front .card-shine {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+  pointer-events: none;
+}
+
+/* card colors */
+.folded-card:nth-child(1) .card-front { background: linear-gradient(135deg, #ff6b9d, #c44dff); }
+.folded-card:nth-child(2) .card-front { background: linear-gradient(135deg, #ffd700, #ff8c42); }
+.folded-card:nth-child(3) .card-front { background: linear-gradient(135deg, #00d4ff, #7c5cff); }
+.folded-card:nth-child(4) .card-front { background: linear-gradient(135deg, #ff6b9d, #ff3c6f); }
+
+.folded-card .card-ribbon {
+  position: absolute;
+  top: 20px; left: 50%;
+  transform: translateX(-50%);
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+/* ============ SCREEN 3 — UNFOLDED CARD ============ */
+#screen3 {
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.unfolded-card {
+  width: min(500px, 90vw);
+  min-height: 380px;
+  border-radius: 20px;
+  position: relative;
+  transform-style: preserve-3d;
+  opacity: 0;
+  transform: rotateX(90deg) scale(0.3);
+}
+#screen3:not(.hidden) .unfolded-card {
+  animation: unfoldIn 1s cubic-bezier(0.34,1.56,0.64,1) 0.3s forwards;
+}
+@keyframes unfoldIn {
+  0% { opacity: 0; transform: rotateX(90deg) scale(0.3); }
+  100% { opacity: 1; transform: rotateX(0deg) scale(1); }
+}
+
+.unfolded-card-inner {
+  width: 100%; min-height: 380px;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+}
+
+.unfolded-card-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%);
+  pointer-events: none;
+}
+
+.unfolded-card-inner .close-btn {
+  position: absolute;
+  top: 15px; right: 20px;
+  background: none; border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s;
+  z-index: 5;
+}
+.unfolded-card-inner .close-btn:hover { color: #fff; transform: rotate(90deg); }
+
+.unfolded-card-inner .wish-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: wishIconPulse 2s ease-in-out infinite;
+}
+@keyframes wishIconPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.unfolded-card-inner .wish-name {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  color: #ffd700;
+  font-weight: 700;
+  text-shadow: 0 0 30px rgba(255,215,0,0.3);
+  margin-bottom: 0.3rem;
+}
+.unfolded-card-inner .wish-sub {
+  color: #f8b4d9;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  margin-bottom: 1rem;
+}
+.unfolded-card-inner .wish-msg {
+  color: #e0d4f5;
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  line-height: 1.8;
+  max-width: 400px;
+}
+.unfolded-card-inner .wish-signoff {
+  margin-top: 1.2rem;
+  color: #ffd700;
+  font-style: italic;
+  font-size: 1rem;
+}
+
+/* decorative sparkles on unfolded card */
+.unfolded-sparkle {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sparkleAnim 1s ease-out forwards;
+}
+@keyframes sparkleAnim {
   0% { opacity: 1; transform: translate(0,0) scale(1); }
   100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); }
+}
+
+/* ============ BACK BUTTON ============ */
+.back-btn {
+  position: fixed;
+  top: 20px; left: 20px;
+  z-index: 20;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7);
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+  display: none;
+}
+.back-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+/* ============ FLOATING DECORATIONS ============ */
+.floating-deco {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.floating-deco .deco {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.3;
+  animation: decoFloat var(--dur, 10s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  top: 110%;
+  left: var(--x, 10%);
+}
+@keyframes decoFloat {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+}
+
+/* glow orbs */
+.orb {
+  position: fixed; border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none; z-index: 0;
+  animation: orbPulse 6s ease-in-out infinite alternate;
+}
+@keyframes orbPulse {
+  0% { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(1.3); opacity: 0.6; }
 }
 
 /* confetti */
 .confetti-piece {
   position: fixed;
-  width: 10px;
-  height: 10px;
-  opacity: 0;
-  top: -20px;
-  pointer-events: none;
-  z-index: 1;
+  width: 10px; height: 10px;
+  opacity: 0; top: -20px;
+  pointer-events: none; z-index: 1;
   animation: confettiFall var(--fall-duration, 4s) linear forwards;
   animation-delay: var(--delay, 0s);
 }
@@ -142,157 +389,256 @@ body {
   100% { opacity: 0; transform: translateY(105vh) rotate(720deg) scale(0.5); }
 }
 
-/* balloons */
-.balloons {
+/* burst confetti for card open */
+.burst-confetti {
   position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-.balloon {
-  position: absolute;
-  width: 50px;
-  height: 65px;
-  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-  top: 110%;
-  animation: balloonRise var(--dur, 8s) linear infinite;
-  animation-delay: var(--delay, 0s);
-  left: var(--x, 10%);
-}
-.balloon::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 30px;
-  background: rgba(255,255,255,0.4);
-}
-.balloon::before {
-  content: '';
-  position: absolute;
-  bottom: 9px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 8px;
-  height: 8px;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  background: inherit;
-  filter: brightness(0.8);
-}
-@keyframes balloonRise {
-  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-  5% { opacity: 0.7; }
-  90% { opacity: 0.7; }
-  100% { transform: translateY(-120vh) rotate(15deg); opacity: 0; }
-}
-
-/* glow orbs */
-.orb {
-  position: fixed;
+  width: 8px; height: 8px;
   border-radius: 50%;
-  filter: blur(80px);
   pointer-events: none;
-  z-index: 0;
-  animation: orbPulse 6s ease-in-out infinite alternate;
+  z-index: 100;
+  animation: burstOut 1.2s ease-out forwards;
 }
-@keyframes orbPulse {
-  0% { transform: scale(1); opacity: 0.3; }
-  100% { transform: scale(1.3); opacity: 0.6; }
+@keyframes burstOut {
+  0% { opacity: 1; transform: translate(0,0) scale(1); }
+  100% { opacity: 0; transform: translate(var(--bx), var(--by)) scale(0.3); }
 }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <h1 class="title">🎉 Happy Birthday! 🎉</h1>
-  <p class="subtitle">Afiya Mubassira — You are <strong>21</strong> today!</p>
-  <div class="badge">🎂 June 13, 2026</div>
-  <p class="message">
-    Wishing you a day as radiant as your smile,<br>
-    a year as bright as your dreams,<br>
-    and a life filled with love, laughter &amp; endless joy.<br>
-    <span style="color:#ffd700;font-weight:600;">You are truly one of a kind. ✨</span>
-  </p>
-  <div class="gifts" id="gifts">
-    <span class="gift" data-gift="🎁">🎁</span>
-    <span class="gift" data-gift="🎀">🎀</span>
-    <span class="gift" data-gift="🎈">🎈</span>
-    <span class="gift" data-gift="🧸">🧸</span>
+<!-- GLOW ORBS -->
+<div class="orb" style="width:400px;height:400px;background:#ff6b9d;top:-100px;right:-100px;"></div>
+<div class="orb" style="width:300px;height:300px;background:#c44dff;bottom:-50px;left:-80px;"></div>
+<div class="orb" style="width:250px;height:250px;background:#ffd700;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+<!-- FLOATING DECORATIONS -->
+<div class="floating-deco" id="floatingDeco"></div>
+
+<!-- CONFETTI CONTAINER -->
+<div id="confettiContainer"></div>
+
+<!-- BACK BUTTON -->
+<button class="back-btn" id="backBtn">← Back</button>
+
+<!-- ============ SCREEN 1: GIFT BUTTON ============ -->
+<div class="screen" id="screen1">
+  <div>
+    <h1 class="title-pre">🎉 Happy Birthday, Afiya! 🎉</h1>
+    <div class="gift-box" id="giftBox">🎁</div>
+    <button class="gift-btn" id="giftBtn">✨ Open Your Gift ✨</button>
   </div>
 </div>
 
-<div class="balloons" id="balloons"></div>
+<!-- ============ SCREEN 2: PICK A CARD ============ -->
+<div class="screen hidden" id="screen2">
+  <h2 class="cards-title">💝 Pick a card, any card...</h2>
+  <div class="cards-deck" id="cardsDeck"></div>
+</div>
 
-<div class="orbs" style="position:fixed;inset:0;pointer-events:none;z-index:0;">
-  <div class="orb" style="width:400px;height:400px;background:#ff6b9d;top:-100px;right:-100px;"></div>
-  <div class="orb" style="width:300px;height:300px;background:#c44dff;bottom:-50px;left:-80px;"></div>
-  <div class="orb" style="width:250px;height:250px;background:#ffd700;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+<!-- ============ SCREEN 3: UNFOLDED CARD ============ -->
+<div class="screen hidden" id="screen3">
+  <div class="unfolded-card" id="unfoldedCard"></div>
 </div>
 
 <script>
-// confetti
+// ===== CARD DATA =====
+const cardData = [
+  {
+    icon: '🌸', label: 'Grace',
+    bg: 'linear-gradient(135deg, #ff6b9d, #c44dff)',
+    wishIcon: '🌸',
+    wishMsg: 'Like a flower in full bloom, your grace touches everyone around you. May your year be filled with beauty, love, and endless moments of joy.',
+    signoff: '— With love & admiration'
+  },
+  {
+    icon: '🌟', label: 'Radiant',
+    bg: 'linear-gradient(135deg, #ffd700, #ff8c42)',
+    wishIcon: '🌟',
+    wishMsg: 'You shine brighter than the stars. Your energy, your laugh, your heart — the world is luckier because you are in it. Keep glowing, always.',
+    signoff: '— Forever proud of you'
+  },
+  {
+    icon: '💫', label: 'Dreamer',
+    bg: 'linear-gradient(135deg, #00d4ff, #7c5cff)',
+    wishIcon: '💫',
+    wishMsg: 'Dream big, beautiful soul. Every door you knock on will open, every path you take will lead to something extraordinary. The sky is just the beginning.',
+    signoff: '— Chase every star ✨'
+  },
+  {
+    icon: '🌺', label: 'Joy',
+    bg: 'linear-gradient(135deg, #ff6b9d, #ff3c6f)',
+    wishIcon: '🌺',
+    wishMsg: 'Happiness looks beautiful on you. May your 21st year bring belly laughs, late-night talks, surprise adventures, and all the cake you can eat!',
+    signoff: '— Cheers to 21! 🥂'
+  }
+];
+
+// ===== FLOATING DECOS =====
+(function() {
+  const decos = ['🎈','🎉','🎊','✨','🌟','💖','🎀','🌸','⭐','💫'];
+  const container = document.getElementById('floatingDeco');
+  for (let i = 0; i < 20; i++) {
+    const el = document.createElement('div');
+    el.className = 'deco';
+    el.textContent = decos[Math.floor(Math.random() * decos.length)];
+    el.style.setProperty('--x', Math.random() * 100 + '%');
+    el.style.setProperty('--dur', (8 + Math.random() * 8) + 's');
+    el.style.setProperty('--delay', Math.random() * 12 + 's');
+    el.style.fontSize = (1.2 + Math.random() * 1.8) + 'rem';
+    container.appendChild(el);
+  }
+})();
+
+// ===== CONFETTI =====
 (function() {
   const colors = ['#ff6b9d','#ffd700','#c44dff','#f8b4d9','#00d4ff','#ff6b35','#7cff7c','#ff4444'];
-  const shapes = ['square','circle'];
-  for (let i = 0; i < 120; i++) {
+  const container = document.getElementById('confettiContainer');
+  for (let i = 0; i < 100; i++) {
     const el = document.createElement('div');
     el.className = 'confetti-piece';
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const w = 6 + Math.random() * 8;
-    const h = 6 + Math.random() * 8;
-    el.style.width = w + 'px';
-    el.style.height = (shapes[Math.floor(Math.random()*2)] === 'circle' ? w : h) + 'px';
-    el.style.borderRadius = shapes[Math.floor(Math.random()*2)] === 'circle' ? '50%' : '2px';
-    el.style.background = color;
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
     el.style.left = Math.random() * 100 + '%';
-    el.style.setProperty('--delay', Math.random() * 8 + 's');
+    const w = 5 + Math.random() * 8;
+    el.style.width = w + 'px';
+    el.style.height = (5 + Math.random() * 8) + 'px';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    el.style.setProperty('--delay', Math.random() * 6 + 's');
     el.style.setProperty('--fall-duration', (3 + Math.random() * 5) + 's');
-    document.body.appendChild(el);
+    container.appendChild(el);
   }
 })();
 
-// balloons
-(function() {
-  const colors = ['#ff6b9d','#ffd700','#c44dff','#f8b4d9','#00d4ff','#ff6b35','#7cff7c','#ff8c42'];
-  const balloonContainer = document.getElementById('balloons');
-  for (let i = 0; i < 18; i++) {
-    const b = document.createElement('div');
-    b.className = 'balloon';
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    b.style.background = `radial-gradient(circle at 35% 35%, ${color}, ${color}dd)`;
-    b.style.setProperty('--x', Math.random() * 100 + '%');
-    b.style.setProperty('--dur', (7 + Math.random() * 6) + 's');
-    b.style.setProperty('--delay', Math.random() * 10 + 's');
-    b.style.width = (35 + Math.random() * 30) + 'px';
-    b.style.height = (45 + Math.random() * 40) + 'px';
-    balloonContainer.appendChild(b);
-  }
-})();
+// ===== SCREEN NAVIGATION =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  if (id === 'screen1') document.getElementById('backBtn').style.display = 'none';
+  else document.getElementById('backBtn').style.display = 'block';
+}
 
-// gift sparkles
-document.querySelectorAll('.gift').forEach(g => {
-  g.addEventListener('mouseenter', function() {
-    this.classList.add('opened');
-    setTimeout(() => this.classList.remove('opened'), 600);
-    for (let i = 0; i < 8; i++) {
+document.getElementById('backBtn').addEventListener('click', () => {
+  showScreen('screen1');
+});
+
+// ===== SCREEN 1 → SCREEN 2 =====
+function goToCardSelection() {
+  const box = document.getElementById('giftBox');
+  box.classList.add('pulse');
+  setTimeout(() => {
+    showScreen('screen2');
+    buildCards();
+  }, 400);
+}
+
+document.getElementById('giftBtn').addEventListener('click', goToCardSelection);
+document.getElementById('giftBox').addEventListener('click', goToCardSelection);
+
+// ===== BUILD CARDS =====
+function buildCards() {
+  const deck = document.getElementById('cardsDeck');
+  if (deck.children.length > 0) return;
+
+  cardData.forEach((data, idx) => {
+    const card = document.createElement('div');
+    card.className = 'folded-card';
+    card.dataset.index = idx;
+
+    const front = document.createElement('div');
+    front.className = 'card-front';
+    front.style.background = data.bg;
+
+    const ribbon = document.createElement('div');
+    ribbon.className = 'card-ribbon';
+    ribbon.textContent = '🎀';
+
+    const icon = document.createElement('div');
+    icon.className = 'card-icon';
+    icon.textContent = data.icon;
+
+    const label = document.createElement('div');
+    label.className = 'card-label';
+    label.textContent = data.label;
+
+    const shine = document.createElement('div');
+    shine.className = 'card-shine';
+
+    front.appendChild(ribbon);
+    front.appendChild(icon);
+    front.appendChild(label);
+    front.appendChild(shine);
+    card.appendChild(front);
+
+    card.addEventListener('click', () => openCard(idx));
+    deck.appendChild(card);
+  });
+}
+
+// ===== OPEN CARD =====
+function openCard(index) {
+  const data = cardData[index];
+  const container = document.getElementById('unfoldedCard');
+  const cardColor = data.bg;
+
+  // burst confetti
+  burstConfetti();
+
+  // build unfolded card content
+  container.innerHTML = `
+    <div class="unfolded-card-inner" style="background:${cardColor};">
+      <button class="close-btn" id="closeUnfolded">✕</button>
+      <div class="wish-icon">${data.wishIcon}</div>
+      <div class="wish-name">Happy Birthday, Afiya!</div>
+      <div class="wish-sub">You're 21 today — June 13, 2026 🎂</div>
+      <div class="wish-msg">${data.wishMsg}</div>
+      <div class="wish-signoff">${data.signoff}</div>
+    </div>
+  `;
+
+  showScreen('screen3');
+
+  document.getElementById('closeUnfolded').addEventListener('click', () => {
+    showScreen('screen2');
+  });
+
+  // sparkles around the card
+  setTimeout(() => {
+    for (let i = 0; i < 20; i++) {
       const s = document.createElement('div');
-      s.className = 'sparkle';
+      s.className = 'unfolded-sparkle';
       const angle = Math.random() * 360;
-      const dist = 30 + Math.random() * 50;
+      const dist = 80 + Math.random() * 120;
       s.style.setProperty('--dx', Math.cos(angle * Math.PI / 180) * dist + 'px');
       s.style.setProperty('--dy', Math.sin(angle * Math.PI / 180) * dist + 'px');
       s.style.left = '50%'; s.style.top = '50%';
-      s.style.background = ['#ffd700','#ff6b9d','#c44dff','#fff'][Math.floor(Math.random()*4)];
-      s.style.width = (3 + Math.random() * 5) + 'px';
+      s.style.background = ['#ffd700','#ff6b9d','#fff','#c44dff'][Math.floor(Math.random() * 4)];
+      s.style.width = (4 + Math.random() * 6) + 'px';
       s.style.height = s.style.width;
-      this.appendChild(s);
-      setTimeout(() => s.remove(), 800);
+      container.querySelector('.unfolded-card-inner').appendChild(s);
+      setTimeout(() => s.remove(), 1000);
     }
-  });
-});
+  }, 500);
+}
+
+// ===== BURST CONFETTI =====
+function burstConfetti() {
+  const colors = ['#ffd700','#ff6b9d','#c44dff','#ff8c42','#00d4ff','#7cff7c','#fff'];
+  for (let i = 0; i < 50; i++) {
+    const el = document.createElement('div');
+    el.className = 'burst-confetti';
+    const angle = Math.random() * 360;
+    const dist = 100 + Math.random() * 250;
+    el.style.setProperty('--bx', Math.cos(angle * Math.PI / 180) * dist + 'px');
+    el.style.setProperty('--by', Math.sin(angle * Math.PI / 180) * dist + 'px');
+    el.style.left = '50%'; el.style.top = '50%';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    const size = 5 + Math.random() * 9;
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1300);
+  }
+}
 </script>
 </body>
 </html>
