@@ -1,9 +1,7 @@
-const CACHE = 'afiya-birthday-v1';
+const CACHE = 'afiya-birthday-v2';
 const URLS = [
   './',
   'index.html',
-  'css/style.css',
-  'js/script.js',
   'manifest.json',
   'icons/icon-192.svg',
   'icons/icon-512.svg'
