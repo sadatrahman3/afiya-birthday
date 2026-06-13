@@ -1,46 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Afiya's 100 Birthday Cards 🎂</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Happy Birthday Afiya 🎂</title>
+<meta name="theme-color" content="#302b63">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Afiya Birthday">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+<link rel="icon" type="image/svg+xml" href="icons/icon-192.svg">
+<meta property="og:title" content="Happy Birthday Afiya! 🎂">
+<meta property="og:description" content="A birthday surprise for Afiya Mubassira — open your gift!">
+<meta property="og:image" content="icons/icon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="style.css">
 </head>
 <body data-theme="dark">
 
-  <!-- Countdown Header -->
+<div class="orb" style="width:400px;height:400px;background:var(--orb-1);top:-100px;right:-100px;"></div>
+<div class="orb" style="width:300px;height:300px;background:var(--orb-2);bottom:-50px;left:-80px;"></div>
+<div class="orb" style="width:250px;height:250px;background:var(--orb-3);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+<div class="floating-deco" id="floatingDeco"></div>
+<div id="confettiContainer"></div>
+<canvas id="fireworksCanvas"></canvas>
+
+<button class="back-btn hidden" id="backBtn" onclick="goBack()">← Back</button>
+<button class="fw-btn" id="fwBtn" onclick="fwBtnClick()">🎆</button>
+
+<!-- COUNTDOWN SCREEN -->
+<div class="screen" id="countdownScreen">
+  <div class="cd-icon">🎁</div>
+  <h1 class="cd-title" data-i18n="cdTitle">Afiya Mubassira</h1>
+  <p class="cd-birthdate">🎂 <span data-i18n="cdBorn">Born</span> <strong>June 13, 2005</strong></p>
+  <p class="cd-age"><span id="cdAgeLabel" data-i18n="cdCurrently">Currently</span> <strong id="cdCurrentAge"></strong> <span data-i18n="cdYearsOld">years old</span> · <span id="cdTurningLabel" data-i18n="cdTurning">Turning</span> <strong id="cdNextAge"></strong></p>
+  <p class="cd-label"><span id="cdGiftLabel" data-i18n="cdGiftArrives">✨ Her gift arrives in...</span></p>
+  <div class="countdown-grid">
+    <div class="cd-block"><div class="cd-number" id="cdDays">00</div><div class="cd-unit" data-i18n="cdDays">Days</div></div>
+    <div class="cd-block"><div class="cd-number" id="cdHours">00</div><div class="cd-unit" data-i18n="cdHours">Hours</div></div>
+    <div class="cd-block"><div class="cd-number" id="cdMins">00</div><div class="cd-unit" data-i18n="cdMins">Minutes</div></div>
+    <div class="cd-block"><div class="cd-number" id="cdSecs">00</div><div class="cd-unit" data-i18n="cdSecs">Seconds</div></div>
+  </div>
+  <div class="progress-container">
+    <span class="progress-text" id="cdProgressText">21 / 100 Unlocked</span>
+    <div class="progress-bar" style="margin-top:0.3rem"><div class="progress-fill" id="cdProgressFill"></div></div>
+  </div>
+  <p class="cd-message" data-i18n="cdMessage">💫 Something beautiful is being wrapped just for her.<br>Come back on her special day to unwrap it.</p>
+  <button class="cd-preview-btn" id="previewBtn" onclick="previewBirthday()">🔮 Preview the surprise</button>
+</div>
+
+<!-- BIRTHDAY SCREEN -->
+<div class="screen" id="birthdayScreen">
+  <div class="bd-header">
+    <h1 data-i18n="bdTitle">🎉 Happy Birthday! 🎉</h1>
+    <p><strong>Afiya Mubassira</strong> — <span data-i18n="bdYouAre">You are</span> <strong id="bdAge"></strong> <span data-i18n="bdToday">today!</span></p>
+    <div class="bd-badge"><span data-i18n="bdBadge">🎂 June 13</span>, <span id="bdYear"></span></div>
+    <p class="bd-days" id="bdDays" style="color:var(--text-secondary);font-size:clamp(0.8rem,1.5vw,1rem);margin-top:0.5rem;"></p>
+  </div>
+  <div class="gift-box" id="giftBox" onclick="goToCardSelection()">🎁</div>
+  <button class="gift-btn" id="giftBtn" onclick="goToCardSelection()">✨ Open Your Gift ✨</button>
+</div>
+
+<!-- CARD SCREEN -->
+<div class="screen" id="cardScreen">
   <header class="top-bar">
-    <div class="countdown-container" id="countdownContainer">
-      <h2 id="cdTitle">Next birthday in...</h2>
-      <div class="countdown-timer" id="countdownTimer">
-        <div class="cd-block"><span id="cdDays">00</span><span class="cd-label">Days</span></div>
-        <div class="cd-block"><span id="cdHours">00</span><span class="cd-label">Hrs</span></div>
-        <div class="cd-block"><span id="cdMins">00</span><span class="cd-label">Min</span></div>
-        <div class="cd-block"><span id="cdSecs">00</span><span class="cd-label">Sec</span></div>
-      </div>
-    </div>
     <div class="progress-container">
-      <span id="progressText">21 / 100 Unlocked</span>
+      <span class="progress-text" id="progressText">21 / 100 Unlocked</span>
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     </div>
   </header>
+  <main class="cards-grid" id="cardsGrid"></main>
+</div>
 
-  <!-- Cards Grid -->
-  <main class="cards-grid" id="cardsGrid">
-    <!-- Cards injected via JS -->
-  </main>
+<!-- UNFOLDED CARD -->
+<div class="screen" id="unfoldScreen">
+  <div class="unfolded-card" id="unfoldedCard"></div>
+</div>
 
-  <!-- Modal for Opened Card -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal-content" id="modalContent">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div class="modal-icon" id="modalIcon"></div>
-      <h2 class="modal-year" id="modalYear"></h2>
-      <p class="modal-wish" id="modalWish"></p>
-      <div class="modal-footer">— For Afiya, with love ✨</div>
-    </div>
+<!-- CAKE SCREEN -->
+<div class="screen" id="cakeScreen">
+  <h2 class="cake-title" data-i18n="cakeTitle">🎂 Blow the Candles!</h2>
+  <p class="cake-subtitle" data-i18n="cakeSub">Click each candle to make a wish ✨</p>
+  <div class="cake-stage" id="cakeStage"></div>
+  <p class="candle-counter" id="candleCounter"></p>
+  <div class="cake-msg" id="cakeMsg"></div>
+</div>
+
+<!-- GALLERY SCREEN -->
+<div class="screen" id="galleryScreen">
+  <div class="gallery-header">
+    <div class="gallery-title" data-i18n="galleryTitle">📸 Afiya's Memories</div>
+    <button class="gallery-close" id="galleryClose" onclick="goBack()">✕</button>
   </div>
+  <div class="gallery-slide-wrap">
+    <img class="gallery-slide active" id="galleryImg" alt="Afiya" src="" onclick="openLightbox()">
+  </div>
+  <button class="gallery-nav prev" id="galleryPrev" onclick="galleryPrev()">‹</button>
+  <button class="gallery-nav next" id="galleryNext" onclick="galleryNext()">›</button>
+  <div class="gallery-dots" id="galleryDots"></div>
+  <div class="gallery-counter" id="galleryCounter"></div>
+  <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+    <img class="lightbox-img" id="lightboxImg" src="">
+    <button class="lightbox-nav prev" onclick="event.stopPropagation();lightboxNav(-1)">‹</button>
+    <button class="lightbox-nav next" onclick="event.stopPropagation();lightboxNav(1)">›</button>
+    <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+  </div>
+</div>
 
-  <script src="app.js"></script>
+<!-- CONTROL PANEL -->
+<div class="install-toast" id="installToast" onclick="installPWA()">
+  <span data-i18n="installText">📲 Install App</span>
+  <button class="install-toast-close" onclick="event.stopPropagation();document.getElementById('installToast').classList.remove('show')">✕</button>
+</div>
+<button class="cp-toggle" id="cpToggle" onclick="togglePanel()">⚙️</button>
+<div class="cp-drawer" id="cpDrawer">
+  <div class="cp-drawer-header">
+    <h3 data-i18n="cpTitle">⚙️ Settings</h3>
+    <button class="cp-close" id="cpClose" onclick="closePanel()">✕</button>
+  </div>
+  <div class="cp-item">
+    <span class="cp-item-label"><span class="cp-icon">🌐</span> <span data-i18n="cpLang">Language</span> <span id="cpLangLabel">EN</span></span>
+    <div class="switch" id="switchLang" onclick="toggleLang()"><div class="switch-knob"></div></div>
+  </div>
+  <div class="cp-item">
+    <span class="cp-item-label"><span id="themeIcon">🌙</span> <span data-i18n="cpTheme">Dark/Light</span></span>
+    <div class="switch on" id="switchDark" onclick="toggleDark()"><div class="switch-knob"></div></div>
+  </div>
+  <div class="cp-item">
+    <span class="cp-item-label"><span class="cp-icon">🎆</span> <span data-i18n="cpFireworks">Fireworks</span></span>
+    <div class="switch on" id="switchFw" onclick="toggleFw()"><div class="switch-knob"></div></div>
+  </div>
+  <div class="cp-item">
+    <span class="cp-item-label"><span class="cp-icon">✨</span> <span data-i18n="cpSparkles">Sparkles</span></span>
+    <div class="switch on" id="switchSparkles" onclick="toggleSparkles()"><div class="switch-knob"></div></div>
+  </div>
+  <div class="cp-item">
+    <span class="cp-item-label"><span class="cp-icon">🎊</span> <span data-i18n="cpConfetti">Confetti</span></span>
+    <div class="switch" id="switchCC" onclick="toggleCC()"><div class="switch-knob"></div></div>
+  </div>
+</div>
+
+<!-- SHARE LOADING -->
+<div class="share-loading" id="shareLoading">
+  <div class="spinner"></div>
+  <p data-i18n="shareLoading">Preparing your card...</p>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
