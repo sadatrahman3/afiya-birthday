@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Afiya's 100 Birthday Cards 🎂</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+
+  <!-- Countdown Header -->
+  <header class="top-bar">
+    <div class="countdown-container" id="countdownContainer">
+      <h2 id="cdTitle">Next birthday in...</h2>
+      <div class="countdown-timer" id="countdownTimer">
+        <div class="cd-block"><span id="cdDays">00</span><span class="cd-label">Days</span></div>
+        <div class="cd-block"><span id="cdHours">00</span><span class="cd-label">Hrs</span></div>
+        <div class="cd-block"><span id="cdMins">00</span><span class="cd-label">Min</span></div>
+        <div class="cd-block"><span id="cdSecs">00</span><span class="cd-label">Sec</span></div>
+      </div>
+    </div>
+    <div class="progress-container">
+      <span id="progressText">21 / 100 Unlocked</span>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </header>
+
+  <!-- Cards Grid -->
+  <main class="cards-grid" id="cardsGrid">
+    <!-- Cards injected via JS -->
+  </main>
+
+  <!-- Modal for Opened Card -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content" id="modalContent">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-icon" id="modalIcon"></div>
+      <h2 class="modal-year" id="modalYear"></h2>
+      <p class="modal-wish" id="modalWish"></p>
+      <div class="modal-footer">— For Afiya, with love ✨</div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
