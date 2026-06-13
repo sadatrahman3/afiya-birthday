@@ -15,6 +15,7 @@ galleryTitle:'Afiya\'s Memories',
 cpTitle:'Settings',cpLang:'Language',cpTheme:'Dark/Light',cpFireworks:'Fireworks',cpSparkles:'Sparkles',cpConfetti:'Confetti',
 installText:'📲 Install App',
 shareLoading:'Preparing your card...',shareFail:'Share not supported on this device',galleryOf:'of',
+unfoldTitle:'🎉 Happy Birthday, Afiya! 🎉',unfoldSub:"You're {age} today — {date}",
 }, bn: {
 cdTitle:'আফিয়া মুবাসসিরা',cdBorn:'জন্ম',cdCurrently:'বর্তমানে বয়স',cdYearsOld:'বছর',cdTurning:'হবে',cdGiftArrives:'তার উপহার আসছে...',cdNextArrives:'পরবর্তী জন্মদিন...',cdTurned:'হয়েছে',cdNext:'পরবর্তী:',
 cdDays:'দিন',cdHours:'ঘন্টা',cdMins:'মিনিট',cdSecs:'সেকেন্ড',
@@ -27,6 +28,7 @@ galleryTitle:'আফিয়ার স্মৃতি',
 cpTitle:'সেটিংস',cpLang:'ভাষা',cpTheme:'ডার্ক/লাইট',cpFireworks:'আতশবাজি',cpSparkles:'চমক',cpConfetti:'কনফেটি',
 installText:'📲 অ্যাপ ইন্সটল করো',
 shareLoading:'তোমার কার্ড তৈরি হচ্ছে...',shareFail:'এই ডিভাইসে শেয়ার সমর্থিত নয়',galleryOf:'এর',
+unfoldTitle:'🎉 শুভ জন্মদিন, আফিয়া! 🎉',unfoldSub:'তুমি আজ {age} বছর — {date}',
 }};
 
 // ===== WISHES =====
@@ -48,7 +50,7 @@ const yearlyW = [
 'Fourteen years of finding yourself. And what a beautiful self you found.',
 'Fifteen years of strength, grace, and quiet confidence. So proud of you.',
 'Sixteen — sweet sixteen. Your light reached everyone around you.',
-'Senenteen years of becoming who you are. And who you are is magnificent.',
+'Seventeen years of becoming who you are. And who you are is magnificent.',
 'Eighteen — an adult in the world, but always our Afiya. Shine on.',
 'Nineteen years of wisdom beyond your years. You inspire everyone you meet.',
 'Twenty years of amazing. A whole life of love, growth, and beautiful memories.',
@@ -293,13 +295,15 @@ const photos = [
 let cl = 'en', st = { lang: 'en', fireworks: true, sparkles: true, cc: false, dark: true };
 let nh = [], gi = 0, ci = 0, gint = null, ccint = null, cb = false, fa = false, se = true, cl5 = 5, fwc, fwx, fl = [], sc = 0, lft = Date.now();
 let dP = null;
+let cdInterval = null;
+let fwCooldown = false;
 
 // ===== UTILITIES =====
 function ha() { try { navigator.vibrate && navigator.vibrate(20) } catch (e) {} }
 function gt() { const t = new Date(); return { y: t.getFullYear(), m: t.getMonth(), d: t.getDate() }; }
 function ib(t) { return t.m === BIRTH_MONTH && t.d === BIRTH_DAY; }
 function ga() { const t = new Date(); let a = t.getFullYear() - BIRTH_YEAR; const m = t.getMonth() - BIRTH_MONTH; if (m < 0 || (m === 0 && t.getDate() < BIRTH_DAY)) a--; return a; }
-function gd() { return Math.floor((Date.now() - new Date(BIRTH_YEAR, BIRTH_MONTH, BIRTH_DAY).getTime()) / 86400000); }
+function gd() { return Math.floor((Date.now() - new Date(Date.UTC(BIRTH_YEAR, BIRTH_MONTH, BIRTH_DAY)).getTime()) / 86400000); }
 function gnb(n) { let b = n.getFullYear(); if (n.getMonth() > BIRTH_MONTH || (n.getMonth() === BIRTH_MONTH && n.getDate() > BIRTH_DAY)) b++; return new Date(b, BIRTH_MONTH, BIRTH_DAY); }
 function hp(n) { const t = n || new Date(); return t.getMonth() > BIRTH_MONTH || (t.getMonth() === BIRTH_MONTH && t.getDate() > BIRTH_DAY); }
 
@@ -353,7 +357,8 @@ function initCountdown() {
   document.getElementById('cdAgeLabel').textContent = i18n[cl][p ? 'cdTurned' : 'cdCurrently'];
   document.getElementById('cdTurningLabel').dataset.i18n = p ? 'cdNext' : 'cdTurning';
   document.getElementById('cdTurningLabel').textContent = i18n[cl][p ? 'cdNext' : 'cdTurning'];
-  uc(); setInterval(uc, 1000);
+  if (cdInterval) clearInterval(cdInterval);
+  uc(); cdInterval = setInterval(uc, 1000);
   updateProgress();
 }
 
@@ -377,7 +382,6 @@ function goToCardSelection() {
 
 // ===== CARD GRID =====
 function renderCards() {
-  if (cb) return; cb = true;
   const grid = document.getElementById('cardsGrid');
   grid.innerHTML = '';
   const a = ga();
@@ -393,7 +397,8 @@ function renderCards() {
       el.addEventListener('click', () => openCard(i));
     } else {
       el.classList.add('locked');
-      el.innerHTML = '<div class="card-icon">🔒</div><div class="card-year">Year ' + data.lockYear + '</div>';
+      const lockedLabel = i < 21 ? 'Year ' + data.lockYear : (cl === 'bn' ? '✨ শুভেচ্ছা ' + (i - 20) : '✨ Wish ' + (i - 20));
+      el.innerHTML = '<div class="card-icon">🔒</div><div class="card-year">' + lockedLabel + '</div>';
     }
     grid.appendChild(el);
   });
@@ -414,8 +419,8 @@ function openCard(i) {
   burstConfetti(); if (st.fireworks) launchFireworks();
   const ws = cl === 'bn' ? (d.type === 'yearly' ? yearlyWbn : bonusWbn)[d.wishIdx] : (d.type === 'yearly' ? yearlyW : bonusW)[d.wishIdx];
   const so = cl === 'bn' ? d.signoffBn : d.signoffEn;
-  c.innerHTML = '<div class="unfolded-card-inner" style="background:' + d.bg + '"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">' + d.wishIcon + '</div><div class="wish-name">Happy Birthday, Afiya!</div><div class="wish-sub">You\'re ' + a + ' today — June 13</div><div class="wish-msg">' + ws + '</div><div class="wish-signoff">' + so + '</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn">📸 View Memories</button><button class="cake-btn" id="cakeBtn">🎂 Blow Candles</button><button class="share-btn" id="shareBtn">📤 Share Card</button><button class="next-btn" id="nextWishBtn">💫 Another Wish</button></div></div>';
-  nh.push('unfoldScreen'); ss('unfoldScreen', 'slide-left');
+  c.innerHTML = '<div class="unfolded-card-inner" style="background:' + d.bg + '"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">' + d.wishIcon + '</div><div class="wish-name">' + i18n[cl].unfoldTitle + '</div><div class="wish-sub">' + i18n[cl].unfoldSub.replace('{age}', a).replace('{date}', 'June 13') + '</div><div class="wish-msg">' + ws + '</div><div class="wish-signoff">' + so + '</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn">📸 View Memories</button><button class="cake-btn" id="cakeBtn">🎂 Blow Candles</button><button class="share-btn" id="shareBtn">📤 Share Card</button><button class="next-btn" id="nextWishBtn">💫 Another Wish</button></div></div>';
+  if (nh[nh.length - 1] !== 'unfoldScreen') nh.push('unfoldScreen'); ss('unfoldScreen', 'slide-left');
   const ci0 = i;
   document.getElementById('closeUnfolded').addEventListener('click', gb);
   document.getElementById('galleryBtn').addEventListener('click', () => openGallery(ci0 % photos.length));
@@ -476,7 +481,7 @@ function nextWish() {
   burstConfetti();
   const ws = cl === 'bn' ? (d.type === 'yearly' ? yearlyWbn : bonusWbn)[d.wishIdx] : (d.type === 'yearly' ? yearlyW : bonusW)[d.wishIdx];
   const so = cl === 'bn' ? d.signoffBn : d.signoffEn;
-  c.innerHTML = '<div class="unfolded-card-inner" style="background:' + d.bg + '"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">' + d.wishIcon + '</div><div class="wish-name">Happy Birthday, Afiya!</div><div class="wish-sub">You\'re ' + a + ' today — June 13</div><div class="wish-msg">' + ws + '</div><div class="wish-signoff">' + so + '</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn">📸 View Memories</button><button class="cake-btn" id="cakeBtn">🎂 Blow Candles</button><button class="share-btn" id="shareBtn">📤 Share Card</button><button class="next-btn" id="nextWishBtn">💫 Another Wish</button></div></div>';
+  c.innerHTML = '<div class="unfolded-card-inner" style="background:' + d.bg + '"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">' + d.wishIcon + '</div><div class="wish-name">' + i18n[cl].unfoldTitle + '</div><div class="wish-sub">' + i18n[cl].unfoldSub.replace('{age}', a).replace('{date}', 'June 13') + '</div><div class="wish-msg">' + ws + '</div><div class="wish-signoff">' + so + '</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn">📸 View Memories</button><button class="cake-btn" id="cakeBtn">🎂 Blow Candles</button><button class="share-btn" id="shareBtn">📤 Share Card</button><button class="next-btn" id="nextWishBtn">💫 Another Wish</button></div></div>';
   const ci0 = n;
   document.getElementById('closeUnfolded').addEventListener('click', gb);
   document.getElementById('galleryBtn').addEventListener('click', () => openGallery(ci0 % photos.length));
@@ -490,7 +495,7 @@ function nextWish() {
 
 // ===== CAKE =====
 function openCakeScreen() { ocs(); }
-function ocs() { nh.push('cakeScreen'); ss('cakeScreen', 'slide-up'); initCandles(); }
+function ocs() { if (nh[nh.length - 1] !== 'cakeScreen') nh.push('cakeScreen'); ss('cakeScreen', 'slide-up'); initCandles(); }
 function initCandles() {
   cl5 = 5;
   const s = document.getElementById('cakeStage'), m = document.getElementById('cakeMsg');
@@ -521,7 +526,7 @@ function startGalleryAuto() { stopGalleryAuto(); gint = setInterval(() => setGal
 function stopGalleryAuto() { if (gint) { clearInterval(gint); gint = null; } }
 function resetGalleryAuto() { startGalleryAuto(); }
 function openGallery(idx) {
-  gi = typeof idx === 'number' ? idx : 0; nh.push('galleryScreen'); ss('galleryScreen', 'slide-left');
+  gi = typeof idx === 'number' ? idx : 0; if (nh[nh.length - 1] !== 'galleryScreen') nh.push('galleryScreen'); ss('galleryScreen', 'slide-left');
   buildGalleryDots(); setGallerySlide(gi); startGalleryAuto();
 }
 function buildGalleryDots() {
@@ -535,8 +540,12 @@ function buildGalleryDots() {
 function setGallerySlide(idx) {
   ha(); gi = (idx + photos.length) % photos.length;
   const i = document.getElementById('galleryImg');
-  i.classList.remove('active'); void i.offsetWidth; i.src = photos[gi];
-  setTimeout(() => i.classList.add('active'), 50);
+  const newSrc = photos[gi];
+  i.classList.remove('active'); void i.offsetWidth;
+  const loader = new Image();
+  loader.onload = () => { i.src = newSrc; i.classList.add('active'); };
+  loader.onerror = () => { i.src = newSrc; i.classList.add('active'); };
+  loader.src = newSrc;
   document.querySelectorAll('.gallery-dot').forEach((d, i) => d.classList.toggle('active', i === gi));
   document.getElementById('galleryCounter').textContent = (gi + 1) + ' / ' + photos.length;
 }
@@ -557,17 +566,19 @@ function lightboxNav(d) {
   gi = (gi + d + photos.length) % photos.length;
   document.getElementById('lightboxImg').src = photos[gi];
   setGallerySlide(gi);
-  ha();
 }
 
 // ===== SHARE =====
 async function shareCard() {
   const l = document.getElementById('shareLoading'); l.classList.add('show');
   try {
-    const c = document.querySelector('.unfolded-card-inner'); if (!c) return;
+    const c = document.querySelector('.unfolded-card-inner');
+    if (!c) { l.classList.remove('show'); return; }
     if (typeof html2canvas === 'undefined') {
       const s = document.createElement('script');
       s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.integrity = 'sha384-M3LBYRGQIi/Wl6WnN4tE0c6I09HftOJ1N1t7bJ7a/L1XcKB4wG8ZQ1j5Ymi0O9O8';
+      s.crossOrigin = 'anonymous';
       await new Promise((r, j) => { s.onload = r; s.onerror = j; document.head.appendChild(s); });
     }
     const cv = await html2canvas(c, { backgroundColor: null, scale: 2, useCORS: true, allowTaint: false });
@@ -664,8 +675,14 @@ function animateFireworks() {
 
 // ===== CONTROL PANEL =====
 function initControlPanel() {
+  const defaults = { lang: 'en', fireworks: true, sparkles: true, cc: false, dark: true };
   const s = localStorage.getItem('afiya_settings');
-  if (s) { try { st = JSON.parse(s); } catch (e) {} }
+  if (s) {
+    try {
+      const p = JSON.parse(s); st = {};
+      Object.keys(defaults).forEach(k => { st[k] = p[k] !== undefined ? p[k] : defaults[k]; });
+    } catch (e) { st = Object.assign({}, defaults); }
+  } else { st = Object.assign({}, defaults); }
   cl = st.lang; applyLang(cl); applyTheme(); updateSwitches();
 }
 function togglePanel() { document.getElementById('cpDrawer').classList.toggle('open'); document.getElementById('cpToggle').classList.toggle('active'); }
@@ -717,6 +734,9 @@ function applyTheme() { document.documentElement.dataset.theme = st.dark ? 'dark
 function previewBirthday() { ss('birthdayScreen', 'fade'); initBirthday(); }
 function goBack() { gb(); }
 function fwBtnClick() {
+  if (fwCooldown) return;
+  fwCooldown = true;
+  setTimeout(() => { fwCooldown = false; }, 600);
   lft = Date.now(); if (!fa) { fa = true; animateFireworks(); }
   for (let i = 0; i < 3; i++) { setTimeout(() => { lft = Date.now(); if (!fwc) return; const x = fwc.width * (0.1 + Math.random() * 0.8), y = fwc.height * (0.1 + Math.random() * 0.3); createExplosion(x, y); }, i * 400); }
 }
@@ -736,22 +756,6 @@ function galleryNext() { setGallerySlide(gi + 1); resetGalleryAuto(); }
     e.style.fontSize = (1.2 + Math.random() * 1.8) + 'rem'; cc.appendChild(e);
   }
 })();
-(function () {
-  const co = ['#ff6b9d', '#ffd700', '#c44dff', '#f8b4d9', '#00d4ff', '#ff6b35', '#7cff7c', '#ff4444'];
-  const cc = document.getElementById('confettiContainer');
-  for (let i = 0; i < 80; i++) {
-    const e = document.createElement('div'); e.className = 'confetti-piece';
-    e.style.background = co[Math.floor(Math.random() * co.length)];
-    e.style.left = Math.random() * 100 + '%';
-    const w = 4 + Math.random() * 7; e.style.width = w + 'px';
-    e.style.height = (4 + Math.random() * 7) + 'px';
-    e.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-    e.style.setProperty('--delay', Math.random() * 8 + 's');
-    e.style.setProperty('--fall-duration', (3 + Math.random() * 5) + 's');
-    cc.appendChild(e);
-  }
-})();
-
 // ===== PWA =====
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); }); }
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); dP = e; document.getElementById('installToast').classList.add('show'); });
