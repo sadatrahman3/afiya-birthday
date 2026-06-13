@@ -328,6 +328,7 @@ function ss(id, dir) {
   se = (id !== 'galleryScreen') && st.sparkles;
   if (id === 'galleryScreen') stopCC(); else if (st.cc) startCC();
   if (id === 'birthdayScreen' || id === 'cardScreen') spawnBalloons(8); else { document.querySelectorAll('.balloon').forEach(b => b.remove()); }
+  if (id === 'cardScreen') t.scrollTop = 0;
 }
 
 function gb() { if (nh.length < 2) return; nh.pop(); ss(nh[nh.length - 1], 'slide-right'); }

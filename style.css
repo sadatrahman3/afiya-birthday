@@ -161,7 +161,7 @@ button { touch-action: manipulation; }
 #cardScreen { flex-direction: column; padding: 0; }
 #cardScreen.visible { overflow-y: auto; height: 100%; }
 #cardScreen .top-bar {
-  position: sticky; top: 0; z-index: 10; width: 100%;
+  width: 100%; z-index: 10;
   background: var(--panel-bg); backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--glass-border);
   padding: 1rem 2rem; text-align: center; flex-shrink: 0;
