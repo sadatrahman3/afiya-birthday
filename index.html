@@ -169,27 +169,27 @@ button { touch-action: manipulation; }
 }
 .gift-btn:hover::after { transform: rotate(45deg) translateX(100%); }
 
-#cardScreen { flex-direction: column; }
+#cardScreen { flex-direction: column; overflow-y: auto; }
 .cards-title { color: var(--text-accent); font-size: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; text-align: center; }
-.cards-deck { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 1.5rem; perspective: 1200px; padding: 1rem; }
+.cards-deck { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1rem; perspective: 1200px; padding: 1rem; }
 .folded-card {
-  width: 180px; height: 250px; border-radius: 12px; cursor: pointer;
+  width: 130px; height: 180px; border-radius: 12px; cursor: pointer;
   position: relative; transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
   opacity: 0; transform: rotateY(90deg) scale(0.5);
 }
-#cardScreen.visible .folded-card { animation: cardDeal 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-#cardScreen.visible .folded-card:nth-child(1) { animation-delay: 0.2s; }
-#cardScreen.visible .folded-card:nth-child(2) { animation-delay: 0.35s; }
-#cardScreen.visible .folded-card:nth-child(3) { animation-delay: 0.5s; }
-#cardScreen.visible .folded-card:nth-child(4) { animation-delay: 0.65s; }
-@keyframes cardDeal { 0% { opacity: 0; transform: rotateY(90deg) scale(0.5) translateY(100px); } 100% { opacity: 1; transform: rotateY(0deg) scale(1) translateY(0); } }
-.folded-card:hover { transform: translateY(-15px) scale(1.05) !important; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+#cardScreen.visible .folded-card { animation: cardDeal 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+#cardScreen.visible .folded-card:nth-child(n) { animation-delay: calc(0.03s * var(--ci, 0)); }
+@keyframes cardDeal { 0% { opacity: 0; transform: rotateY(90deg) scale(0.5) translateY(60px); } 100% { opacity: 1; transform: rotateY(0deg) scale(1) translateY(0); } }
+.folded-card:hover { transform: translateY(-10px) scale(1.05) !important; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
 .folded-card:active { transform: scale(0.95) !important; }
+.folded-card.locked { filter: grayscale(0.5) brightness(0.6); cursor: default; }
+.folded-card.locked:hover { transform: translateY(-5px) scale(1.02) !important; }
 .folded-card .card-front { width: 100%; height: 100%; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
-.card-front .card-icon { font-size: 3.5rem; animation: iconFloat 3s ease-in-out infinite; position: relative; z-index: 2; }
+.card-front .card-lock { position: absolute; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; z-index: 3; border-radius: 12px; }
+.card-front .card-icon { font-size: 2.8rem; animation: iconFloat 3s ease-in-out infinite; position: relative; z-index: 2; }
 @keyframes iconFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(5deg); } }
-.card-front .card-label { color: #fff; font-size: 1rem; font-weight: 600; margin-top: 0.8rem; text-shadow: 0 2px 10px rgba(0,0,0,0.3); position: relative; z-index: 2; }
+.card-front .card-label { color: #fff; font-size: 0.8rem; font-weight: 600; margin-top: 0.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.3); position: relative; z-index: 2; }
 .card-front .card-shine { position: absolute; inset: 0; background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%); pointer-events: none; }
 .folded-card:nth-child(1) .card-front { background: linear-gradient(135deg, #ff6b9d, #c44dff); }
 .folded-card:nth-child(2) .card-front { background: linear-gradient(135deg, #ffd700, #ff8c42); }
@@ -334,11 +334,11 @@ button { touch-action: manipulation; }
 .fw-btn:hover { background: rgba(255,255,255,0.15); color: #fff; transform: scale(1.1); }
 
 @media (max-width: 480px) {
-  .folded-card { width: 140px; height: 200px; }
-  .card-front .card-icon { font-size: 2.5rem; }
-  .card-front .card-label { font-size: 0.85rem; }
-  .folded-card .card-ribbon { width: 30px; height: 30px; font-size: 0.9rem; top: 12px; }
-  .cards-deck { gap: 0.8rem; padding: 0.5rem; }
+  .folded-card { width: 100px; height: 140px; }
+  .card-front .card-icon { font-size: 2rem; }
+  .card-front .card-label { font-size: 0.7rem; }
+  .folded-card .card-ribbon { width: 24px; height: 24px; font-size: 0.7rem; top: 8px; }
+  .cards-deck { gap: 0.6rem; padding: 0.5rem; }
   .cards-title { font-size: clamp(1rem, 4vw, 1.4rem); }
   .unfolded-card { width: min(95vw, 400px); }
   .unfolded-card-inner { min-height: 320px; padding: 1.5rem 1rem; }
@@ -511,49 +511,124 @@ cdDays:'Days',cdHours:'Hours',cdMins:'Minutes',cdSecs:'Seconds',
 cdMessage:'Something beautiful is being wrapped just for her.\nCome back on her special day to unwrap it.',cdPreview:'Preview the surprise',
 bdTitle:'Happy Birthday!',bdYouAre:'You are',bdToday:'today!',bdBadge:'🎂 June 13',bdOpenGift:'Open Your Gift',
 cardsTitle:'Pick a card, any card...',
-cardGrace:'Grace',cardRadiant:'Radiant',cardDreamer:'Dreamer',cardJoy:'Joy',cardButterfly:'Butterfly',cardRainbow:'Rainbow',cardPeace:'Peace',
-wishGrace:'Like a flower in full bloom, your grace touches everyone around you. May your year be filled with beauty, love, and boundless joy.',
-wishRadiant:'You shine brighter than the stars. Your energy, your laugh, your heart — the world is luckier because you are in it. Keep glowing.',
-wishDreamer:'Dream big, beautiful soul. Every door you knock on will open, every path you take will lead to something extraordinary.',
-wishJoy:'Happiness looks beautiful on you. May your 21st year bring belly laughs, late-night talks, surprise adventures, and all the cake!',
-wishButterfly:'Like a butterfly, you grow through every season. Each chapter makes you more colorful, more free, more you. Soar high, beautiful.',
-wishRainbow:'You are the rainbow after every storm. Your smile lights up the darkest days. May life always color your world with love and wonder.',
-wishPeace:'Your calm heart is a superpower. In a noisy world, you are peace. May your soul always find stillness, joy, and belonging.',
-signoff1:'— With love & admiration',signoff2:'— Forever proud of you',signoff3:'— Chase every star',signoff4:'— Cheers to you!',signoff5:'— Fly high',signoff6:'— Stay colorful',signoff7:'— With peace & love',
 wishName:'Happy Birthday, Afiya!',wishSub:"You're",wishSub2:'today — June 13',
 btnGallery:'View Memories',btnCake:'Blow Candles',btnShare:'Share Card',btnNextWish:'💫 Another Wish',installText:'📲 Install App',
 galleryTitle:"Afiya's Memories",cakeTitle:'Blow the Candles!',cakeSub:'Click each candle to make a wish ✨',cakeLeft:'Candles left:',cakeDone:'Your wish has been made!',
 cpTitle:'Settings',cpLang:'Language',cpTheme:'Dark/Light',cpFireworks:'Fireworks',cpSparkles:'Sparkles',cpConfetti:'Confetti',
-shareLoading:'Preparing your card...',shareFail:'Share not supported on this device',galleryOf:'of',
+shareLoading:'Preparing your card...',shareFail:'Share not supported on this device',galleryOf:'of',cardLocked:'🔒 Unlocks on your',cardLockedYear:'th birthday',
 }, bn: {
 cdTitle:'আফিয়া মুবাসসিরা',cdBorn:'জন্ম',cdCurrently:'বর্তমানে বয়স',cdYearsOld:'বছর',cdTurning:'হবে',cdGiftArrives:'তার উপহার আসছে...',cdNextArrives:'পরবর্তী জন্মদিন...',cdTurned:'হয়েছে',cdNext:'পরবর্তী:',
 cdDays:'দিন',cdHours:'ঘন্টা',cdMins:'মিনিট',cdSecs:'সেকেন্ড',
 cdMessage:'তার জন্য কিছু সুন্দর মোড়ানো হচ্ছে।\nতার বিশেষ দিনে এসে উপহার খোলো।',cdPreview:'চমকটি দেখো',
 bdTitle:'শুভ জন্মদিন!',bdYouAre:'তুমি আজ',bdToday:'বছরের!',bdBadge:'🎂 ১৩ জুন',bdOpenGift:'তোমার উপহার খোলো',
 cardsTitle:'একটা কার্ড বাছো...',
-cardGrace:'সৌন্দর্য',cardRadiant:'উজ্জ্বল',cardDreamer:'স্বপ্নবাজ',cardJoy:'আনন্দ',cardButterfly:'প্রজাপতি',cardRainbow:'রংধনু',cardPeace:'শান্তি',
-wishGrace:'ফুলের মতো তোমার সৌন্দর্য সবার মন ছুঁয়ে যায়। তোমার বছরটি সুন্দরতা, ভালোবাসা এবং আনন্দে ভরে উঠুক।',
-wishRadiant:'তুমি তারাদের চেয়েও উজ্জ্বল। তোমার হাসি, তোমার মন—পৃথিবী তোমার জন্য ধন্য। সবসময় জ্বলজ্বল করো।',
-wishDreamer:'বড় স্বপ্ন দেখো, সুন্দর আত্মা। তুমি যে দরজায় কড়া নাড়বে, সেটাই খুলবে। অসাধারণ কিছু তোমার জন্যই অপেক্ষা করছে।',
-wishJoy:'সুখ তোমাকে খুব মানায়। তোমার ২১তম বছর হাসি, গল্প আর কেকএ ভরে উঠুক!',
-wishButterfly:'প্রজাপতির মতো তুমি প্রতিটি মৌসুমে বেড়ে উঠো। প্রতিটি অধ্যায় তোমাকে আরও রঙিন, আরও মুক্ত করে তোলে। উড়ে যাও উঁচুতে, সুন্দরী।',
-wishRainbow:'তুমি প্রতিটি ঝড়ের পরের রংধনু। তোমার হাসি অন্ধকার দিনও আলোকিত করে। তোমার পৃথিবী সবসময় ভালোবাসা ও বিস্ময়ে রঙিন থাকুক।',
-wishPeace:'তোমার শান্ত মনটাই তোমার ক্ষমতা। কোলাহলের পৃথিবীতে তুমি শান্তি। তোমার আত্মা সবসময় শান্তি, আনন্দ ও ভালোবাসা খুঁজে পাক।',
-signoff1:'— ভালোবাসা ও শ্রদ্ধায়',signoff2:'— তোমার জন্য গর্বিত',signoff3:'— সব তারার পিছে ছুটো',signoff4:'— তোমার জন্য শুভকামনা!',signoff5:'— উড়ে যাও উঁচুতে',signoff6:'— রঙিন থাকো',signoff7:'— শান্তি ও ভালোবাসায়',
 wishName:'শুভ জন্মদিন, আফিয়া!',wishSub:'তুমি আজ',wishSub2:'বছরের — ১৩ জুন',
 btnGallery:'স্মৃতি দেখো',btnCake:'মোমবাতি নিভাও',btnShare:'শেয়ার করো',btnNextWish:'💫 আরেকটা শুভেচ্ছা',installText:'📲 অ্যাপ ইন্সটল করো',
 galleryTitle:'আফিয়ার স্মৃতি',cakeTitle:'মোমবাতি নিভাও!',cakeSub:'প্রতিটি মোমবাতিতে ক্লিক করে ইচ্ছে করো ✨',cakeLeft:'বাকি মোমবাতি:',cakeDone:'তোমার ইচ্ছে পূরণ হয়েছে! 🎉',
 cpTitle:'সেটিংস',cpLang:'ভাষা',cpTheme:'ডার্ক/লাইট',cpFireworks:'আতশবাজি',cpSparkles:'চমক',cpConfetti:'কনফেটি',
-shareLoading:'তোমার কার্ড তৈরি হচ্ছে...',shareFail:'এই ডিভাইসে শেয়ার সমর্থিত নয়',galleryOf:'এর',
+shareLoading:'তোমার কার্ড তৈরি হচ্ছে...',shareFail:'এই ডিভাইসে শেয়ার সমর্থিত নয়',galleryOf:'এর',cardLocked:'🔒 আনলক হবে তোমার',cardLockedYear:'তম জন্মদিনে',
 }};
-const cardData = [
-{icon:'🌸',labelKey:'cardGrace',bg:'linear-gradient(135deg,#ff6b9d,#c44dff)',wishIcon:'🌸',wishKey:'wishGrace',signoffKey:'signoff1'},
-{icon:'🌟',labelKey:'cardRadiant',bg:'linear-gradient(135deg,#ffd700,#ff8c42)',wishIcon:'🌟',wishKey:'wishRadiant',signoffKey:'signoff2'},
-{icon:'💫',labelKey:'cardDreamer',bg:'linear-gradient(135deg,#00d4ff,#7c5cff)',wishIcon:'💫',wishKey:'wishDreamer',signoffKey:'signoff3'},
-{icon:'🌺',labelKey:'cardJoy',bg:'linear-gradient(135deg,#ff6b9d,#ff3c6f)',wishIcon:'🌺',wishKey:'wishJoy',signoffKey:'signoff4'},
-{icon:'🦋',labelKey:'cardButterfly',bg:'linear-gradient(135deg,#f093fb,#f5576c)',wishIcon:'🦋',wishKey:'wishButterfly',signoffKey:'signoff5'},
-{icon:'🌈',labelKey:'cardRainbow',bg:'linear-gradient(135deg,#4facfe,#00f2fe)',wishIcon:'🌈',wishKey:'wishRainbow',signoffKey:'signoff6'},
-{icon:'🕊️',labelKey:'cardPeace',bg:'linear-gradient(135deg,#a8edea,#fed6e3)',wishIcon:'🕊️',wishKey:'wishPeace',signoffKey:'signoff7'}];
+// ===== CARDS =====
+const yearlyW = [
+'Welcome to the world, little star. You were born to shine.',
+'One year of joy — and a lifetime left to go. Keep glowing, little one.',
+'Two years of wonder, curiosity, and tiny steps toward big dreams.',
+'Three years of laughter, sticky fingers, and the purest heart.',
+'Four years of magic — every day a new discovery with you.',
+'Five years of growing, learning, and filling the world with light.',
+'Six years of sparkle — your smile has already changed so many lives.',
+'Seven years of grace. Even then, your kindness was everyone\'s favorite.',
+'Eight years of big dreams in a little heart. Nothing could stop you.',
+'Nine years of courage, curiosity, and that beautiful light in your eyes.',
+'Ten years — a whole decade of being extraordinary. And you\'re just getting started.',
+'Eleven years of blooming. Like a flower reaching for the sun, you grew taller every day.',
+'Twelve years of becoming. Your personality, your laugh — all becoming the wonderful you.',
+'Thirteen — the teenage years begin. Your sparkle only got brighter.',
+'Fourteen years of finding yourself. And what a beautiful self you found.',
+'Fifteen years of strength, grace, and quiet confidence. So proud of you.',
+'Sixteen — sweet sixteen. Your light reached everyone around you.',
+'Seventeen years of becoming who you are. And who you are is magnificent.',
+'Eighteen — an adult in the world, but always our Afiya. Shine on.',
+'Nineteen years of wisdom beyond your years. You inspire everyone you meet.',
+'Twenty years of amazing. A whole life of love, growth, and beautiful memories.',
+];
+const yearlyWbn = [
+'পৃথিবীতে স্বাগতম, ছোট তারা। তুমি জ্বলজ্বল করার জন্যই জন্মেছ।',
+'এক বছর আনন্দ — আর বাকি জীবন তোমার জন্য। জ্বলজ্বল করতে থাকো, ছোট্ট সোনা।',
+'দুই বছর বিস্ময়, কৌতূহল আর বড় স্বপ্নের দিকে ছোট ছোট পা।',
+'তিন বছর হাসি, মিষ্টি হাত আর সবচেয়ে খাঁটি মন।',
+'চার বছর জাদু — প্রতিটি দিন তোমার সাথে একটা নতুন আবিষ্কার।',
+'পাঁচ বছর বেড়ে ওঠা, শেখা আর পৃথিবীকে আলোয় ভরে দেওয়া।',
+'ছয় বছর চমক — তোমার হাসি ইতিমধ্যে কত মানুষের জীবন বদলে দিয়েছে।',
+'সাত বছর সৌন্দর্য। তখনও তোমার মিষ্টতা সবার প্রিয় ছিল।',
+'আট বছর ছোট মনে বড় স্বপ্ন। কিছুই তোমাকে থামাতে পারেনি।',
+'নয় বছর সাহস, কৌতূহল আর তোমার চোখের সেই সুন্দর আলো।',
+'দশ বছর — পুরো এক দশক অসাধারণ। আর তুমি সবেমাত্র শুরু করেছ।',
+'এগারো বছর ফুলের মতো ফোটা। সূর্যের দিকে তাকিয়ে তুমি প্রতিদিন বড় হয়েছ।',
+'বারো বছর হয়ে ওঠার। তোমার ব্যক্তিত্ব, তোমার হাসি—সবই চমৎকার হচ্ছিল।',
+'তেরো — টিনএজ শুরু। তোমার চমক তখনও আরও উজ্জ্বল হয়েছে।',
+'চৌদ্দ বছর নিজেকে খুঁজে পাওয়ার। আর কী সুন্দর নিজেকে তুমি পেয়েছ।',
+'পনরো বছর শক্তি, সৌন্দর্য আর নীরব আত্মবিশ্বাস। তোমার জন্য গর্বিত।',
+'ষোলো — সুইট সোলো। তোমার আলো চারপাশের সবাইকে ছুঁয়েছে।',
+'সতেরো বছর তুমি যা তা হয়ে ওঠার। আর তুমি যা তা অসাধারণ।',
+'আঠারো — পৃথিবীতে একজন প্রাপ্তবয়স্ক, কিন্তু সবসময় আমাদের আফিয়া। জ্বলজ্বল করো।',
+'উনিশ বছর বয়সের চেয়ে বেশি জ্ঞান। তুমি যাকে দেখো তাকেই অনুপ্রাণিত করো।',
+'বিশ বছর অসাধারণ। ভালোবাসা, বৃদ্ধি আর সুন্দর স্মৃতিতে ভরা এক জীবন।',
+];
+const bonusW = [
+'You are a masterpiece in progress — and every brushstroke is beautiful.',
+'The world is lucky to have you. Don\'t ever forget that.',
+'Your heart is pure gold. Keep loving, keep shining, keep being you.',
+'Some people light up a room — you light up the whole world.',
+'You\'re not just growing older, you\'re growing wiser, stronger, and more wonderful.',
+'Every year with you in the world is a gift. Thank you for being born.',
+'Your story is still being written. And it\'s going to be extraordinary.',
+'Be proud of who you are — you\'ve come so far and done so beautifully.',
+'The best is yet to come. Your brightest days are still ahead of you.',
+'You are loved more than you know, by more people than you realize.',
+'Keep chasing magic. The universe has beautiful things planned for you.',
+'Your smile is someone\'s sunshine. Never stop sharing it.',
+'Life with you is a celebration. Here\'s to many more years of you.',
+'You make the world softer, kinder, and infinitely more beautiful.',
+'You are enough. You always have been, and you always will be.',
+];
+const bonusWbn = [
+'তুমি একটি চলমান masterpiece — আর প্রতিটি ছোঁয়াই সুন্দর।',
+'পৃথিবী তোমার জন্য ধন্য। কখনো ভুলো না যে তুমি বিশেষ।',
+'তোমার মন খাঁটি সোনা। ভালোবাসতে থাকো, জ্বলজ্বল করতে থাকো।',
+'কেউ কেউ ঘর আলোকিত করে — তুমি পুরো পৃথিবী আলোকিত করো।',
+'তুমি শুধু বড় হচ্ছে না, তুমি জ্ঞানী, শক্তিশালী আরও চমৎকার হচ্ছ।',
+'পৃথিবীতে তুমি আছ বলেই প্রতিটি বছর উপহার। জন্ম নেওয়ার জন্য ধন্যবাদ।',
+'তোমার গল্প এখনও লেখা হচ্ছে। আর এটা হবে অসাধারণ।',
+'তুমি যা তা নিয়ে গর্বিত হও — তুমি অনেক দূর এসেছ, খুব সুন্দরভাবে।',
+'সেরাটা এখনও আসেনি। তোমার উজ্জ্বল দিনগুলো এখনও সামনে।',
+'তুমি যতটা জানো তার চেয়ে বেশি ভালোবাসা পাও, যতটা বুঝো তার চেয়ে বেশি মানুষের কাছ থেকে।',
+'জাদুর পিছনে ছুটতে থাকো। মহাবিশ্ব তোমার জন্য সুন্দর জিনিস রেখেছে।',
+'তোমার হাসি কারো না কারো রোদ। কখনো তা বন্ধ করো না।',
+'তোমার সাথে জীবন একটা উদযাপন। তোমার আরও অনেক বছরের জন্য শুভকামনা।',
+'তুমি পৃথিবীকে নরম, দয়ালু আর অসীম সুন্দর করে তুলো।',
+'তুমি যথেষ্ট। সবসময় ছিলে, আর সবসময় থাকবে।',
+];
+const signoffsEn = ['— With love & admiration','— Forever proud of you','— Chase every star','— Cheers to you!','— Fly high','— Stay colorful','— With peace & love','— Always believe','— You are magic','— Keep shining'];
+const signoffsBn = ['— ভালোবাসা ও শ্রদ্ধায়','— তোমার জন্য গর্বিত','— সব তারার পিছে ছুটো','— তোমার জন্য শুভকামনা!','— উড়ে যাও উঁচুতে','— রঙিন থাকো','— শান্তি ও ভালোবাসায়','— সবসময় বিশ্বাস করো','— তুমি জাদু','— জ্বলজ্বল করতে থাকো'];
+const cardIcons = ['🌸','🌟','💫','🌺','🦋','🌈','🕊️','🎀','⭐','💖','✨','🌙','🍀','🌻','🎈'];
+const cardBgs = ['linear-gradient(135deg,#ff6b9d,#c44dff)','linear-gradient(135deg,#ffd700,#ff8c42)','linear-gradient(135deg,#00d4ff,#7c5cff)','linear-gradient(135deg,#f093fb,#f5576c)','linear-gradient(135deg,#4facfe,#00f2fe)','linear-gradient(135deg,#a8edea,#fed6e3)','linear-gradient(135deg,#ffecd2,#fcb69f)','linear-gradient(135deg,#89f7fe,#66a6ff)'];
+const TOTAL_CARDS=70;
+let cardData=[];
+function initCards(){
+  cardData=[];
+  for(let i=0;i<TOTAL_CARDS;i++){
+    const y=i<21;
+    cardData.push({
+      icon:cardIcons[i%cardIcons.length],bg:cardBgs[i%cardBgs.length],wishIcon:cardIcons[i%cardIcons.length],
+      year:y?i:-1,lockYear:y?i+1:i+1,
+      labelEn:y?'Year '+(i+1):'✨ Wish '+(i-20),labelBn:y?'বছর '+(i+1):'✨ শুভেচ্ছা '+(i-20),
+      wishIdx:y?i:(i-21)%bonusW.length,type:y?'yearly':'bonus',
+      signoffEn:signoffsEn[i%signoffsEn.length],signoffBn:signoffsBn[i%signoffsBn.length]
+    });
+  }
+}
+initCards();
 const photos = [
 'photos/1781294950083.jpg','photos/Messenger_creation_64DA5B69-0607-4C82-AF5B-554CD3E01859.jpeg',
 'photos/Messenger_creation_174C40C3-9BE3-4BBA-8556-1989732F442E.jpeg','photos/Messenger_creation_135E22A6-D009-43FB-B451-BCA75E7B9ACB.jpeg',
@@ -623,24 +698,36 @@ function goToCardSelection(){
 function buildCards(){
   if(cb)return;cb=true;
   const d=document.getElementById('cardsDeck');d.innerHTML='';
+  const a=ga();
   cardData.forEach((data,i)=>{
-    const c=document.createElement('div');c.className='folded-card';
-    c.innerHTML='<div class="card-front" style="background:'+data.bg+'"><div class="card-ribbon">🎀</div><div class="card-icon">'+data.icon+'</div><div class="card-label" data-i18n="'+data.labelKey+'"></div><div class="card-shine"></div></div>';
+    const lk=i>a;
+    const c=document.createElement('div');c.className='folded-card'+(lk?' locked':'');
+    c.style.setProperty('--ci',i);
+    const lb=cl==='bn'?data.labelBn:data.labelEn;
+    c.innerHTML='<div class="card-front" style="background:'+data.bg+'"><div class="card-ribbon">🎀</div><div class="card-icon">'+(lk?'🔒':data.icon)+'</div><div class="card-label">'+lb+'</div>'+(lk?'<div class="card-lock">🔒</div>':'')+'<div class="card-shine"></div></div>';
     c.addEventListener('click',()=>openCard(i));d.appendChild(c);
   });
-  applyLang(cl);
 }
 
 function openCard(i){
-  ha();ci=i;
+  ha();
+  const a=ga();
+  if(i>a){
+    const y=i+1,th=y>3?'th':y===1?'st':y===2?'nd':'rd';
+    const msg=i18n[cl].cardLocked+' '+y+th+' '+i18n[cl].cardLockedYear;
+    if(window.Notification&&Notification.permission==='granted')new Notification('🔒',{body:msg});
+    else{alert(msg)}return;
+  }
+  ci=i;
   const d=cardData[i],c=document.getElementById('unfoldedCard');
   burstConfetti();if(st.fireworks)launchFireworks();
-  const a=ga();
-  c.innerHTML='<div class="unfolded-card-inner" style="background:'+d.bg+'"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">'+d.wishIcon+'</div><div class="wish-name" data-i18n="wishName">Happy Birthday, Afiya!</div><div class="wish-sub"><span data-i18n="wishSub">You\'re</span> '+a+' <span data-i18n="wishSub2">today — June 13</span></div><div class="wish-msg" data-i18n="'+d.wishKey+'"></div><div class="wish-signoff" data-i18n="'+d.signoffKey+'"></div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn" data-i18n="btnGallery">📸 View Memories</button><button class="cake-btn" id="cakeBtn" data-i18n="btnCake">🎂 Blow Candles</button><button class="share-btn" id="shareBtn" data-i18n="btnShare">📤 Share Card</button><button class="next-btn" id="nextWishBtn" data-i18n="btnNextWish">💫 Another Wish</button></div></div>';
+  const ws=cl==='bn'?(d.type==='yearly'?yearlyWbn:bonusWbn)[d.wishIdx]:(d.type==='yearly'?yearlyW:bonusW)[d.wishIdx];
+  const so=cl==='bn'?d.signoffBn:d.signoffEn;
+  c.innerHTML='<div class="unfolded-card-inner" style="background:'+d.bg+'"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">'+d.wishIcon+'</div><div class="wish-name" data-i18n="wishName">Happy Birthday, Afiya!</div><div class="wish-sub"><span data-i18n="wishSub">You\'re</span> '+a+' <span data-i18n="wishSub2">today — June 13</span></div><div class="wish-msg">'+ws+'</div><div class="wish-signoff">'+so+'</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn" data-i18n="btnGallery">📸 View Memories</button><button class="cake-btn" id="cakeBtn" data-i18n="btnCake">🎂 Blow Candles</button><button class="share-btn" id="shareBtn" data-i18n="btnShare">📤 Share Card</button><button class="next-btn" id="nextWishBtn" data-i18n="btnNextWish">💫 Another Wish</button></div></div>';
   nh.push('unfoldScreen');ss('unfoldScreen','slide-left');applyLang(cl);
   const ci0=i;
   document.getElementById('closeUnfolded').addEventListener('click',gb);
-  document.getElementById('galleryBtn').addEventListener('click',()=>openGallery(ci0));
+  document.getElementById('galleryBtn').addEventListener('click',()=>openGallery(ci0%photos.length));
   document.getElementById('cakeBtn').addEventListener('click',openCakeScreen);
   document.getElementById('shareBtn').addEventListener('click',shareCard);
   document.getElementById('nextWishBtn').addEventListener('click',nextWish);
@@ -699,15 +786,20 @@ function spawnBalloons(cnt){
 function openCakeScreen(){ocs();}
 
 function nextWish(){
-  ha();ci=(ci+1)%cardData.length;
-  const d=cardData[ci],c=document.getElementById('unfoldedCard');
+  ha();const a=ga();
+  let n=ci;
+  for(let t=0;t<TOTAL_CARDS;t++){n=(n+1)%TOTAL_CARDS;if(n<=a)break}
+  if(n>a)return;
+  ci=n;
+  const d=cardData[n],c=document.getElementById('unfoldedCard');
   burstConfetti();
-  const a=ga();
-  c.innerHTML='<div class="unfolded-card-inner" style="background:'+d.bg+'"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">'+d.wishIcon+'</div><div class="wish-name" data-i18n="wishName">Happy Birthday, Afiya!</div><div class="wish-sub"><span data-i18n="wishSub">You\'re</span> '+a+' <span data-i18n="wishSub2">today — June 13</span></div><div class="wish-msg" data-i18n="'+d.wishKey+'"></div><div class="wish-signoff" data-i18n="'+d.signoffKey+'"></div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn" data-i18n="btnGallery">📸 View Memories</button><button class="cake-btn" id="cakeBtn" data-i18n="btnCake">🎂 Blow Candles</button><button class="share-btn" id="shareBtn" data-i18n="btnShare">📤 Share Card</button><button class="next-btn" id="nextWishBtn" data-i18n="btnNextWish">💫 Another Wish</button></div></div>';
+  const ws=cl==='bn'?(d.type==='yearly'?yearlyWbn:bonusWbn)[d.wishIdx]:(d.type==='yearly'?yearlyW:bonusW)[d.wishIdx];
+  const so=cl==='bn'?d.signoffBn:d.signoffEn;
+  c.innerHTML='<div class="unfolded-card-inner" style="background:'+d.bg+'"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">'+d.wishIcon+'</div><div class="wish-name" data-i18n="wishName">Happy Birthday, Afiya!</div><div class="wish-sub"><span data-i18n="wishSub">You\'re</span> '+a+' <span data-i18n="wishSub2">today — June 13</span></div><div class="wish-msg">'+ws+'</div><div class="wish-signoff">'+so+'</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn" data-i18n="btnGallery">📸 View Memories</button><button class="cake-btn" id="cakeBtn" data-i18n="btnCake">🎂 Blow Candles</button><button class="share-btn" id="shareBtn" data-i18n="btnShare">📤 Share Card</button><button class="next-btn" id="nextWishBtn" data-i18n="btnNextWish">💫 Another Wish</button></div></div>';
   applyLang(cl);
-  const ci0=ci;
+  const ci0=n;
   document.getElementById('closeUnfolded').addEventListener('click',gb);
-  document.getElementById('galleryBtn').addEventListener('click',()=>openGallery(ci0));
+  document.getElementById('galleryBtn').addEventListener('click',()=>openGallery(ci0%photos.length));
   document.getElementById('cakeBtn').addEventListener('click',openCakeScreen);
   document.getElementById('shareBtn').addEventListener('click',shareCard);
   document.getElementById('nextWishBtn').addEventListener('click',nextWish);
