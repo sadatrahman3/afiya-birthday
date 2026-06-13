@@ -7,7 +7,7 @@ const i18n = { en: {
 cdTitle:'Afiya Mubassira',cdBorn:'Born',cdCurrently:'Currently',cdYearsOld:'years old',cdTurning:'Turning',cdGiftArrives:'Her gift arrives in...',cdNextArrives:'Next birthday in...',cdTurned:'Turned',cdNext:'Next:',
 cdDays:'Days',cdHours:'Hours',cdMins:'Minutes',cdSecs:'Seconds',
 cdMessage:'Something beautiful is being wrapped just for her.\nCome back on her special day to unwrap it.',cdPreview:'Preview the surprise',
-bdTitle:'Happy Birthday!',bdYouAre:'You are',bdToday:'today!',bdBadge:'🎂 June 13',bdOpenGift:'Open Your Gift',
+bdTitle:'Happy Birthday!',bdYouAre:'You are',bdToday:'today!',bdBadge:'🎂 ' + formatBirthDate().en,bdOpenGift:'Open Your Gift',
 cardLocked:'🔒 Unlocks on your',cardLockedYear:'th birthday',
 btnGallery:'View Memories',btnCake:'Blow Candles',btnShare:'Share Card',btnNextWish:'💫 Another Wish',
 cakeTitle:'Blow the Candles!',cakeSub:'Click each candle to make a wish ✨',cakeLeft:'Candles left:',cakeDone:'Your wish has been made!',
@@ -20,7 +20,7 @@ unfoldTitle:'🎉 Happy Birthday, Afiya! 🎉',unfoldSub:"You're {age} today —
 cdTitle:'আফিয়া মুবাসসিরা',cdBorn:'জন্ম',cdCurrently:'বর্তমানে বয়স',cdYearsOld:'বছর',cdTurning:'হবে',cdGiftArrives:'তার উপহার আসছে...',cdNextArrives:'পরবর্তী জন্মদিন...',cdTurned:'হয়েছে',cdNext:'পরবর্তী:',
 cdDays:'দিন',cdHours:'ঘন্টা',cdMins:'মিনিট',cdSecs:'সেকেন্ড',
 cdMessage:'তার জন্য কিছু সুন্দর মোড়ানো হচ্ছে।\nতার বিশেষ দিনে এসে উপহার খোলো।',cdPreview:'চমকটি দেখো',
-bdTitle:'শুভ জন্মদিন!',bdYouAre:'তুমি আজ',bdToday:'বছরের!',bdBadge:'🎂 ১৩ জুন',bdOpenGift:'তোমার উপহার খোলো',
+bdTitle:'শুভ জন্মদিন!',bdYouAre:'তুমি আজ',bdToday:'বছরের!',bdBadge:'🎂 ' + formatBirthDate().bn,bdOpenGift:'তোমার উপহার খোলো',
 cardLocked:'🔒 আনলক হবে তোমার',cardLockedYear:'তম জন্মদিনে',
 btnGallery:'স্মৃতি দেখো',btnCake:'মোমবাতি নিভাও',btnShare:'শেয়ার করো',btnNextWish:'💫 আরেকটা শুভেচ্ছা',
 cakeTitle:'মোমবাতি নিভাও!',cakeSub:'প্রতিটি মোমবাতিতে ক্লিক করে ইচ্ছে করো ✨',cakeLeft:'বাকি মোমবাতি:',cakeDone:'তোমার ইচ্ছে পূরণ হয়েছে! 🎉',
@@ -307,6 +307,12 @@ function ga() { const t = new Date(); let a = t.getFullYear() - BIRTH_YEAR; cons
 function gd() { return Math.floor((Date.now() - new Date(Date.UTC(BIRTH_YEAR, BIRTH_MONTH, BIRTH_DAY)).getTime()) / 86400000); }
 function gnb(n) { let b = n.getFullYear(); if (n.getMonth() > BIRTH_MONTH || (n.getMonth() === BIRTH_MONTH && n.getDate() > BIRTH_DAY)) b++; return new Date(b, BIRTH_MONTH, BIRTH_DAY); }
 function getUnlockDate(cardIndex) { return new Date(BIRTH_YEAR + cardIndex, BIRTH_MONTH, BIRTH_DAY, 0, 0, 0); }
+function formatBirthDate() {
+  const m = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const mb = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+  const d = BIRTH_DAY, s = d === 1 || d === 21 || d === 31 ? 'st' : d === 2 || d === 22 ? 'nd' : d === 3 || d === 23 ? 'rd' : 'th';
+  return { en: m[BIRTH_MONTH] + ' ' + d + s, bn: d + ' ' + mb[BIRTH_MONTH] };
+}
 function hp(n) { const t = n || new Date(); return t.getMonth() > BIRTH_MONTH || (t.getMonth() === BIRTH_MONTH && t.getDate() > BIRTH_DAY); }
 
 // ===== PROGRESS BAR =====
@@ -453,7 +459,7 @@ function openCard(i) {
   burstConfetti(); if (st.fireworks) launchFireworks();
   const ws = cl === 'bn' ? (d.type === 'yearly' ? yearlyWbn : bonusWbn)[d.wishIdx] : (d.type === 'yearly' ? yearlyW : bonusW)[d.wishIdx];
   const so = cl === 'bn' ? d.signoffBn : d.signoffEn;
-  c.innerHTML = '<div class="unfolded-card-inner" style="background:' + d.bg + '"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">' + d.wishIcon + '</div><div class="wish-name">' + i18n[cl].unfoldTitle + '</div><div class="wish-sub">' + i18n[cl].unfoldSub.replace('{age}', a).replace('{date}', 'June 13') + '</div><div class="wish-msg">' + ws + '</div><div class="wish-signoff">' + so + '</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn">📸 View Memories</button><button class="cake-btn" id="cakeBtn">🎂 Blow Candles</button><button class="share-btn" id="shareBtn">📤 Share Card</button><button class="next-btn" id="nextWishBtn">💫 Another Wish</button></div></div>';
+  c.innerHTML = '<div class="unfolded-card-inner" style="background:' + d.bg + '"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">' + d.wishIcon + '</div><div class="wish-name">' + i18n[cl].unfoldTitle + '</div><div class="wish-sub">' + i18n[cl].unfoldSub.replace('{age}', a).replace('{date}', formatBirthDate()[cl]) + '</div><div class="wish-msg">' + ws + '</div><div class="wish-signoff">' + so + '</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn">📸 View Memories</button><button class="cake-btn" id="cakeBtn">🎂 Blow Candles</button><button class="share-btn" id="shareBtn">📤 Share Card</button><button class="next-btn" id="nextWishBtn">💫 Another Wish</button></div></div>';
   if (nh[nh.length - 1] !== 'unfoldScreen') nh.push('unfoldScreen'); ss('unfoldScreen', 'slide-left');
   const ci0 = i;
   document.getElementById('closeUnfolded').addEventListener('click', gb);
@@ -515,7 +521,7 @@ function nextWish() {
   burstConfetti();
   const ws = cl === 'bn' ? (d.type === 'yearly' ? yearlyWbn : bonusWbn)[d.wishIdx] : (d.type === 'yearly' ? yearlyW : bonusW)[d.wishIdx];
   const so = cl === 'bn' ? d.signoffBn : d.signoffEn;
-  c.innerHTML = '<div class="unfolded-card-inner" style="background:' + d.bg + '"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">' + d.wishIcon + '</div><div class="wish-name">' + i18n[cl].unfoldTitle + '</div><div class="wish-sub">' + i18n[cl].unfoldSub.replace('{age}', a).replace('{date}', 'June 13') + '</div><div class="wish-msg">' + ws + '</div><div class="wish-signoff">' + so + '</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn">📸 View Memories</button><button class="cake-btn" id="cakeBtn">🎂 Blow Candles</button><button class="share-btn" id="shareBtn">📤 Share Card</button><button class="next-btn" id="nextWishBtn">💫 Another Wish</button></div></div>';
+  c.innerHTML = '<div class="unfolded-card-inner" style="background:' + d.bg + '"><button class="close-btn" id="closeUnfolded">✕</button><div class="wish-icon">' + d.wishIcon + '</div><div class="wish-name">' + i18n[cl].unfoldTitle + '</div><div class="wish-sub">' + i18n[cl].unfoldSub.replace('{age}', a).replace('{date}', formatBirthDate()[cl]) + '</div><div class="wish-msg">' + ws + '</div><div class="wish-signoff">' + so + '</div><div class="unfolded-card-buttons"><button class="gallery-btn" id="galleryBtn">📸 View Memories</button><button class="cake-btn" id="cakeBtn">🎂 Blow Candles</button><button class="share-btn" id="shareBtn">📤 Share Card</button><button class="next-btn" id="nextWishBtn">💫 Another Wish</button></div></div>';
   const ci0 = n;
   document.getElementById('closeUnfolded').addEventListener('click', gb);
   document.getElementById('galleryBtn').addEventListener('click', () => openGallery(ci0 % photos.length));
