@@ -159,7 +159,7 @@ button { touch-action: manipulation; }
 
 /* Card Screen */
 #cardScreen { flex-direction: column; padding: 0; }
-#cardScreen.visible { overflow-y: auto; height: 100%; }
+#cardScreen.visible { overflow-y: auto; height: 100%; justify-content: flex-start; }
 #cardScreen .top-bar {
   width: 100%; z-index: 10;
   background: var(--panel-bg); backdrop-filter: blur(16px);
