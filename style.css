@@ -214,6 +214,7 @@ button { touch-action: manipulation; }
 }
 .card-item.locked .card-icon { font-size: 1.8rem; margin-bottom: 0.5rem; opacity: 0.7; }
 .card-item.locked .card-year { color: rgba(255,255,255,0.4); font-size: 0.9rem; font-weight: 600; }
+.card-item.locked .card-countdown { color: var(--text-primary); font-size: 0.65rem; font-weight: 600; margin-top: 0.3rem; letter-spacing: 1px; opacity: 0.8; }
 @keyframes iconFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
 
 /* Unfolded Card */

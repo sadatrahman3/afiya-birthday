@@ -297,6 +297,7 @@ let nh = [], gi = 0, ci = 0, gint = null, ccint = null, cb = false, fa = false, 
 let dP = null;
 let cdInterval = null;
 let fwCooldown = false;
+let cardCountdownIntervals = [];
 
 // ===== UTILITIES =====
 function ha() { try { navigator.vibrate && navigator.vibrate(20) } catch (e) {} }
@@ -305,6 +306,7 @@ function ib(t) { return t.m === BIRTH_MONTH && t.d === BIRTH_DAY; }
 function ga() { const t = new Date(); let a = t.getFullYear() - BIRTH_YEAR; const m = t.getMonth() - BIRTH_MONTH; if (m < 0 || (m === 0 && t.getDate() < BIRTH_DAY)) a--; return a; }
 function gd() { return Math.floor((Date.now() - new Date(Date.UTC(BIRTH_YEAR, BIRTH_MONTH, BIRTH_DAY)).getTime()) / 86400000); }
 function gnb(n) { let b = n.getFullYear(); if (n.getMonth() > BIRTH_MONTH || (n.getMonth() === BIRTH_MONTH && n.getDate() > BIRTH_DAY)) b++; return new Date(b, BIRTH_MONTH, BIRTH_DAY); }
+function getUnlockDate(cardIndex) { return new Date(BIRTH_YEAR + cardIndex, BIRTH_MONTH, BIRTH_DAY, 0, 0, 0); }
 function hp(n) { const t = n || new Date(); return t.getMonth() > BIRTH_MONTH || (t.getMonth() === BIRTH_MONTH && t.getDate() > BIRTH_DAY); }
 
 // ===== PROGRESS BAR =====
@@ -333,6 +335,7 @@ function ss(id, dir) {
   if (id === 'galleryScreen') stopCC(); else if (st.cc) startCC();
   if (id === 'birthdayScreen' || id === 'cardScreen') spawnBalloons(8); else { document.querySelectorAll('.balloon').forEach(b => b.remove()); }
   if (id === 'cardScreen') t.scrollTop = 0;
+  if (id !== 'cardScreen') { cardCountdownIntervals.forEach(id => clearInterval(id)); cardCountdownIntervals = []; }
 }
 
 function gb() { if (nh.length < 2) return; nh.pop(); ss(nh[nh.length - 1], 'slide-right'); }
@@ -382,6 +385,8 @@ function goToCardSelection() {
 
 // ===== CARD GRID =====
 function renderCards() {
+  cardCountdownIntervals.forEach(id => clearInterval(id));
+  cardCountdownIntervals = [];
   const grid = document.getElementById('cardsGrid');
   grid.innerHTML = '';
   const a = ga();
@@ -398,9 +403,38 @@ function renderCards() {
     } else {
       el.classList.add('locked');
       const lockedLabel = i < 21 ? 'Year ' + data.lockYear : (cl === 'bn' ? '✨ শুভেচ্ছা ' + (i - 20) : '✨ Wish ' + (i - 20));
-      el.innerHTML = '<div class="card-icon">🔒</div><div class="card-year">' + lockedLabel + '</div>';
+      const unlockTs = getUnlockDate(i).getTime();
+      el.innerHTML = '<div class="card-icon">🔒</div><div class="card-year">' + lockedLabel + '</div><div class="card-countdown" data-unlock="' + unlockTs + '"></div>';
     }
     grid.appendChild(el);
+  });
+  updateCardCountdowns();
+  const id = setInterval(updateCardCountdowns, 1000);
+  cardCountdownIntervals.push(id);
+}
+function updateCardCountdowns() {
+  const now = Date.now();
+  document.querySelectorAll('.card-countdown').forEach(el => {
+    const unlockTime = parseInt(el.dataset.unlock);
+    const diff = unlockTime - now;
+    if (diff <= 0) {
+      el.textContent = cl === 'bn' ? 'আনলক হয়েছে!' : 'Unlocked!';
+      const card = el.closest('.card-item');
+      if (card && card.classList.contains('locked')) {
+        card.classList.remove('locked');
+        card.classList.add('unlocked');
+        const idx = Array.from(card.parentElement.children).indexOf(card);
+        const lb = cl === 'bn' ? cardData[idx].labelBn : cardData[idx].labelEn;
+        card.innerHTML = '<div class="card-front" style="background:' + cardData[idx].bg + '"><div class="card-icon">' + cardData[idx].icon + '</div><div class="card-label">' + lb + '</div><div class="card-shine"></div></div>';
+        card.addEventListener('click', () => openCard(idx));
+      }
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    el.textContent = d + 'd ' + h + 'h ' + m + 'm ' + s + 's';
   });
 }
 
