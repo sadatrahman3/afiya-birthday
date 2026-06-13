@@ -1,0 +1,177 @@
+{
+  "project": {
+    "name": "Afiya Birthday Surprise",
+    "description": "Interactive birthday surprise webpage for Afiya Mubassira (born June 13, 2005)",
+    "url": "https://afiya-birthday.vercel.app",
+    "repo": "https://github.com/sadatrahman3/afiya-birthday",
+    "hosting": "Vercel (auto-deploy from GitHub main branch)",
+    "architecture": "3-file split: index.html (stub) + style.css + app.js",
+    "pwa": {
+      "enabled": true,
+      "manifest": "manifest.json",
+      "serviceWorker": "sw.js",
+      "icons": ["icons/icon-192.png", "icons/icon-512.png", "icons/icon-192.svg", "icons/icon-512.svg"]
+    }
+  },
+  "screens": [
+    {
+      "id": "countdownScreen",
+      "description": "Shows countdown to next birthday. Displays when it's not June 13.",
+      "elements": [
+        "Birthday icon animation",
+        "Name: Afiya Mubassira",
+        "Birthdate: June 13, 2005",
+        "Current age + next age display",
+        "Countdown timer (days/hours/minutes/seconds)",
+        "Progress bar: X/100 Unlocked",
+        "Preview button to test birthday screen"
+      ]
+    },
+    {
+      "id": "birthdayScreen",
+      "description": "Greeting screen with gift box. Displays on June 13 or via preview.",
+      "elements": [
+        "Happy Birthday title with current age",
+        "Name + age + date badge",
+        "Days since birth counter",
+        "Floating gift box (clickable)",
+        "Open Your Gift button",
+        "Auto-launches fireworks"
+      ]
+    },
+    {
+      "id": "cardScreen",
+      "description": "100-card grid showing all birthday wishes. Cards unlock based on age.",
+      "elements": [
+        "Sticky top bar with progress bar (X/100 Unlocked)",
+        "Responsive CSS grid of 100 cards",
+        "Unlocked cards (i <= age): colored gradient, icon, label, clickable",
+        "Locked cards (i > age): 🔒 icon, year label, opacity reduced",
+        "Scrollable grid (overflow-y: auto)",
+        "8 floating balloons"
+      ]
+    },
+    {
+      "id": "unfoldScreen",
+      "description": "Full unfolded wish card view with typewriter effect.",
+      "elements": [
+        "Animated 3D rotation reveal",
+        "Wish icon + name + age + wish message (typewriter animation)",
+        "Signoff line",
+        "16 sparkle particles burst on reveal",
+        "Buttons: View Memories, Blow Candles, Share Card, Another Wish",
+        "Close button (back to card grid)"
+      ]
+    },
+    {
+      "id": "cakeScreen",
+      "description": "Interactive cake with 5 candles to blow out by clicking.",
+      "elements": [
+        "Title + instruction text",
+        "3-tier cake with frosting, sprinkles, gradient layers",
+        "5 candles with animated flames (flicker effect)",
+        "Click candle → extinguish flame + smoke puff animation",
+        "Candle counter (X/5 remaining)",
+        "When all out: confetti burst + fireworks + success message",
+        "Auto-return to previous screen after 2.5s"
+      ]
+    },
+    {
+      "id": "galleryScreen",
+      "description": "Photo slideshow of 7 images with lightbox.",
+      "elements": [
+        "Gallery header with title + close button",
+        "Slideshow image with fade transition",
+        "Prev/Next navigation buttons",
+        "Dots indicator",
+        "Counter (X/7)",
+        "Click image → lightbox overlay (fullscreen)",
+        "Lightbox: prev/next/close, keyboard arrows, touch swipe",
+        "Auto-play with 3.5s interval (pauses on lightbox)"
+      ]
+    }
+  ],
+  "features": {
+    "cards": {
+      "total": 100,
+      "yearly": 21,
+      "bonus": 79,
+      "unlockRule": "i <= currentAge() — cards 0-20 unlocked at age 20, auto-increments each birthday",
+      "lockedDisplay": "🔒 + Year label",
+      "unlockedDisplay": "Colored gradient background, animated icon, clickable"
+    },
+    "i18n": {
+      "languages": ["en", "bn"],
+      "mechanism": "data-i18n attribute selectors, applyLang() function",
+      "scope": "All UI text, countdown labels, wish content, button labels, settings panel"
+    },
+    "effects": {
+      "fireworks": {
+        "type": "Canvas particle system",
+        "trigger": "Auto on birthday, manual button (bottom-left), on card open, on cake complete",
+        "toggle": "Control panel switch"
+      },
+      "sparkles": {
+        "type": "DOM particles on mousemove/touchmove",
+        "toggle": "Control panel switch"
+      },
+      "tapBurst": {
+        "type": "12 colored particles on every click/tap",
+        "alwaysOn": true
+      },
+      "confettiRain": {
+        "type": "Continuous falling confetti pieces (setInterval)",
+        "toggle": "Control panel switch",
+        "autoPause": true,
+        "pauseOn": ["galleryScreen"]
+      },
+      "balloonPop": {
+        "type": "8 floating emoji balloons on birthday/card screens",
+        "click": "Pop animation + haptic + confetti burst"
+      },
+      "typewriter": {
+        "type": "Character-by-character text reveal on wish message",
+        "speed": "40ms per character",
+        "cursor": "Random colored blinking cursor during animation"
+      },
+      "background": {
+        "type": "Animated gradient (bgShift keyframes, 12s cycle)",
+        "theme": "Dark (default) / Light (toggle in control panel)",
+        "cssVariables": true
+      }
+    },
+    "share": {
+      "method": "html2canvas CDN capture → Web Share API / download fallback",
+      "target": ".unfolded-card-inner element",
+      "format": "PNG image"
+    },
+    "controlPanel": {
+      "position": "Fixed bottom-right gear button",
+      "drawer": "Slide-in from right with backdrop blur",
+      "toggles": ["Language (EN/BN)", "Dark/Light theme", "Fireworks on/off", "Sparkles on/off", "Confetti rain on/off"],
+      "persistence": "localStorage key: afiya_settings"
+    },
+    "navigation": {
+      "screenStack": "nh[] array — tracks screen history for back button",
+      "transitions": "fade, slide-left, slide-right, slide-up, slide-down",
+      "backButton": "Overlay top-left ← Back button (hidden on countdown/birthday)",
+      "keyboard": {
+        "Escape": "Close control panel → Close lightbox → Go back",
+        "ArrowLeft": "Previous gallery photo or lightbox image",
+        "ArrowRight": "Next gallery photo or lightbox image"
+      },
+      "touchSwipe": "Horizontal swipe (50px threshold) navigates gallery/lightbox"
+    }
+  },
+  "cardWishes": {
+    "total": 100,
+    "first21": "Year-specific wishes (EN + BN) — one per year from birth to age 20",
+    "remaining79": "Bonus positive affirmations (EN + BN) — strength, dreams, beauty, friendship, hope, adventure, growth, magic",
+    "signoffs": "10 rotating signoff lines (EN + BN)"
+  },
+  "assets": {
+    "photos": "7 JPG/JPEG images in photos/ directory",
+    "icons": "4 icon files (2 PNG, 2 SVG) in icons/ directory",
+    "html2canvas": "CDN-loaded (not bundled): https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+  }
+}
