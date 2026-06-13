@@ -159,7 +159,7 @@ button { touch-action: manipulation; }
 
 /* Card Screen */
 #cardScreen { flex-direction: column; padding: 0; }
-#cardScreen.visible { overflow: hidden; }
+#cardScreen.visible { overflow-y: auto; height: 100%; }
 #cardScreen .top-bar {
   position: sticky; top: 0; z-index: 10; width: 100%;
   background: var(--panel-bg); backdrop-filter: blur(16px);
@@ -180,8 +180,7 @@ button { touch-action: manipulation; }
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   gap: 1.2rem; padding: 2rem; max-width: 1200px; margin: 0 auto;
-  overflow-y: auto; flex: 1; width: 100%; min-height: 0;
-  align-content: start;
+  overflow: visible; width: 100%;
 }
 .card-item {
   aspect-ratio: 3/4; border-radius: 12px;
