@@ -277,7 +277,7 @@ function initCards() {
     cardData.push({
       icon: cardIcons[i % cardIcons.length], bg: cardBgs[i % cardBgs.length], wishIcon: cardIcons[i % cardIcons.length],
       year: y ? i : -1, lockYear: y ? i + 1 : i + 1,
-      labelEn: y ? 'Year ' + (i + 1) : '✨ Wish ' + (i - 20), labelBn: y ? 'বছর ' + (i + 1) : '✨ শুভেচ্ছা ' + (i - 20),
+      labelEn: 'Year ' + (i + 1), labelBn: 'বছর ' + (i + 1),
       wishIdx: y ? i : (i - 21) % bonusW.length, type: y ? 'yearly' : 'bonus',
       signoffEn: signoffsEn[i % signoffsEn.length], signoffBn: signoffsBn[i % signoffsBn.length]
     });
@@ -402,7 +402,7 @@ function renderCards() {
       el.addEventListener('click', () => openCard(i));
     } else {
       el.classList.add('locked');
-      const lockedLabel = i < 21 ? 'Year ' + data.lockYear : (cl === 'bn' ? '✨ শুভেচ্ছা ' + (i - 20) : '✨ Wish ' + (i - 20));
+      const lockedLabel = 'Year ' + data.lockYear;
       const unlockTs = getUnlockDate(i).getTime();
       el.innerHTML = '<div class="card-icon">🔒</div><div class="card-year">' + lockedLabel + '</div><div class="card-countdown" data-unlock="' + unlockTs + '"></div>';
     }
